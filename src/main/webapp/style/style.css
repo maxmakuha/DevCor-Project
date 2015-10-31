@@ -1,3 +1,28 @@
+
+a#button16 {
+	font-weight: bold;
+	color: #3e8f3e;
+	display: inline-block;
+	text-decoration: none;
+	padding: 1em;
+	outline: none;
+	border-radius: 1px;
+}
+a#button16:hover {
+	color: #ffffff;
+	background-image:
+  
+   radial-gradient(1px 45% at 0% 50%, rgba(0,0,0,.6), transparent),
+   radial-gradient(1px 45% at 100% 50%, rgba(0,0,0,.6), transparent); 
+}
+a#button16:active {
+	color: #000000;
+	
+   background-image:
+   radial-gradient(1px 45% at 0% 50%, rgba(0,0,0,.6), transparent),
+   radial-gradient(1px 45% at 100% 50%, rgba(0,0,0,.6), transparent); 
+}
+
 footer{
 	text-align: center;
 }

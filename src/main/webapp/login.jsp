@@ -1,9 +1,3 @@
-<html>
-<head>
-  <%@include file="includes.jsp"%>
-  <title>DevCor</title>
-</head>
-<body>
 <%@include file="header.jsp"%>
 <div class = "container">
 	<div class="wrapper">
@@ -16,6 +10,6 @@
 		</form>			
 	</div>
 </div>
-    <%@include file="footer.jsp"%>
- </body>
+<%@include file="footer.jsp"%>
+</body>
 </html>

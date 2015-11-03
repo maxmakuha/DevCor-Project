@@ -1,7 +1,7 @@
 <%@include file="header.jsp"%>
 	<div class="container">
 		<div class="wrapper">
-			<form name='f' action="j_spring_security_check" method='POST'>
+			<form name='f' action="j_spring_security_check" method='POST' class="form-signin">
 				<h3 class="form-signin-heading">Sign in to get started</h3>
 				<hr class="colorgraph">
 				<br> <input type="text" class="form-control" name="username"

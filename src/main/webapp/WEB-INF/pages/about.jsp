@@ -1,24 +1,55 @@
 <%@include file="header.jsp"%>
 <div class="container">
 	<div class="wrapper">
-		<p class="lead">
-			The system shall allow user to log in using email and password. The
-			system shall not allow creating objects (Order, Administrator,
-			Technician, User, Roomand Device) with emptyrequired parameters. <br>The
-			system shall allow user to interact with it using one of the
-			following roles:
-		</p>
-		<ul>
-			<li>Administrator</li>
-			<li>Technician</li>
-			<li>User</li>
-		</ul>
-		<p class="lead">
-			<br>The system shall automatically delete Order after 5 years
-			from the date of Finished Execution status. The system shall allow
-			user to log out system.
-		</p>
-		<img src="resources/img/2.PNG" class="img-rounded">
+		<div id="about">
+<p><h2>Welcome to the Device Correction system!</h2>
+</p>
+
+Our system will help you report a problem to our technicians and fix it in
+ the nearest time.&nbsp;If you have any of these problems in the classroom:
+
+<ul>
+	<li>program not working properly</li>
+	<li>you need to install extra software</li>
+	<li>one of the devices broke down</li>
+	<li>have a problem with one of the hardware component</li>
+</ul>
+
+<p>then log-in to your account in the system and create an order. In the order you
+ can describe your problem, specifying the type of problems, audience and device. 
+ Also you can select the urgency of the order. Monitor the status of your
+  order you can through email-notification.</p>
+
+<p>Enjoy use!!!</p>
+
+<p><span >Note</span>: If you need immediate solution 
+of your problems, you can personally contact our technicians, 
+using administrator.</p>
+
+<hr>
+<h4>Contact information about administrator:</h4>
+<table  class="table">
+	
+	<tbody>
+		<tr>
+			<td style="text-align:center">Room:</td>
+			<td style="text-align:center">1-101</td>
+		</tr>
+		<tr>
+			<td style="text-align:center">Email:</td>
+			<td style="text-align:center">admin@ukma.com</td>
+		</tr>
+		<tr>
+			<td style="text-align:center">Telephone:</td>
+			<td style="text-align:center">444-44-44, 8-093-999-99-99</td>
+		</tr>
+	</tbody>
+</table>
+
+<p style="text-align:center">If you have questions, contact your administrator or teacher.
+<br><img src="resources/img/picture.jpg"/></p>
+
+</div>
 	</div>
 </div>
 <%@include file="footer.jsp"%>

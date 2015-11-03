@@ -1,3 +1,46 @@
+#about{
+	max-width: 80%;
+  padding: 30px 38px 66px;
+  margin: 0 auto;
+  background-color: #eee;
+  border: 3px dotted rgba(0,0,0,0.1);  
+	
+}
+#about h2,h4{
+	text-align:center
+}
+#about img{
+	padding-top: 30px;
+}
+#about span{
+	color: red;
+}
+#about table caption{
+	align:center;
+}
+a#button16 {
+	font-weight: bold;
+	color: #3e8f3e;
+	display: inline-block;
+	text-decoration: none;
+	padding: 1em;
+	outline: none;
+	border-radius: 1px;
+}
+a#button16:hover {
+	color: #ffffff;
+	background-image:
+  
+   radial-gradient(1px 45% at 0% 50%, rgba(0,0,0,.6), transparent),
+   radial-gradient(1px 45% at 100% 50%, rgba(0,0,0,.6), transparent); 
+}
+a#button16:active {
+	color: #000000;
+	
+   background-image:
+   radial-gradient(1px 45% at 0% 50%, rgba(0,0,0,.6), transparent),
+   radial-gradient(1px 45% at 100% 50%, rgba(0,0,0,.6), transparent); 
+}
 footer{
 	text-align: center;
 }
@@ -8,8 +51,8 @@ footer{
 }
 
 .form-signin {
-  max-width: 420px;
-  padding: 30px 38px 66px;
+  max-width: 550px;
+  padding: 30px 98px 66px;
   margin: 0 auto;
   background-color: #eee;
   border: 3px dotted rgba(0,0,0,0.1);  

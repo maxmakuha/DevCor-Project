@@ -20,6 +20,9 @@
 					<li><a href="welcome" id="button16">Home</a></li>
 					<li><a href="about" id="button16">About</a></li>
 				</ul>
+				<form class="navbar-form navbar-right">
+		            <button type="submit" class="btn btn-success btn-sm"  >Log out</button>
+		         </form>
 			</div>
-		</div>
+		</div> 
 	</nav>

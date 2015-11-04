@@ -1,7 +1,6 @@
 <html>
 <head>
-<link rel="shortcut icon"
-	href="http://faviconka.ru/ico/faviconka_ru_12.ico" type="image/x-icon">
+<link rel="shortcut icon"	href="http://faviconka.ru/ico/faviconka_ru_12.ico" type="image/x-icon">
 <link rel="stylesheet" href="resources/style/style.css">
 <link rel="stylesheet" href="resources/style/bootstrap.min.css">
 <link rel="stylesheet" href="resources/style/bootstrap-theme.min.css">

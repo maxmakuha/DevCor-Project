@@ -1,21 +1,30 @@
-#about{
+#table{
+	text-align: center;
+}
+#table th{
+	text-align: center;
+}
+.panel-heading h3{
+	text-align: center;
+}
+
+#panel{
 	max-width: 80%;
   padding: 30px 38px 66px;
   margin: 0 auto;
   background-color: #eee;
   border: 3px dotted rgba(0,0,0,0.1);  
-	
 }
-#about h2,h4{
+#panel h2,h4{
 	text-align:center
 }
-#about img{
+#panel img{
 	padding-top: 30px;
 }
-#about span{
+#panel #note{
 	color: red;
 }
-#about table caption{
+#panel table caption{
 	align:center;
 }
 a#button16 {
@@ -36,10 +45,9 @@ a#button16:hover {
 }
 a#button16:active {
 	color: #000000;
-	
-   background-image:
-   radial-gradient(1px 45% at 0% 50%, rgba(0,0,0,.6), transparent),
-   radial-gradient(1px 45% at 100% 50%, rgba(0,0,0,.6), transparent); 
+   	background-image:
+   	radial-gradient(1px 45% at 0% 50%, rgba(0,0,0,.6), transparent),
+   	radial-gradient(1px 45% at 100% 50%, rgba(0,0,0,.6), transparent); 
 }
 footer{
 	text-align: center;

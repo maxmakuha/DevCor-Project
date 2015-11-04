@@ -14,6 +14,10 @@ public class MainController {
 	public String aboutPage(Model model) {
 		return "about";
 	}
+	@RequestMapping(value = { "/templates" }, method = RequestMethod.GET)
+	public String about2Page(Model model) {
+		return "templates";
+	}
 	
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public String welcomePage(Model model) {

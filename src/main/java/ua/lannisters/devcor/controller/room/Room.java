@@ -2,21 +2,27 @@ package com.natalia;
 
 public class Room {
 	
-	private int roomNumber;
+	private int roomId;
+	private String roomNumber;
 	private String technician;
 	private String device;
 	
-	public Room(int aRoomNumber, String aTechnicial, String aDevice) {
-		this.roomNumber = aRoomNumber;
-		this.technician = aTechnicial;
-		this.device = aDevice;
+	public Room() {}
+	
+	
+	public int getRoomId() {
+		return roomId;
 	}
 
-	public int getRoomNumber() {
+	public void setRoomId(int roomId) {
+		this.roomId = roomId;
+	}
+
+	public String getRoomNumber() {
 		return roomNumber;
 	}
 
-	public void setRoomNumber(int aRoomNumber) {
+	public void setRoomNumber(String aRoomNumber) {
 		this.roomNumber = aRoomNumber;
 	}
 
@@ -35,4 +41,12 @@ public class Room {
 	public void setDevice(String aDevice) {
 		this.device = aDevice;
 	}
+
+	@Override
+	public String toString() {
+		return "Room [roomNumber = " + roomNumber + ", technician = " + technician +
+				", device = " + device + "]";
+	}
+	
+	
 }

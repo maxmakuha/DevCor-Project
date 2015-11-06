@@ -8,7 +8,8 @@ public interface PlayerDao {
 
 	public void createPlayer(Player player);
     public List<Player> getPlayers();
-    public Player getPlayer(Integer PlayerId);
+    public Player getPlayer(Integer playerId);
     public void updatePlayer(Player player);
     public void deletePlayer(Integer playerId);
+    public Player getPlayerByRole(Integer roleId);
 }

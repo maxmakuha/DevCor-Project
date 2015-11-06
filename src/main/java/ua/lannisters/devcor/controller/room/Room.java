@@ -1,4 +1,6 @@
-package com.natalia;
+package ua.lannisters.devcor.controller.room;
+
+
 
 public class Room {
 	

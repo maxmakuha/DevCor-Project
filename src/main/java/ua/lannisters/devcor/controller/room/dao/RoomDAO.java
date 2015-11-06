@@ -1,8 +1,11 @@
-package com.natalia;
+package ua.lannisters.devcor.controller.room.dao;
+
 
 import java.util.ArrayList;
 
 import javax.sql.DataSource;
+
+import ua.lannisters.devcor.controller.room.Room;
 
 /**
  * this interface shows all the required methods which needs our Room object

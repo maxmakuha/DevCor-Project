@@ -1,4 +1,6 @@
-package com.natalia;
+package ua.lannisters.devcor.controller.room;
+
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -12,7 +14,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 public class RoomMapper implements RowMapper{
 
-	@Override
 	public Room mapRow(ResultSet resSet, int rowNumb) throws SQLException {
 		Room theRoom = new Room();
 		theRoom.setRoomId(resSet.getInt("Id"));

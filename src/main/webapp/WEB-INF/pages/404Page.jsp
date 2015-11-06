@@ -9,14 +9,14 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>
 
-<title>Error403</title>
+<title>Error404</title>
 </head>
 <body>
 	
 	<div class="jumbotron" id="error">
-			<img src="resources/img/403.png" />
-			<p class="lead">You don`t have permission to access this page!</p>
-			<a class="btn btn-large btn-success" href="welcome">Home</a>
+			<img src="resources/img/404.png" />
+			<p class="lead">The page you requested could not be found!</p>
+			<a class="btn btn-large btn-success" href="welcome">Home</a>	
 		</div>
 	<%@include file="footer.jsp"%>
 </body>

@@ -14,7 +14,7 @@ public interface OrdersDAO {
 
 	public List<Order> getAllOrders();
 	
-	public Order getOrderById(int order_id);
+	public Order getOrderById(int orderId);
 
 	public void addOrder(Order order);
 

@@ -31,9 +31,9 @@ public class OrdersDAOImpl implements OrdersDAO {
 		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS, new OrderMapper());
 	}
 
-	public Order getOrderById(int order_id) {
+	public Order getOrderById(int orderId) {
 		return jdbcTemplate.queryForObject(SQL_SELECT_ORDER_BY_ID,
-				new OrderMapper(), order_id);
+				new OrderMapper(), orderId);
 	}
 
 	public void addOrder(Order order) {

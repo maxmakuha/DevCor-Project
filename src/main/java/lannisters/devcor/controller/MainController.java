@@ -1,7 +1,13 @@
 package lannisters.devcor.controller;
 
 import java.security.Principal;
+
+import lannisters.devcor.service.CommentsService;
+import lannisters.devcor.service.DevicesService;
 import lannisters.devcor.service.OrdersService;
+import lannisters.devcor.service.PlayersService;
+import lannisters.devcor.service.RoomsService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +27,18 @@ public class MainController {
 
 	@Autowired
 	private OrdersService ordersService;
+	
+	@Autowired
+	private CommentsService commentsService;
+	
+	@Autowired
+	private RoomsService roomsService;
+	
+	@Autowired
+	private DevicesService devicesService;
+	
+	@Autowired
+	private PlayersService playersService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(Model model,
@@ -43,7 +61,11 @@ public class MainController {
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String dashboardPage(Model model, Principal principal) {
 		model.addAttribute("title", "Orders Info");
-		model.addAttribute("message", ordersService.getAllOrders());
+		model.addAttribute("order", ordersService.getOrderById(1));
+		model.addAttribute("comment", commentsService.getCommentById(1));
+		model.addAttribute("room", roomsService.getRoomById(1));
+		model.addAttribute("device", devicesService.getDeviceById(1));
+		model.addAttribute("player", playersService.getPlayerById(1));
 		return "dashboard";
 	}
 

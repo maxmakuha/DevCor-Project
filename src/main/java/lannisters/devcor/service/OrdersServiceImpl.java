@@ -25,8 +25,8 @@ public class OrdersServiceImpl implements OrdersService {
 		return ordersDao.getAllOrders();
 	}
 	
-	public Order getOrderById(int order_id) {
-		return ordersDao.getOrderById(order_id);
+	public Order getOrderById(int orderId) {
+		return ordersDao.getOrderById(orderId);
 	}
 
 	public void addOrder(Order order) {

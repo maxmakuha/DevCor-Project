@@ -9,17 +9,21 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    
+    <!-- Default error page -->
+    <error-page>
+		<error-code>404</error-code>
+		<location>/404</location>
+	</error-page>
  
- 
-    <!-- Loads Spring Security config file -->
+    <!-- Loads Spring configuration files -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>        
             /WEB-INF/spring-security.xml,
-            /WEB-INF/data-source-cfg.xml
+            /WEB-INF/data-source-config.xml
         </param-value>
     </context-param>
- 
  
     <!-- Spring MVC -->
     <servlet>

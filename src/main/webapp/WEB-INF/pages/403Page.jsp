@@ -9,15 +9,12 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>
 
-<title>Error403</title>
+<title>Error 403</title>
 </head>
 <body>
-	
-	<div class="jumbotron" id="error">
-			<img src="resources/img/403.png" />
-			<p class="lead">You don`t have permission to access this page!</p>
-			<a class="btn btn-large btn-success" href="welcome">Home</a>
-		</div>
-	<%@include file="footer.jsp"%>
+	<p style="text-align: center">
+		<img src="resources/img/403.png" /> <br> <a
+			class="btn btn-large btn-success" href="welcome">Home</a>
+	</p>
 </body>
 </html>

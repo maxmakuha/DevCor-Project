@@ -2,13 +2,6 @@ package lannisters.devcor.entity;
 
 import java.util.Date;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 public class Comment {
 
 	private int commentId;
@@ -17,11 +10,9 @@ public class Comment {
 	private Date creationDate;
 
 	public Comment() {
-		order = new Order();
 	}
 
-	public Comment(int commentId, String comment, Order order,
-			Date creationDate) {
+	public Comment(int commentId, String comment, Order order, Date creationDate) {
 		this.commentId = commentId;
 		this.comment = comment;
 		this.order = order;
@@ -49,6 +40,8 @@ public class Comment {
 	}
 
 	public void setOrderId(int orderId) {
+		if (this.order == null)
+			this.order = new Order();
 		this.order.setOrderId(orderId);
 	}
 

@@ -6,13 +6,6 @@ import lannisters.devcor.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 @Service
 public class CommentsServiceImpl implements CommentsService {
 
@@ -22,7 +15,7 @@ public class CommentsServiceImpl implements CommentsService {
 	public List<Comment> getAllComments() {
 		return commentsDao.getAllComments();
 	}
-	
+
 	public Comment getCommentById(int commentId) {
 		return commentsDao.getCommentById(commentId);
 	}

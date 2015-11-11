@@ -6,13 +6,6 @@ import lannisters.devcor.entity.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 @Service
 public class RoomsServiceImpl implements RoomsService {
 
@@ -22,7 +15,7 @@ public class RoomsServiceImpl implements RoomsService {
 	public List<Room> getAllRooms() {
 		return roomsDao.getAllRooms();
 	}
-	
+
 	public Room getRoomById(int roomId) {
 		return roomsDao.getRoomById(roomId);
 	}

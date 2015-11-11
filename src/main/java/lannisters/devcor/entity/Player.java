@@ -1,12 +1,5 @@
 package lannisters.devcor.entity;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 public class Player {
 
 	private int playerId;
@@ -18,7 +11,6 @@ public class Player {
 	private Role role;
 
 	public Player() {
-		role = new Role();
 	}
 
 	public Player(int playerId, String playerEmail, String firstName,
@@ -85,6 +77,8 @@ public class Player {
 	}
 
 	public void setRoleId(int roleId) {
+		if (this.role == null)
+			this.role = new Role();
 		this.role.setRoleId(roleId);
 	}
 
@@ -93,6 +87,8 @@ public class Player {
 	}
 
 	public void setRole(String role) {
+		if (this.role == null)
+			this.role = new Role();
 		this.role.setRole(role);
 	}
 

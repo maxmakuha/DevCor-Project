@@ -15,28 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 @Controller
 public class MainController {
 
 	@Autowired
 	private OrdersService ordersService;
-	
+
 	@Autowired
 	private CommentsService commentsService;
-	
+
 	@Autowired
 	private RoomsService roomsService;
-	
+
 	@Autowired
 	private DevicesService devicesService;
-	
+
 	@Autowired
 	private PlayersService playersService;
 

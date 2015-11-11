@@ -6,13 +6,6 @@ import lannisters.devcor.entity.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 @Service
 public class PlayersServiceImpl implements PlayersService {
 

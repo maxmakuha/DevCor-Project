@@ -1,12 +1,5 @@
 package lannisters.devcor.entity;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 public class Room {
 
 	private int roomId;
@@ -14,7 +7,6 @@ public class Room {
 	private Player player;
 
 	public Room() {
-		player = new Player();
 	}
 
 	public Room(int roomId, String roomNumber, Player player) {
@@ -44,6 +36,8 @@ public class Room {
 	}
 
 	public void setPlayerId(int playerId) {
+		if (this.player == null)
+			this.player = new Player();
 		this.player.setPlayerId(playerId);
 	}
 
@@ -52,6 +46,8 @@ public class Room {
 	}
 
 	public void setPlayerName(String playerName) {
+		if (this.player == null)
+			this.player = new Player();
 		this.player.setFirstName(playerName);
 	}
 
@@ -60,6 +56,8 @@ public class Room {
 	}
 
 	public void setPlayerSurname(String playerSurname) {
+		if (this.player == null)
+			this.player = new Player();
 		this.player.setLastName(playerSurname);
 	}
 

@@ -9,13 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 @Repository
 public class OrdersDAOImpl implements OrdersDAO {
 

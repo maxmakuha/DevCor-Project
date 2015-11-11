@@ -1,12 +1,5 @@
 package lannisters.devcor.entity;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 import java.util.Date;
 
 public class Order {
@@ -25,15 +18,8 @@ public class Order {
 	private String overdue;
 
 	public Order() {
-		problemType = new ProblemType();
-		room = new Room();
-		device = new Device();
-		executionStatus = new ExecutionStatus();
-		urgencyStatus = new UrgencyStatus();
-		author = new Player();
-		technician = new Player();
 	}
-	
+
 	public Order(int orderId, ProblemType problemType, String description,
 			Room room, Device device, ExecutionStatus executionStatus,
 			UrgencyStatus urgencyStatus, Date creationDate, Date dueDate,
@@ -65,6 +51,8 @@ public class Order {
 	}
 
 	public void setProblemTypeId(int problemTypeId) {
+		if (this.problemType == null)
+			this.problemType = new ProblemType();
 		this.problemType.setProblemTypeId(problemTypeId);
 	}
 
@@ -73,6 +61,8 @@ public class Order {
 	}
 
 	public void setProblemType(String type) {
+		if (this.problemType == null)
+			this.problemType = new ProblemType();
 		this.problemType.setProblemType(type);
 	}
 
@@ -89,6 +79,8 @@ public class Order {
 	}
 
 	public void setRoomId(int roomId) {
+		if (this.room == null)
+			this.room = new Room();
 		this.room.setRoomId(roomId);
 	}
 
@@ -97,6 +89,8 @@ public class Order {
 	}
 
 	public void setRoomNumber(String roomNumber) {
+		if (this.room == null)
+			this.room = new Room();
 		this.room.setRoomNumber(roomNumber);
 	}
 
@@ -105,14 +99,18 @@ public class Order {
 	}
 
 	public void setDeviceId(int deviceId) {
+		if (this.device == null)
+			this.device = new Device();
 		this.device.setDeviceId(deviceId);
 	}
-	
+
 	public String getDeviceSerialId() {
 		return device.getDeviceSerialId();
 	}
 
 	public void setDeviceSerialId(String deviceSerialId) {
+		if (this.device == null)
+			this.device = new Device();
 		this.device.setDeviceSerialId(deviceSerialId);
 	}
 
@@ -121,14 +119,18 @@ public class Order {
 	}
 
 	public void setExecutionStatusId(int executionStatusId) {
+		if (this.executionStatus == null)
+			this.executionStatus = new ExecutionStatus();
 		this.executionStatus.setExecutionStatusId(executionStatusId);
 	}
-	
+
 	public String getExecutionStatus() {
 		return executionStatus.getExecutionStatus();
 	}
 
 	public void setExecutionStatus(String executionStatus) {
+		if (this.executionStatus == null)
+			this.executionStatus = new ExecutionStatus();
 		this.executionStatus.setExecutionStatus(executionStatus);
 	}
 
@@ -137,14 +139,18 @@ public class Order {
 	}
 
 	public void setUrgencyStatusId(int urgencyStatusId) {
+		if (this.urgencyStatus == null)
+			this.urgencyStatus = new UrgencyStatus();
 		this.urgencyStatus.setUrgencyStatusId(urgencyStatusId);
 	}
-	
+
 	public String getUrgencyStatus() {
 		return urgencyStatus.getUrgencyStatus();
 	}
 
 	public void setUrgencyStatus(String urgencyStatus) {
+		if (this.urgencyStatus == null)
+			this.urgencyStatus = new UrgencyStatus();
 		this.urgencyStatus.setUrgencyStatus(urgencyStatus);
 	}
 
@@ -169,22 +175,28 @@ public class Order {
 	}
 
 	public void setAuthorId(int authorId) {
+		if (this.author == null)
+			this.author = new Player();
 		this.author.setPlayerId(authorId);
 	}
-	
+
 	public String getAuthorName() {
 		return author.getFirstName();
 	}
 
 	public void setAuthorName(String authorName) {
+		if (this.author == null)
+			this.author = new Player();
 		this.author.setFirstName(authorName);
 	}
-	
+
 	public String getAuthorSurname() {
 		return author.getLastName();
 	}
 
 	public void setAuthorSurname(String authorSurname) {
+		if (this.author == null)
+			this.author = new Player();
 		this.author.setLastName(authorSurname);
 	}
 
@@ -193,22 +205,28 @@ public class Order {
 	}
 
 	public void setTechnicianId(int technicianId) {
+		if (this.technician == null)
+			this.technician = new Player();
 		this.technician.setPlayerId(technicianId);
 	}
-	
+
 	public String getTechnicianName() {
 		return technician.getFirstName();
 	}
 
 	public void setTechnicianName(String technicianName) {
+		if (this.technician == null)
+			this.technician = new Player();
 		this.technician.setFirstName(technicianName);
 	}
-	
+
 	public String getTechnicianSurname() {
 		return technician.getLastName();
 	}
 
 	public void setTechnicianSurname(String technicianSurname) {
+		if (this.technician == null)
+			this.technician = new Player();
 		this.technician.setLastName(technicianSurname);
 	}
 

@@ -6,13 +6,6 @@ import lannisters.devcor.entity.Device;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 @Service
 public class DevicesServiceImpl implements DevicesService {
 
@@ -22,7 +15,7 @@ public class DevicesServiceImpl implements DevicesService {
 	public List<Device> getAllDevices() {
 		return devicesDao.getAllDevices();
 	}
-	
+
 	public Device getDeviceById(int deviceId) {
 		return devicesDao.getDeviceById(deviceId);
 	}

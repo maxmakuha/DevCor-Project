@@ -3,13 +3,6 @@ package lannisters.devcor.dao;
 import java.util.List;
 import lannisters.devcor.entity.Player;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 public interface PlayersDAO {
 
 	public List<Player> getAllPlayers();

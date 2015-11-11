@@ -1,12 +1,5 @@
 package lannisters.devcor.entity;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 public class UrgencyStatus {
 
 	private int urgencyStatusId;

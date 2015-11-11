@@ -8,13 +8,6 @@ import org.springframework.stereotype.Repository;
 import lannisters.devcor.entity.Comment;
 import lannisters.devcor.orm.CommentMapper;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 @Repository
 public class CommentsDAOImpl implements CommentsDAO {
 

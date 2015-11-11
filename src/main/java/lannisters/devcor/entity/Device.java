@@ -1,12 +1,5 @@
 package lannisters.devcor.entity;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 public class Device {
 
 	private int deviceId;
@@ -15,8 +8,6 @@ public class Device {
 	private Room room;
 
 	public Device() {
-		deviceType = new DeviceType();
-		room = new Room();
 	}
 
 	public Device(int deviceId, String deviceSerialId, DeviceType deviceType,
@@ -48,6 +39,8 @@ public class Device {
 	}
 
 	public void setRoomId(int roomId) {
+		if (this.room == null)
+			this.room = new Room();
 		this.room.setRoomId(roomId);
 	}
 
@@ -56,6 +49,8 @@ public class Device {
 	}
 
 	public void setRoomNumber(String roomNumber) {
+		if (this.room == null)
+			this.room = new Room();
 		this.room.setRoomNumber(roomNumber);
 	}
 
@@ -64,6 +59,8 @@ public class Device {
 	}
 
 	public void setDeviceTypeId(int deviceTypeId) {
+		if (this.deviceType == null)
+			this.deviceType = new DeviceType();
 		this.deviceType.setDeviceTypeId(deviceTypeId);
 	}
 
@@ -72,6 +69,8 @@ public class Device {
 	}
 
 	public void setDeviceType(String deviceType) {
+		if (this.deviceType == null)
+			this.deviceType = new DeviceType();
 		this.deviceType.setDeviceType(deviceType);
 	}
 

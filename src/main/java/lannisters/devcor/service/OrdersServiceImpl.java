@@ -8,13 +8,6 @@ import org.springframework.stereotype.Service;
 import lannisters.devcor.dao.OrdersDAO;
 import lannisters.devcor.entity.Order;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 @Service
 public class OrdersServiceImpl implements OrdersService {
 
@@ -24,7 +17,7 @@ public class OrdersServiceImpl implements OrdersService {
 	public List<Order> getAllOrders() {
 		return ordersDao.getAllOrders();
 	}
-	
+
 	public Order getOrderById(int orderId) {
 		return ordersDao.getOrderById(orderId);
 	}

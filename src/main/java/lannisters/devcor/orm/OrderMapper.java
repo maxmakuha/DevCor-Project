@@ -7,28 +7,8 @@ import lannisters.devcor.entity.Order;
 
 import org.springframework.jdbc.core.RowMapper;
 
-/**
- * 
- * @author Maxim
- * @version 1.0
- *
- */
-
 public class OrderMapper implements RowMapper<Order> {
 
-	/**
-	 * Creates Order and fills fields with database values recieved from
-	 * ResultSet.
-	 * 
-	 * @param rs
-	 *            ResultSet - table which has all data recieved by query.
-	 * @param rowNum
-	 *            number of ResultSet rows.
-	 * @return Order with fields: orderId, problemType, description, roomNumber,
-	 *         executionStatus, urgencyStatus, creationDate, dueDate,
-	 *         authorName, authorSurname, technicianName, technicianSurname,
-	 *         overdue.
-	 */
 	public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Order order = new Order();
 		order.setOrderId(rs.getInt("request_id"));

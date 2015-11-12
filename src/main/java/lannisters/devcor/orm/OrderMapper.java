@@ -26,11 +26,11 @@ public class OrderMapper implements RowMapper<Order> {
 		order.setCreationDate(rs.getDate("creation_date"));
 		order.setDueDate(rs.getDate("due_date"));
 		// order.setAuthorId(rs.getInt("author_id"));
-		order.setAuthorName(rs.getString("first_name"));
-		order.setAuthorSurname(rs.getString("last_name"));
+		order.setAuthorName(rs.getString("author_name"));
+		order.setAuthorSurname(rs.getString("author_surname"));
 		// order.setTechnicianId(rs.getInt("technician_id"));
-		order.setTechnicianName(rs.getString("first_name"));
-		order.setTechnicianSurname(rs.getString("last_name"));
+		order.setTechnicianName(rs.getString("technician_name"));
+		order.setTechnicianSurname(rs.getString("technician_surname"));
 		order.setOverdue(rs.getString("overdue"));
 		return order;
 	}

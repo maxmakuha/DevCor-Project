@@ -1,8 +1,11 @@
 package lannisters.devcor.service;
 
+import java.sql.SQLException;
 import java.util.List;
+
 import lannisters.devcor.dao.DevicesDAO;
 import lannisters.devcor.entity.Device;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +23,15 @@ public class DevicesServiceImpl implements DevicesService {
 		return devicesDao.getDeviceById(deviceId);
 	}
 
-	public void addDevice(Device device) {
+	public void addDevice(Device device) throws SQLException {
 		devicesDao.addDevice(device);
 	}
 
-	public void deleteDevice(int deviceId) {
+	public void updateDevice(Device device) throws SQLException {
+		devicesDao.updateDevice(device);
+	}
+
+	public void deleteDevice(int deviceId) throws SQLException {
 		devicesDao.deleteDevice(deviceId);
 	}
 }

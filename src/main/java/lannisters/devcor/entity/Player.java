@@ -71,6 +71,10 @@ public class Player {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+	
+	public Role getRoleObj() {
+		return this.role;
+	}
 
 	public int getRoleId() {
 		return role.getRoleId();

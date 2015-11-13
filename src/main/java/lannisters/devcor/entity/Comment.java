@@ -35,6 +35,10 @@ public class Comment {
 		this.comment = comment;
 	}
 
+	public Order getOrderObj() {
+		return this.order;
+	}
+
 	public int getOrderId() {
 		return order.getOrderId();
 	}

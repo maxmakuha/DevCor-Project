@@ -1,8 +1,11 @@
 package lannisters.devcor.service;
 
+import java.sql.SQLException;
 import java.util.List;
+
 import lannisters.devcor.dao.RoomsDAO;
 import lannisters.devcor.entity.Room;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +23,15 @@ public class RoomsServiceImpl implements RoomsService {
 		return roomsDao.getRoomById(roomId);
 	}
 
-	public void addRoom(Room room) {
+	public void addRoom(Room room) throws SQLException {
 		roomsDao.addRoom(room);
 	}
 
-	public void deleteRoom(int roomId) {
+	public void updateRoom(Room room) throws SQLException {
+		roomsDao.updateRoom(room);
+	}
+
+	public void deleteRoom(int roomId) throws SQLException {
 		roomsDao.deleteRoom(roomId);
 	}
 }

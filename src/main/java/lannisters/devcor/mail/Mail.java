@@ -5,7 +5,8 @@ package lannisters.devcor.mail;
  */
 import org.springframework.mail.MailSender;  
 import org.springframework.mail.SimpleMailMessage;  
-   
+
+
 public class Mail{  
     private MailSender mailSender;  
    

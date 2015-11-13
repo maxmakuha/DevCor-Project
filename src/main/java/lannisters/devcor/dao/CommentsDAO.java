@@ -1,6 +1,8 @@
 package lannisters.devcor.dao;
 
+import java.sql.SQLException;
 import java.util.List;
+
 import lannisters.devcor.entity.Comment;
 
 public interface CommentsDAO {
@@ -9,7 +11,9 @@ public interface CommentsDAO {
 
 	public Comment getCommentById(int commentId);
 
-	public void addComment(Comment comment);
+	public void addComment(Comment comment) throws SQLException;
 
-	public void deleteComment(int commentId);
+	public void updateComment(Comment comment) throws SQLException;
+
+	public void deleteComment(int commentId) throws SQLException;
 }

@@ -1,5 +1,6 @@
 package lannisters.devcor.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,15 @@ public class OrdersServiceImpl implements OrdersService {
 		return ordersDao.getOrderById(orderId);
 	}
 
-	public void addOrder(Order order) {
+	public void addOrder(Order order) throws SQLException {
 		ordersDao.addOrder(order);
 	}
 
-	public void deleteOrder(int orderId) {
+	public void updateOrder(Order order) throws SQLException {
+		ordersDao.updateOrder(order);
+	}
+
+	public void deleteOrder(int orderId) throws SQLException {
 		ordersDao.deleteOrder(orderId);
 	}
 }

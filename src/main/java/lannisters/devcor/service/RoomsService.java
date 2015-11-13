@@ -1,6 +1,8 @@
 package lannisters.devcor.service;
 
+import java.sql.SQLException;
 import java.util.List;
+
 import lannisters.devcor.entity.Room;
 
 public interface RoomsService {
@@ -9,7 +11,9 @@ public interface RoomsService {
 
 	public Room getRoomById(int roomId);
 
-	public void addRoom(Room room);
+	public void addRoom(Room room) throws SQLException;
 
-	public void deleteRoom(int roomId);
+	public void updateRoom(Room room) throws SQLException;
+
+	public void deleteRoom(int roomId) throws SQLException;
 }

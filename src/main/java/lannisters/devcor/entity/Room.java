@@ -31,6 +31,10 @@ public class Room {
 		this.roomNumber = roomNumber;
 	}
 
+	public Player getPlayerObj() {
+		return this.player;
+	}
+	
 	public int getPlayerId() {
 		return player.getPlayerId();
 	}

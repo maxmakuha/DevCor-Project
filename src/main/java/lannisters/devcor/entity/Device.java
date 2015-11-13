@@ -25,6 +25,14 @@ public class Device {
 	public void setDeviceId(int deviceId) {
 		this.deviceId = deviceId;
 	}
+	
+	public DeviceType getDeviceTypeObj() {
+		return this.deviceType;
+	}
+	
+	public Room getRoomObj() {
+		return this.room;
+	}
 
 	public String getDeviceSerialId() {
 		return deviceSerialId;

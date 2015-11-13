@@ -18,7 +18,7 @@ public class OrderMapper implements RowMapper<Order> {
 		// order.setRoomId(rs.getInt("room_id"));
 		order.setRoomNumber(rs.getString("room_number"));
 		// order.setDeviceId(rs.getInt("device_id"));
-		// order.setDeviceSerialId(rs.getString("device_serial_id"));
+		order.setDeviceSerialId(rs.getString("device_serial_id"));
 		// order.setExecutionStatusId(rs.getInt("execution_status_id"));
 		order.setExecutionStatus(rs.getString("execution_status"));
 		// order.setUrgencyStatusId(rs.getInt("urgency_status_id"));

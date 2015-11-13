@@ -81,7 +81,8 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/technicians", method = RequestMethod.GET)
-	public String techniciansPage() {
+	public String techniciansPage(Model model) {
+		model.addAttribute("technicians", playersService.getAllPlayers());
 		return "technicians";
 	}
 
@@ -93,6 +94,11 @@ public class MainController {
 	@RequestMapping(value = "/rooms", method = RequestMethod.GET)
 	public String roomsPage() {
 		return "rooms";
+	}
+
+	@RequestMapping(value = "/devices", method = RequestMethod.GET)
+	public String devicesPage() {
+		return "devices";
 	}
 
 	@RequestMapping(value = "/reports", method = RequestMethod.GET)

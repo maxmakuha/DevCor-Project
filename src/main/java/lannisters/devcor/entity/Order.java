@@ -46,6 +46,10 @@ public class Order {
 		this.orderId = orderId;
 	}
 
+	public ProblemType getProblemTypeObj() {
+		return this.problemType;
+	}
+	
 	public int getProblemTypeId() {
 		return problemType.getProblemTypeId();
 	}
@@ -74,6 +78,10 @@ public class Order {
 		this.description = description;
 	}
 
+	public Room getRoomObj() {
+		return this.room;
+	}
+	
 	public int getRoomId() {
 		return room.getRoomId();
 	}
@@ -94,6 +102,10 @@ public class Order {
 		this.room.setRoomNumber(roomNumber);
 	}
 
+	public Device getDeviceObj() {
+		return this.device;
+	}
+	
 	public int getDeviceId() {
 		return device.getDeviceId();
 	}
@@ -114,6 +126,10 @@ public class Order {
 		this.device.setDeviceSerialId(deviceSerialId);
 	}
 
+	public ExecutionStatus getExecutionStatusObj() {
+		return this.executionStatus;
+	}
+	
 	public int getExecutionStatusId() {
 		return executionStatus.getExecutionStatusId();
 	}
@@ -134,6 +150,10 @@ public class Order {
 		this.executionStatus.setExecutionStatus(executionStatus);
 	}
 
+	public UrgencyStatus getUrgencyStatusObj() {
+		return this.urgencyStatus;
+	}
+	
 	public int getUrgencyStatusId() {
 		return urgencyStatus.getUrgencyStatusId();
 	}
@@ -170,6 +190,10 @@ public class Order {
 		this.dueDate = dueDate;
 	}
 
+	public Player getAuthorObj() {
+		return this.author;
+	}
+	
 	public int getAuthorId() {
 		return author.getPlayerId();
 	}
@@ -200,6 +224,10 @@ public class Order {
 		this.author.setLastName(authorSurname);
 	}
 
+	public Player getTechnicianObj() {
+		return this.technician;
+	}
+	
 	public int getTechnicianId() {
 		return technician.getPlayerId();
 	}

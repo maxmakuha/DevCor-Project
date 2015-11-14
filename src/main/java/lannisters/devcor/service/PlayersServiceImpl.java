@@ -34,4 +34,12 @@ public class PlayersServiceImpl implements PlayersService {
 	public void deletePlayer(int playerId) throws SQLException {
 		playersDao.deletePlayer(playerId);
 	}
+
+	public int getPlayerIdByEmail(String email) throws SQLException {
+		return playersDao.getPlayerIdByEmail(email);
+	}
+
+	public List<Player> getAllTechnicians() throws SQLException {
+		return playersDao.getAllTechnicians();
+	}
 }

@@ -16,4 +16,6 @@ public interface DevicesService {
 	public void updateDevice(Device device) throws SQLException;
 
 	public void deleteDevice(int deviceId) throws SQLException;
+	
+	public List<Device> getAllDevicesOfRoom(int roomId) throws SQLException;
 }

@@ -19,6 +19,7 @@ public class DevicesDAOImpl implements DevicesDAO {
 	private static final String SQL_INSERT_DEVICE = "INSERT INTO device(device_serial_id, device_type_id, room_id) VALUES (?, ?, ?)";
 	private static final String SQL_UPDATE_DEVICE = "UPDATE device SET device_serial_id = ?, device_type_id = ?, room_id = ? WHERE device_id = ?";
 	private static final String SQL_DELETE_DEVICE = "DELETE device WHERE device_id=?";
+	private static final String SQL_SELECT_ALL_DEVICES_OF_ROOM = SQL_SELECT_ALL_DEVICES + " WHERE device.room_id = ?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -80,5 +81,9 @@ public class DevicesDAOImpl implements DevicesDAO {
 			if (ps != null)
 				ps.close();
 		}
+	}
+
+	public List<Device> getAllDevicesOfRoom(int roomId) throws SQLException{
+		return jdbcTemplate.query(SQL_SELECT_ALL_DEVICES_OF_ROOM, new Integer[]{roomId}, new DeviceMapper());
 	}
 }

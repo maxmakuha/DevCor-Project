@@ -34,4 +34,8 @@ public class RoomsServiceImpl implements RoomsService {
 	public void deleteRoom(int roomId) throws SQLException {
 		roomsDao.deleteRoom(roomId);
 	}
+
+	public int getTechnicianIdByRoomId(int roomId) throws SQLException{
+		return roomsDao.getTechnicianIdByRoomId(roomId);
+	}
 }

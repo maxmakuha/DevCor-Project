@@ -121,3 +121,38 @@ input[type="password"] {
 	background-color: #d9edf7;
 	border-color: #bce8f1;
 }
+
+.createOrder{
+	width:300px;
+	margin: 50px auto;
+}
+
+.createOrder select, .createOrder input[type=button], .createOrder span:not(.description){
+	float:right;
+}
+
+.title{
+	font-weight: bold;
+	font-size: 30px;	
+}
+
+.createOrder input:not([type="submit"]):not([type="button"]){
+	display: none;
+}
+
+
+.createOrder textarea {
+	width: 100%;
+	max-width: 100%;
+}
+
+.createOrder input[type=submit], .createOrder input[type=button]{
+	margin-top: 20px;
+}
+
+form p{
+	font-size: 25px;
+}
+form span{
+	margin-right:20px;
+}

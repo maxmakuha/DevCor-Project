@@ -1,6 +1,6 @@
 package lannisters.devcor.entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Order {
 
@@ -18,6 +18,12 @@ public class Order {
 	private String overdue;
 
 	public Order() {
+		problemType = new ProblemType();
+		room = new Room();
+		device = new Device();
+		urgencyStatus = new UrgencyStatus();
+		author = new Player();
+		technician = new Player();
 	}
 
 	public Order(int orderId, ProblemType problemType, String description,
@@ -130,6 +136,10 @@ public class Order {
 		return this.executionStatus;
 	}
 	
+	public void removeDevice(){
+		this.device = null;
+	}
+
 	public int getExecutionStatusId() {
 		return executionStatus.getExecutionStatusId();
 	}
@@ -203,7 +213,17 @@ public class Order {
 			this.author = new Player();
 		this.author.setPlayerId(authorId);
 	}
+	
+	public String getAuthorEmail() {
+		return this.author.getPlayerEmail();
+	}
 
+	public void setAuthorEmail(String email) {
+		if (this.author == null)
+			this.author = new Player();
+		this.author.setPlayerEmail(email);
+	}
+	
 	public String getAuthorName() {
 		return author.getFirstName();
 	}
@@ -236,6 +256,16 @@ public class Order {
 		if (this.technician == null)
 			this.technician = new Player();
 		this.technician.setPlayerId(technicianId);
+	}
+	
+	public String getTechnicianEmail() {
+		if (this.technician == null)
+			this.technician = new Player();
+		return this.technician.getPlayerEmail();
+	}
+	
+	public void setTechnicianEmail(String email) {
+		this.technician.setPlayerEmail(email);
 	}
 
 	public String getTechnicianName() {
@@ -274,5 +304,25 @@ public class Order {
 				+ ", urgencyStatus=" + urgencyStatus + ", creationDate="
 				+ creationDate + ", dueDate=" + dueDate + ", author=" + author
 				+ ", technician=" + technician + ", overdue=" + overdue + "]";
+	}
+	
+	public void calcDueDate(){
+		setDueDate(new Date(this.getCreationDate().getTime() + getDueMilis(this.urgencyStatus)));
+	}
+	
+	private int getDueMilis(UrgencyStatus urgencyStatus){
+		
+		switch (urgencyStatus.getUrgencyStatusId()) {
+			case 1:
+				return 40*60*1000;
+			case 2:
+				return 1*24*60*60*1000;
+			case 3:
+				return 3*24*60*60*1000;
+			case 4:
+				return 7*24*60*60*1000;
+			default:
+				return -1;
+			}
 	}
 }

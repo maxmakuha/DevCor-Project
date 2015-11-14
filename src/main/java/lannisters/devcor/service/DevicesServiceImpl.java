@@ -34,4 +34,8 @@ public class DevicesServiceImpl implements DevicesService {
 	public void deleteDevice(int deviceId) throws SQLException {
 		devicesDao.deleteDevice(deviceId);
 	}
+
+	public List<Device> getAllDevicesOfRoom(int roomId) throws SQLException {
+		return devicesDao.getAllDevicesOfRoom(roomId);
+	}
 }

@@ -19,6 +19,7 @@ public class RoomsDAOImpl implements RoomsDAO {
 	private static final String SQL_INSERT_ROOM = "INSERT INTO room(room_number, player_id) VALUES (?, ?)";
 	private static final String SQL_UPDATE_ROOM = "UPDATE room SET room_number = ?, player_id = ? WHERE room_id = ?";
 	private static final String SQL_DELETE_ROOM = "DELETE room WHERE room_id=?";
+	private static final String SQL_GET_PLAYER_ID_BY_ROOM_ID = "SELECT room.player_id from room WHERE room.room_id = ?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -79,4 +80,11 @@ public class RoomsDAOImpl implements RoomsDAO {
 				ps.close();
 		}
 	}
+
+	public int getTechnicianIdByRoomId(int roomId) throws SQLException{
+		return jdbcTemplate.queryForInt(SQL_GET_PLAYER_ID_BY_ROOM_ID, roomId);
+	}
+	
+	
+
 }

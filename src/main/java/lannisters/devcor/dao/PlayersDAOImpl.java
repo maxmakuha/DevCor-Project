@@ -19,7 +19,9 @@ public class PlayersDAOImpl implements PlayersDAO {
 	private static final String SQL_INSERT_PLAYER = "INSERT INTO player(player_email, first_name, last_name, password, phone_number, role_id) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_PLAYER = "UPDATE player SET player_email = ?, first_name = ?, last_name = ?, password = ?, phone_number = ?, role_id = ? WHERE player_id = ?";
 	private static final String SQL_DELETE_PLAYER = "DELETE player WHERE player_id=?";
-
+	private static final String SQL_GET_PLAYER_ID_BY_EMAIL = "SELECT player.player_id FROM player WHERE player.player_email = ?";
+	private static final String SQL_SELECT_ALL_TECHNICIANS = SQL_SELECT_ALL_PLAYERS + " WHERE player.role_id = 2";
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -86,5 +88,13 @@ public class PlayersDAOImpl implements PlayersDAO {
 			if (ps != null)
 				ps.close();
 		}
+	}
+
+	public int getPlayerIdByEmail(String email) throws SQLException {
+		return jdbcTemplate.queryForInt(SQL_GET_PLAYER_ID_BY_EMAIL, email);
+	}
+
+	public List<Player> getAllTechnicians() throws SQLException {
+		return jdbcTemplate.query(SQL_SELECT_ALL_TECHNICIANS, new PlayerMapper());
 	}
 }

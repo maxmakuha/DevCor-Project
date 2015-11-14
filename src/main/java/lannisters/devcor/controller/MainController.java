@@ -1,7 +1,9 @@
 package lannisters.devcor.controller;
 
 import java.security.Principal;
+import java.sql.SQLException;
 
+import lannisters.devcor.entity.Order;
 import lannisters.devcor.service.CommentsService;
 import lannisters.devcor.service.DevicesService;
 import lannisters.devcor.service.OrdersService;
@@ -9,6 +11,7 @@ import lannisters.devcor.service.PlayersService;
 import lannisters.devcor.service.RoomsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,13 +55,42 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public String dashboardPage(Model model, Principal principal) {
-		model.addAttribute("title", "Orders Info");
-		model.addAttribute("order", ordersService.getOrderById(1));
-		model.addAttribute("comment", commentsService.getCommentById(1));
-		model.addAttribute("room", roomsService.getRoomById(1));
-		model.addAttribute("device", devicesService.getDeviceById(1));
-		model.addAttribute("player", playersService.getPlayerById(1));
+	public String dashboardPage(Model model, Principal principal) throws SQLException {
+		model.addAttribute("role", SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority());
+		switch(SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority()){
+			case "ROLE_USER":
+				model.addAttribute("orders", ordersService.getALlOrdersOfUser(principal.getName()));
+				break;
+			case "ROLE_TECHNICIAN":
+				model.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
+				break;
+			case "ROLE_ADMIN":
+				model.addAttribute("orders", ordersService.getFirstOrders(100));
+				break;
+			default:
+				break;
+		}
+		return "dashboard";
+	}
+	
+	@RequestMapping(value = "/dashboard", method = RequestMethod.POST)
+	public String dashboardPagePost(Model model, Order order, Principal principal) throws SQLException {
+		model.addAttribute("role", SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority());
+		ordersService.updateOrder(order);
+		model.addAttribute("message", "Your changes were succesfuully applied");
+		switch(SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority()){
+		case "ROLE_USER":
+			model.addAttribute("orders", ordersService.getALlOrdersOfUser(principal.getName()));
+			break;
+		case "ROLE_TECHNICIAN":
+			model.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
+			break;
+		case "ROLE_ADMIN":
+			model.addAttribute("orders", ordersService.getFirstOrders(100));
+			break;
+		default:
+			break;
+	}
 		return "dashboard";
 	}
 

@@ -34,4 +34,19 @@ public class OrdersServiceImpl implements OrdersService {
 	public void deleteOrder(int orderId) throws SQLException {
 		ordersDao.deleteOrder(orderId);
 	}
+
+	@Override
+	public List<Order> getALlOrdersOfUser(String email) throws SQLException {
+		return ordersDao.getAllOrdersOfUser(email);
+	}
+
+	@Override
+	public List<Order> getAllOrdersOfTechnician(String email) throws SQLException {
+		return ordersDao.getAllOrdersOfTechnician(email);
+	}
+
+	@Override
+	public List<Order> getFirstOrders(int num) throws SQLException {
+		return ordersDao.getFirstOrders(num);
+	}
 }

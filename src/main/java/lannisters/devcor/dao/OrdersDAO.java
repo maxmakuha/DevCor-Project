@@ -16,4 +16,10 @@ public interface OrdersDAO {
 	public void updateOrder(Order order) throws SQLException;
 
 	public void deleteOrder(int orderId) throws SQLException;
+
+	public List<Order> getAllOrdersOfUser(String email) throws SQLException;
+
+	public List<Order> getAllOrdersOfTechnician(String email) throws SQLException;
+
+	public List<Order> getFirstOrders(int num) throws SQLException;
 }

@@ -16,4 +16,9 @@ public interface PlayersDAO {
 	public void updatePlayer(Player player) throws SQLException;
 
 	public void deletePlayer(int playerId) throws SQLException;
+
+	public int getPlayerIdByEmail(String email) throws SQLException;
+
+	public List<Player> getAllTechnicians() throws SQLException;
+
 }

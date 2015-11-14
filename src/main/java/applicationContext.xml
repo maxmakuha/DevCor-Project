@@ -4,7 +4,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"
+		scope="singleton">
 	<property name="host" value="smtp.gmail.com" />
 	<property name="port" value="587" />
 	<property name="username" value="followthecursor@gmail.com" />
@@ -17,8 +18,15 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	</property>
 </bean>
 	
-<bean id="Mail" class="lannisters.devcor.mail.Mail">
+<bean id="Mail" class="lannisters.devcor.mail.Mail" 
+	  scope="singleton">
 	<property name="mailSender" ref="mailSender" />
 </bean>
+
+<bean id="MailSender" class="lannisters.devcor.mail.MailSender" 
+      scope="singleton">
+</bean>
+
+
 	
 </beans>

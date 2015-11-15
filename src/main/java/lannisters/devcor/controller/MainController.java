@@ -2,25 +2,38 @@ package lannisters.devcor.controller;
 
 import java.security.Principal;
 import java.sql.SQLException;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import lannisters.devcor.entity.Order;
 import lannisters.devcor.service.CommentsService;
 import lannisters.devcor.service.DevicesService;
 import lannisters.devcor.service.OrdersService;
 import lannisters.devcor.service.PlayersService;
+import lannisters.devcor.service.ReportService;
 import lannisters.devcor.service.RoomsService;
+import lannisters.devcor.view.ExcelReportView;
+import lannisters.devcor.view.ExcelReportView2;
+import lannisters.devcor.view.ExcelReportView3;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MainController {
-
+	public String dateFromForReport;
+	public String dateToForReport;
+	@Autowired
+	private ReportService reportService;
 	@Autowired
 	private OrdersService ordersService;
 
@@ -51,6 +64,7 @@ public class MainController {
 
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public String mainPage() {
+		Locale.setDefault(Locale.ENGLISH);
 		return "main";
 	}
 
@@ -134,8 +148,36 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/reports", method = RequestMethod.GET)
-	public String reportsPage() {
+	public String reportsPage(Model model, Principal principal,HttpServletRequest request) {
+		dateFromForReport=request.getParameter("date1");
+		dateToForReport=request.getParameter("date2");
+		String reportNum=request.getParameter("reportNum");
+		if(reportNum!=null){
+			if(reportNum.equals("Report1"))
+				model.addAttribute("report", reportService.getReport1(dateFromForReport,dateToForReport));
+			if(reportNum.equals("Report2"))
+				model.addAttribute("report2", reportService.getReport2(dateFromForReport, dateToForReport));
+			if(reportNum.equals("Report3"))
+				model.addAttribute("report3", reportService.getReport3(dateFromForReport, dateToForReport));
+		}
 		return "reports";
+	}
+	
+	@RequestMapping(value = "/DevCorReport", method = RequestMethod.GET)
+	public ModelAndView handleRequestInternal(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		String output =	ServletRequestUtils.getStringParameter(request, "exel");
+		if("EXCEL1".equals(output.toUpperCase())){
+			return new ModelAndView(new ExcelReportView(), "reportData", reportService.getReport1(dateFromForReport,dateToForReport));
+        }else 
+        	if("EXCEL2".equals(output.toUpperCase())){
+			return new ModelAndView(new ExcelReportView2(), "reportData", reportService.getReport2(dateFromForReport,dateToForReport));
+        }else 
+        	if("EXCEL3".equals(output.toUpperCase())){
+			return new ModelAndView(new ExcelReportView3(), "reportData", reportService.getReport1(dateFromForReport,dateToForReport));
+        }
+        else{
+        	return new ModelAndView("reports");
+		}
 	}
 
 	@RequestMapping(value = "/403", method = RequestMethod.GET)

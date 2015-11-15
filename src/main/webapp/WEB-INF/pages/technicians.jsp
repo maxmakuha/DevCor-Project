@@ -11,32 +11,36 @@
 	</ul>
 </div>
 
-<div align="center">
-	<table border="1" cellpadding="5">
+
+<div class="panel panel-success">
+	<table class="table table-striped table-bordered" id="pagination">
 		<caption>
 			<h2>List of users</h2>
 		</caption>
-		<tr>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Surname</th>
-			<th>Email</th>
-			<th>Password</th>
-			<th>Phone Number</th>
-			<th>Role</th>
-		</tr>
-		<c:forEach var="user" items="${technicians}">
+		<thead bgcolor="#8FBC8F">
 			<tr>
-				<td><c:out value="${user.playerId}" /></td>
-				<td><c:out value="${user.firstName}" /></td>
-				<td><c:out value="${user.lastName}" /></td>
-				<td><c:out value="${user.playerEmail}" /></td>
-				<td><c:out value="${user.password}" /></td>
-				<td><c:out value="${user.phoneNumber}" /></td>
-				<td><c:out value="${user.role}" /></td>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Surname</th>
+				<th>Email</th>
+				<th>Password</th>
+				<th>Phone Number</th>
+				<th>Role</th>
 			</tr>
-		</c:forEach>
+		</thead>
+		<tbody>
+			<c:forEach var="user" items="${technicians}">
+				<tr>
+					<td><c:out value="${user.playerId}" /></td>
+					<td><c:out value="${user.firstName}" /></td>
+					<td><c:out value="${user.lastName}" /></td>
+					<td><c:out value="${user.playerEmail}" /></td>
+					<td><c:out value="${user.password}" /></td>
+					<td><c:out value="${user.phoneNumber}" /></td>
+					<td><c:out value="${user.role}" /></td>
+				</tr>
+			</c:forEach>
+		</tbody>
 	</table>
 </div>
-
 <%@include file="footer.jsp"%>

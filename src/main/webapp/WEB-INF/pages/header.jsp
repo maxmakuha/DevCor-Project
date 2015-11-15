@@ -8,9 +8,16 @@
 <link rel="stylesheet" href="resources/style/style.css">
 <link rel="stylesheet" href="resources/style/bootstrap.min.css">
 <link rel="stylesheet" href="resources/style/bootstrap-theme.min.css">
+
+
+
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/javascript.js"></script>
 
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
 <title>DevCor</title>
 </head>
 <body onload='document.login.username.focus();'>

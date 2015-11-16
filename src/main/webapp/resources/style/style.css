@@ -139,8 +139,7 @@ input[type="password"] {
 	margin: 50px auto;
 }
 
-.createOrder select, .createOrder input[type=button], .createOrder span:not
-	(.description ){
+.createOrder select, .createOrder input[type=button], .createOrder span:not(.description ){
 	float: right;
 }
 
@@ -149,7 +148,7 @@ input[type="password"] {
 	font-size: 30px;
 }
 
-.createOrder input:not ([type="submit"] ):not ([type="button"] ){
+.createOrder input:not([type="submit"] ):not([type="button"] ){
 	display: none;
 }
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lannisters.devcor.entity.Order;
+import lannisters.devcor.mail.MailService;
 import lannisters.devcor.service.DevicesService;
 import lannisters.devcor.service.OrdersService;
 import lannisters.devcor.service.PlayersService;
@@ -43,6 +44,8 @@ public class OrderController {
 	@Autowired
 	private UrgencyStatusesService urgencyStatusesService;
 	
+	private MailService mail = new MailService();
+	
 	@RequestMapping(value = "/createOrder", method = RequestMethod.GET)
 	public String loadCreateOrderPage(Model m){
 		Order order = new Order();
@@ -61,10 +64,12 @@ public class OrderController {
 		order.setAuthorId(playersService.getPlayerIdByEmail(principal.getName()));
 		order.setTechnicianId(roomsService.getTechnicianIdByRoomId(order.getRoomId()));
 		order.setOverdue("N");
+		
 		if(order.getDeviceId() == -1){
 			order.removeDevice();
 		}
 		ordersService.addOrder(order);
+		mail.orderCreatEmail(order, playersService);
 		return "redirect:/dashboard";
 	}
 	

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lannisters.devcor.entity.Order;
+import lannisters.devcor.mail.MailService;
 import lannisters.devcor.service.DevicesService;
 import lannisters.devcor.service.OrdersService;
 import lannisters.devcor.service.PlayersService;
@@ -42,6 +43,8 @@ public class OrderController {
 
 	@Autowired
 	private UrgencyStatusesService urgencyStatusesService;
+	
+	private MailService mail = new MailService();
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String dashboardPage(Model model, Principal principal) throws SQLException {
@@ -109,6 +112,7 @@ public class OrderController {
 			order.removeDevice();
 		}
 		ordersService.addOrder(order);
+		//mail.orderCreatEmail(order, playersService);
 		return "redirect:/dashboard";
 	}
 

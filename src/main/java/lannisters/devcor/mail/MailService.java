@@ -1,7 +1,9 @@
 package lannisters.devcor.mail;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Service;
 
 import lannisters.devcor.entity.Order;
 import lannisters.devcor.entity.Player;
@@ -10,6 +12,8 @@ import lannisters.devcor.service.PlayersService;
 /**
  * @author xoma0_000
  */
+@Service
+@Configurable
 public class MailService {
 	private static final String REGISTRATION = "Authorization Information";
 	private static final String ORDER_CREATED= "Order created";
@@ -19,7 +23,7 @@ public class MailService {
 	private  MailSender sender = (MailSender) new ClassPathXmlApplicationContext
 													("applicationContext.xml").getBean("MailSender");
 	@Autowired
-	private static PlayersService service;
+	private PlayersService sservice ;
 																					
 	/**
 	 * It will send an e-mail notification to a new player, to inform him 
@@ -45,7 +49,7 @@ public class MailService {
 				+ "has changed to "+order.getExecutionStatus();
 		
 		int playerId = order.getAuthorId();
-		Player player = service.getPlayerById(playerId);
+		Player player = sservice.getPlayerById(playerId);
 		String receiver = player.getPlayerEmail();
 		sender.send(receiver, STATUS_CHANGE, message);
 	}
@@ -55,10 +59,11 @@ public class MailService {
 	 * new Order has been created.
 	 * @param order - A newly created order
 	 */
-	public void orderCreatEmail(Order order){
+	public void orderCreatEmail(Order order, PlayersService service){
 		int userId = order.getAuthorId();
 		Player user = service.getPlayerById(userId);
 		String receiver1 = user.getPlayerEmail();
+		
 		int technicianId = order.getTechnicianId();
 		Player technician = service.getPlayerById(technicianId);
 		String receiver2 = technician.getPlayerEmail();
@@ -70,6 +75,4 @@ public class MailService {
 		String messageTechnician = "There is an order for you! It must be done by "+order.getDueDate();
 		sender.send(receiver2, ORDER_CREATED, messageTechnician);
 	}
-	
-	
 }

@@ -17,8 +17,12 @@ public interface PlayersDAO {
 
 	public void deletePlayer(int playerId) throws SQLException;
 
+	public Player getPlayerByEmail(String email);
+
 	public int getPlayerIdByEmail(String email) throws SQLException;
 
-	public List<Player> getAllTechnicians() throws SQLException;
+	public List<Player> getAllUsers();
+
+	public List<Player> getAllTechnicians();
 
 }

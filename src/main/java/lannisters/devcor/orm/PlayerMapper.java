@@ -15,7 +15,7 @@ public class PlayerMapper implements RowMapper<Player> {
 		player.setLastName(rs.getString("last_name"));
 		player.setPassword(rs.getString("password"));
 		player.setPhoneNumber(rs.getString("phone_number"));
-		// player.setRoleId(rs.getInt("role_id"));
+		player.setRoleId(rs.getInt("role_id"));
 		player.setRole(rs.getString("role"));
 		return player;
 	}

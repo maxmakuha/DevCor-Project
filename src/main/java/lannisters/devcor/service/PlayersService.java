@@ -11,13 +11,17 @@ public interface PlayersService {
 
 	public Player getPlayerById(int playerId);
 
-	public void addPlayer(Player player) throws SQLException;
-	
-	public void updatePlayer(Player player) throws SQLException;
+	public void addPlayer(Player player);
 
-	public void deletePlayer(int playerId) throws SQLException;
+	public void updatePlayer(Player player);
+
+	public void deletePlayer(int playerId);
+
+	public Player getPlayerByEmail(String email);
 
 	public int getPlayerIdByEmail(String email) throws SQLException;
 
-	public List<Player> getAllTechnicians() throws SQLException;
+	public List<Player> getAllUsers();
+
+	public List<Player> getAllTechnicians();
 }

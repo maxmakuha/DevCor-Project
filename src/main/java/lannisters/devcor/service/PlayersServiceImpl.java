@@ -23,23 +23,43 @@ public class PlayersServiceImpl implements PlayersService {
 		return playersDao.getPlayerById(playerId);
 	}
 
-	public void addPlayer(Player player) throws SQLException {
-		playersDao.addPlayer(player);
+	public void addPlayer(Player player) {
+		try {
+			playersDao.addPlayer(player);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void updatePlayer(Player player) throws SQLException {
-		playersDao.updatePlayer(player);
+	public void updatePlayer(Player player) {
+		try {
+			playersDao.updatePlayer(player);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void deletePlayer(int playerId) throws SQLException {
-		playersDao.deletePlayer(playerId);
+	public void deletePlayer(int playerId) {
+		try {
+			playersDao.deletePlayer(playerId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Player getPlayerByEmail(String email) {
+		return playersDao.getPlayerByEmail(email);
 	}
 
 	public int getPlayerIdByEmail(String email) throws SQLException {
 		return playersDao.getPlayerIdByEmail(email);
 	}
 
-	public List<Player> getAllTechnicians() throws SQLException {
+	public List<Player> getAllUsers() {
+		return playersDao.getAllUsers();
+	}
+
+	public List<Player> getAllTechnicians() {
 		return playersDao.getAllTechnicians();
 	}
 }

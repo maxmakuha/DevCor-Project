@@ -75,6 +75,4 @@ public class MailService {
 		String messageTechnician = "There is an order for you! It must be done by "+order.getDueDate();
 		sender.send(receiver2, ORDER_CREATED, messageTechnician);
 	}
-	
-	
 }

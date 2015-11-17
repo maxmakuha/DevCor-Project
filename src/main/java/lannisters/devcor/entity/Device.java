@@ -43,6 +43,8 @@ public class Device {
 	}
 
 	public int getRoomId() {
+		if (this.room == null)
+			this.room = new Room();
 		return room.getRoomId();
 	}
 
@@ -63,6 +65,8 @@ public class Device {
 	}
 
 	public int getDeviceTypeId() {
+		if (this.deviceType == null)
+			this.deviceType = new DeviceType();
 		return deviceType.getDeviceTypeId();
 	}
 

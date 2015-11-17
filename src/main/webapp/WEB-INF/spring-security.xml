@@ -10,10 +10,11 @@
 		<intercept-url pattern="/login" access="isAnonymous()" />
 		<intercept-url pattern="/profile" access="isAuthenticated()" />
 		<intercept-url pattern="/dashboard" access="isAuthenticated()" />
-		<intercept-url pattern="/technicians" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/users" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/rooms" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/reports" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/technicians/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/rooms/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/devices/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/reports/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/createOrder" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/getRoomDevices" access="hasRole('ROLE_USER')" />
 

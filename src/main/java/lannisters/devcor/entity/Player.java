@@ -13,8 +13,8 @@ public class Player {
 	public Player() {
 	}
 
-	public Player(int playerId, String playerEmail, String firstName,
-			String lastName, String password, String phoneNumber, Role role) {
+	public Player(int playerId, String playerEmail, String firstName, String lastName, String password,
+			String phoneNumber, Role role) {
 		this.playerId = playerId;
 		this.playerEmail = playerEmail;
 		this.firstName = firstName;
@@ -55,8 +55,8 @@ public class Player {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
-	public String getFullName(){
+
+	public String getFullName() {
 		return this.getFirstName() + " " + this.getLastName();
 	}
 
@@ -75,7 +75,7 @@ public class Player {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	
+
 	public Role getRoleObj() {
 		return this.role;
 	}
@@ -102,9 +102,8 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return "Player [playerId=" + playerId + ", playerEmail=" + playerEmail
-				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", password=" + password + ", phoneNumber=" + phoneNumber
-				+ ", role=" + role + "]";
+		return "Player [playerId=" + playerId + ", playerEmail=" + playerEmail + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", password=" + password + ", phoneNumber=" + phoneNumber + ", role="
+				+ role + "]";
 	}
 }

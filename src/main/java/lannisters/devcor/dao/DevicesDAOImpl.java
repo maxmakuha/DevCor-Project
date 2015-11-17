@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class DevicesDAOImpl implements DevicesDAO {
 
-	private static final String SQL_SELECT_ALL_DEVICES = "SELECT device.device_id, device.device_serial_id, device_type.device_type, room.room_number FROM ((device INNER JOIN device_type ON device.device_type_id = device_type.device_type_id) INNER JOIN room ON device.room_id = room.room_id)";
+	private static final String SQL_SELECT_ALL_DEVICES = "SELECT device.device_id, device.device_serial_id, device_type.device_type, room.room_number FROM ((device INNER JOIN device_type ON device.device_type_id = device_type.device_type_id) INNER JOIN room ON device.room_id = room.room_id) ORDER BY device.device_id";
 	private static final String SQL_SELECT_DEVICE_BY_ID = "SELECT device.device_id, device.device_serial_id, device_type.device_type, room.room_number FROM ((device INNER JOIN device_type ON device.device_type_id = device_type.device_type_id) INNER JOIN room ON device.room_id = room.room_id) WHERE device_id=?";
 	private static final String SQL_INSERT_DEVICE = "INSERT INTO device(device_serial_id, device_type_id, room_id) VALUES (?, ?, ?)";
 	private static final String SQL_UPDATE_DEVICE = "UPDATE device SET device_serial_id = ?, device_type_id = ?, room_id = ? WHERE device_id = ?";
@@ -29,15 +29,13 @@ public class DevicesDAOImpl implements DevicesDAO {
 	}
 
 	public Device getDeviceById(int deviceId) {
-		return jdbcTemplate.queryForObject(SQL_SELECT_DEVICE_BY_ID,
-				new DeviceMapper(), deviceId);
+		return jdbcTemplate.queryForObject(SQL_SELECT_DEVICE_BY_ID, new DeviceMapper(), deviceId);
 	}
 
 	public void addDevice(Device device) throws SQLException {
 		PreparedStatement ps = null;
 		try {
-			ps = jdbcTemplate.getDataSource().getConnection()
-					.prepareStatement(SQL_INSERT_DEVICE);
+			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_DEVICE);
 			ps.setString(1, device.getDeviceSerialId());
 			ps.setInt(2, device.getDeviceTypeId());
 			ps.setInt(3, device.getRoomId());
@@ -53,8 +51,7 @@ public class DevicesDAOImpl implements DevicesDAO {
 	public void updateDevice(Device device) throws SQLException {
 		PreparedStatement ps = null;
 		try {
-			ps = jdbcTemplate.getDataSource().getConnection()
-					.prepareStatement(SQL_UPDATE_DEVICE);
+			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_DEVICE);
 			ps.setString(1, device.getDeviceSerialId());
 			ps.setInt(2, device.getDeviceTypeId());
 			ps.setInt(3, device.getRoomId());
@@ -71,8 +68,7 @@ public class DevicesDAOImpl implements DevicesDAO {
 	public void deleteDevice(int deviceId) throws SQLException {
 		PreparedStatement ps = null;
 		try {
-			ps = jdbcTemplate.getDataSource().getConnection()
-					.prepareStatement(SQL_DELETE_DEVICE);
+			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_DEVICE);
 			ps.setInt(1, deviceId);
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -83,7 +79,7 @@ public class DevicesDAOImpl implements DevicesDAO {
 		}
 	}
 
-	public List<Device> getAllDevicesOfRoom(int roomId) throws SQLException{
-		return jdbcTemplate.query(SQL_SELECT_ALL_DEVICES_OF_ROOM, new Integer[]{roomId}, new DeviceMapper());
+	public List<Device> getAllDevicesOfRoom(int roomId) throws SQLException {
+		return jdbcTemplate.query(SQL_SELECT_ALL_DEVICES_OF_ROOM, new Integer[] { roomId }, new DeviceMapper());
 	}
 }

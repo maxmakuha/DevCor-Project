@@ -112,7 +112,7 @@ public class OrderController {
 			order.removeDevice();
 		}
 		ordersService.addOrder(order);
-		//mail.orderCreatEmail(order, playersService);
+		mail.orderCreatEmail(order, playersService);
 		return "redirect:/dashboard";
 	}
 

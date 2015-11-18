@@ -100,7 +100,7 @@
 	</div>
 	<form action="DevCorReport">
 	<input type="text" hidden="true" name="exel" value="EXCEL1">
-	<button type="submit"  class="btn btn-xs btn-default">to xml</button>
+	<button type="submit"  class="btn btn-xs btn-default">to xls</button>
 	</form>
 		
 	<!-- Table Report2 -->
@@ -143,7 +143,7 @@
 	</div>
 	<form action="DevCorReport">
 	<input type="text" hidden="true" name="exel" value="EXCEL2">
-	<button type="submit"  class="btn btn-xs btn-default">to xml</button>
+	<button type="submit"  class="btn btn-xs btn-default">to xls</button>
 	</form>
 	<!-- Table Report3 -->
 	<%} else{%>
@@ -175,7 +175,7 @@
 	</div>
 	<form action="DevCorReport">
 	<input type="text" hidden="true" name="exel" value="EXCEL3">
-	<button type="submit"  class="btn btn-xs btn-default">to xml</button>
+	<button type="submit"  class="btn btn-xs btn-default">to xls</button>
 	</form>
 	<%}%>
 	

@@ -19,6 +19,7 @@
 				<td><form:label for="deviceTypeOptions" path="deviceTypeId">Device type:</form:label></td>
 				<td><form:select path="deviceTypeId" id="deviceTypeOptions"
 						required="required">
+						<option value="">-- Please choose one</option>
 						<form:options items="${deviceTypes}" itemValue="deviceTypeId"
 							itemLabel="deviceType" />
 					</form:select></td>
@@ -27,6 +28,7 @@
 				<td><form:label for="roomNumberOptions" path="roomId">Room number: </form:label></td>
 				<td><form:select path="roomId" id="roomNumberOptions"
 						required="required">
+						<option value="">-- Please choose one</option>
 						<form:options items="${rooms}" itemValue="roomId"
 							itemLabel="roomNumber" />
 					</form:select></td>

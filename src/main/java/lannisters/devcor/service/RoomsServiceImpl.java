@@ -23,19 +23,31 @@ public class RoomsServiceImpl implements RoomsService {
 		return roomsDao.getRoomById(roomId);
 	}
 
-	public void addRoom(Room room) throws SQLException {
-		roomsDao.addRoom(room);
+	public void addRoom(Room room) {
+		try {
+			roomsDao.addRoom(room);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void updateRoom(Room room) throws SQLException {
-		roomsDao.updateRoom(room);
+	public void updateRoom(Room room) {
+		try {
+			roomsDao.updateRoom(room);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void deleteRoom(int roomId) throws SQLException {
-		roomsDao.deleteRoom(roomId);
+	public void deleteRoom(int roomId) {
+		try {
+			roomsDao.deleteRoom(roomId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public int getTechnicianIdByRoomId(int roomId) throws SQLException{
+	public int getTechnicianIdByRoomId(int roomId) throws SQLException {
 		return roomsDao.getTechnicianIdByRoomId(roomId);
 	}
 }

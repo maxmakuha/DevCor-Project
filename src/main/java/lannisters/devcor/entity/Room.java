@@ -34,8 +34,10 @@ public class Room {
 	public Player getPlayerObj() {
 		return this.player;
 	}
-	
+
 	public int getPlayerId() {
+		if (this.player == null)
+			this.player = new Player();
 		return player.getPlayerId();
 	}
 
@@ -67,7 +69,6 @@ public class Room {
 
 	@Override
 	public String toString() {
-		return "Room [roomId=" + roomId + ", roomNumber=" + roomNumber
-				+ ", player=" + player + "]";
+		return "Room [roomId=" + roomId + ", roomNumber=" + roomNumber + ", player=" + player + "]";
 	}
 }

@@ -1,6 +1,7 @@
 <%@page session="true"%>
 <%@include file="header.jsp"%>
-<script src="resources/js/bootbox.min.js"></script>
+<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/resources/js/bootbox.min.js"/>"></script>
 <script>
 	$(document).on("click", ".confirm", function(e) {
 		e.preventDefault();

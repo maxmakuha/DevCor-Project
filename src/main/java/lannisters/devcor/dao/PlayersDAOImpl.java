@@ -22,9 +22,9 @@ public class PlayersDAOImpl implements PlayersDAO {
 	private static final String SQL_GET_PLAYER_BY_EMAIL = "SELECT player.player_id, player.player_email, player.first_name, player.last_name, player.password, player.phone_number, player.role_id, role.role FROM player INNER JOIN role ON player.role_id = role.role_id WHERE player.player_email=?";
 	private static final String SQL_GET_PLAYER_ID_BY_EMAIL = "SELECT player.player_id FROM player WHERE player.player_email = ?";
 	private static final String SQL_SELECT_ALL_USERS = SQL_SELECT_ALL_PLAYERS
-			+ " WHERE player.role_id = 3 ORDER BY player.player_id";
+			+ " WHERE player.role_id = 3";
 	private static final String SQL_SELECT_ALL_TECHNICIANS = SQL_SELECT_ALL_PLAYERS
-			+ " WHERE player.role_id = 2 ORDER BY player.player_id";
+			+ " WHERE player.role_id = 2";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

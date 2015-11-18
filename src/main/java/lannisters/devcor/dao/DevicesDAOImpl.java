@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class DevicesDAOImpl implements DevicesDAO {
 
-	private static final String SQL_SELECT_ALL_DEVICES = "SELECT device.device_id, device.device_serial_id, device_type.device_type, room.room_number FROM ((device INNER JOIN device_type ON device.device_type_id = device_type.device_type_id) INNER JOIN room ON device.room_id = room.room_id) ORDER BY device.device_id";
+	private static final String SQL_SELECT_ALL_DEVICES = "SELECT device.device_id, device.device_serial_id, device_type.device_type, room.room_number FROM ((device INNER JOIN device_type ON device.device_type_id = device_type.device_type_id) INNER JOIN room ON device.room_id = room.room_id)";
 	private static final String SQL_SELECT_DEVICE_BY_ID = "SELECT device.device_id, device.device_serial_id, device_type.device_type, room.room_number FROM ((device INNER JOIN device_type ON device.device_type_id = device_type.device_type_id) INNER JOIN room ON device.room_id = room.room_id) WHERE device_id=?";
 	private static final String SQL_INSERT_DEVICE = "INSERT INTO device(device_serial_id, device_type_id, room_id) VALUES (?, ?, ?)";
 	private static final String SQL_UPDATE_DEVICE = "UPDATE device SET device_serial_id = ?, device_type_id = ?, room_id = ? WHERE device_id = ?";

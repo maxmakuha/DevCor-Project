@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lannisters.devcor.entity.Device;
 import lannisters.devcor.entity.Player;
+import lannisters.devcor.entity.Room;
 import lannisters.devcor.service.DeviceTypesService;
 import lannisters.devcor.service.DevicesService;
 import lannisters.devcor.service.PlayersService;
@@ -89,7 +90,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = { "/technicians/edit/id/{id}", "/users/edit/id/{id}" }, method = RequestMethod.POST)
-	public String saveEditedUser(@ModelAttribute("user") Player user, @PathVariable("id") int id, Model model) {
+	public String saveEditedUser(@ModelAttribute("user") Player user) {
 		playersService.updatePlayer(user);
 		String page = null;
 		if (user.getRoleId() == 2)
@@ -112,8 +113,41 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/rooms", method = RequestMethod.GET)
-	public String roomsPage() {
+	public String roomsPage(Model model) {
+		model.addAttribute("rooms", roomsService.getAllRooms());
 		return "rooms";
+	}
+
+	@RequestMapping(value = "/rooms/add", method = RequestMethod.GET)
+	public String addRoom(Model model) {
+		model.addAttribute("room", new Room());
+		model.addAttribute("technicians", playersService.getAllTechnicians());
+		return "addRoom";
+	}
+
+	@RequestMapping(value = "/rooms/add", method = RequestMethod.POST)
+	public String saveRoom(@ModelAttribute("room") Room room) {
+		roomsService.addRoom(room);
+		return "redirect:/rooms";
+	}
+
+	@RequestMapping(value = "/rooms/edit/id/{id}", method = RequestMethod.GET)
+	public String editRoom(@PathVariable("id") int id, Model model) {
+		model.addAttribute("room", roomsService.getRoomById(id));
+		model.addAttribute("technicians", playersService.getAllTechnicians());
+		return "editRoom";
+	}
+
+	@RequestMapping(value = "/rooms/edit/id/{id}", method = RequestMethod.POST)
+	public String saveEditedRoom(@ModelAttribute("room") Room room) {
+		roomsService.updateRoom(room);
+		return "redirect:/rooms";
+	}
+
+	@RequestMapping(value = "/rooms/delete/id/{id}", method = RequestMethod.GET)
+	public String deleteRoom(@PathVariable("id") int id) {
+		roomsService.deleteRoom(id);
+		return "redirect:/rooms";
 	}
 
 	@RequestMapping(value = "/devices", method = RequestMethod.GET)
@@ -145,7 +179,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/devices/edit/id/{id}", method = RequestMethod.POST)
-	public String saveEditedDevice(@ModelAttribute("device") Device device, @PathVariable("id") int id, Model model) {
+	public String saveEditedDevice(@ModelAttribute("device") Device device) {
 		devicesService.updateDevice(device);
 		return "redirect:/devices";
 	}

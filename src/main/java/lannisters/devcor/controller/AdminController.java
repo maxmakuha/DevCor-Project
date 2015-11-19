@@ -147,6 +147,12 @@ public class AdminController {
 	public String editRoom(@PathVariable("id") int id, Model model) {
 		model.addAttribute("room", roomsService.getRoomById(id));
 		model.addAttribute("technicians", playersService.getAllTechnicians());
+		try {
+			model.addAttribute("roomDevices", devicesService.getAllDevicesOfRoom(id));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "editRoom";
 	}
 
@@ -162,6 +168,20 @@ public class AdminController {
 		return "redirect:/rooms";
 	}
 
+	@RequestMapping(value = "/rooms/edit/id/{id}/device/add", method = RequestMethod.GET)
+	public String addDeviceOfRoom(@PathVariable("id") int id, Model model) {
+		model.addAttribute("device", new Device());
+		model.addAttribute("room", roomsService.getRoomById(id));
+		model.addAttribute("deviceTypes", deviceTypesService.getAllDeviceTypes());
+		return "addDevice";
+	}
+	
+	@RequestMapping(value = "/rooms/edit/id/{id}/device/add", method = RequestMethod.POST)
+	public String processDeviceOfRoom(@ModelAttribute("device") Device device) {
+		devicesService.addDevice(device);
+		return "redirect:/rooms/edit/id/{id}";
+	}
+	
 	@RequestMapping(value = "/devices", method = RequestMethod.GET)
 	public String devicesPage(Model model) {
 		model.addAttribute("devices", devicesService.getAllDevices());

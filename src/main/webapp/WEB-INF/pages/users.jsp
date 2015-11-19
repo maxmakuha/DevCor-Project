@@ -22,6 +22,7 @@
 		<li role="presentation"><a href="rooms" style="color: GREEN">Rooms</a></li>
 		<li role="presentation"><a href="devices" style="color: GREEN">Devices</a></li>
 		<li role="presentation"><a href="reports" style="color: GREEN">Reports</a></li>
+		<li role="presentation"><a href="configuration" style="color: GREEN">Configuration panel</a></li>
 	</ul>
 </div>
 <div class="row">

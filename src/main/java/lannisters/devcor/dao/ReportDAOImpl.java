@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ReportDAOImpl implements ReportDAO {
 
-	private static final String SQL_SELECT_REPORT1 = "SELECT request.request_id, problem_type.problem_type, request.description, room.room_number,"
+	private static final String SQL_SELECT_ORDER_REPORT = "SELECT request.request_id, problem_type.problem_type, request.description, room.room_number,"
 			+ " device.device_serial_id, execution_status.execution_status, urgency_status.urgency_status, request.creation_date, "
 			+ "request.due_date, author.first_name as author_name, author.last_name as author_surname, technician.first_name as technician_name, "
 			+ "technician.last_name as technician_surname, request.overdue"
@@ -25,7 +25,7 @@ public class ReportDAOImpl implements ReportDAO {
 			+ "INNER JOIN player technician ON request.technician_id = technician.player_id) "
 			+ "where request.creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss')";
 	
-	private static final String SQL_SELECT_REPORT2="select first_name as first_name,last_name as last_name,"
+	private static final String SQL_SELECT_TECHNICIANS_REPORT="select first_name as first_name,last_name as last_name,"
 			+ "(select  count  (request_id) from request  where EXECUTION_STATUS_ID = 1 and technician_id = player.player_id and creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss')) as openn,"
 			+ "(select  count  (request_id) from request  where EXECUTION_STATUS_ID = 2 and technician_id = player.player_id and creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss')) as Inprogress, "
 			+ "(select  count  (request_id) from request  where EXECUTION_STATUS_ID = 5 and technician_id = player.player_id and creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss')) as Unsolvable, "
@@ -37,8 +37,8 @@ public class ReportDAOImpl implements ReportDAO {
 			+ "from player "
 			+ "where player.role_id=2 order by last_name";
 	
-	private static final String SQL_SELECT_REPORT3 = "SELECT DISTINCT device.device_serial_id as serId, device_type.device_type as devType, room.room_number as roomNum,"
-			+ " (select count( request.request_id) from request  where request.device_id = device_id ) as quantity "
+	private static final String SQL_SELECT_DEVICE_REPORT = "SELECT DISTINCT device.device_serial_id as serId, device_type.device_type as devType, room.room_number as roomNum,"
+			+ " (select count( request.request_id) from request  where request.device_id = device.device_id ) as quantity "
 			+ "FROM (((device INNER JOIN device_type ON device_type.device_type_id = device.device_type_id)"
 			+ "INNER JOIN room ON device.room_id=room.room_id)INNER JOIN request ON device.device_id = request.device_id)"
 			+ " where request.problem_type_id = 1 and request.creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') "
@@ -48,16 +48,16 @@ public class ReportDAOImpl implements ReportDAO {
 	private JdbcTemplate jdbcTemplate;
 	
 	
-	public List<Report> getReport1(String d1,String d2) {
-		return jdbcTemplate.query(SQL_SELECT_REPORT1, new ReportMapper(),d1,d2);
+	public List<Report> getOrdersReport(String d1,String d2) {
+		return jdbcTemplate.query(SQL_SELECT_ORDER_REPORT, new ReportMapper(),d1,d2);
 	}
 	
-	public List<Report> getReport2(String d1, String d2) {
-		return jdbcTemplate.query(SQL_SELECT_REPORT2, new ReportMapper2(),d1,d2,d1,d2,d1,d2,d1,d2,d1,d2,d1,d2,d1,d2,d1,d2);
+	public List<Report> getTechniciansReport(String d1, String d2) {
+		return jdbcTemplate.query(SQL_SELECT_TECHNICIANS_REPORT, new ReportMapper2(),d1,d2,d1,d2,d1,d2,d1,d2,d1,d2,d1,d2,d1,d2,d1,d2);
 	}
 	
-	public List<Report> getReport3(String d1, String d2) {
-		return jdbcTemplate.query(SQL_SELECT_REPORT3, new ReportMapper3(),d1,d2);
+	public List<Report> getDevicesReport(String d1, String d2) {
+		return jdbcTemplate.query(SQL_SELECT_DEVICE_REPORT, new ReportMapper3(),d1,d2);
 	}
 	
 		

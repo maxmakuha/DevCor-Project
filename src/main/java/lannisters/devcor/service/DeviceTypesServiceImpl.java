@@ -1,5 +1,6 @@
 package lannisters.devcor.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,41 @@ import lannisters.devcor.entity.DeviceType;
 public class DeviceTypesServiceImpl implements DeviceTypesService {
 
 	@Autowired
-	private DeviceTypesDAO problemTypesDao;
+	private DeviceTypesDAO deviceTypesDao;
 
 	public List<DeviceType> getAllDeviceTypes() {
-		return problemTypesDao.getAllDeviceTypes();
+		return deviceTypesDao.getAllDeviceTypes();
+	}
+
+	@Override
+	public DeviceType getDeviceTypeById(int deviceTypeId) {
+		return deviceTypesDao.getDeviceTypeById(deviceTypeId);
+	}
+
+	@Override
+	public void updateDeviceType(DeviceType deviceType)  {
+		try {
+			deviceTypesDao.updateDeviceType(deviceType);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void addDeviceType(DeviceType deviceType) {
+		try {
+			deviceTypesDao.addDeviceType(deviceType);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deleteDeviceType(int deviceType) {
+		try {
+			deviceTypesDao.deleteDeviceType(deviceType);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -1,6 +1,8 @@
 package lannisters.devcor.controller;
 
 import java.security.Principal;
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,13 +17,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import lannisters.devcor.entity.Device;
+import lannisters.devcor.entity.DeviceType;
 import lannisters.devcor.entity.Player;
+import lannisters.devcor.entity.ProblemType;
 import lannisters.devcor.entity.Room;
+import lannisters.devcor.entity.UrgencyStatus;
 import lannisters.devcor.service.DeviceTypesService;
 import lannisters.devcor.service.DevicesService;
 import lannisters.devcor.service.PlayersService;
+import lannisters.devcor.service.ProblemTypesService;
 import lannisters.devcor.service.ReportService;
 import lannisters.devcor.service.RoomsService;
+import lannisters.devcor.service.UrgencyStatusesService;
 import lannisters.devcor.view.ExcelReportView;
 import lannisters.devcor.view.ExcelReportView2;
 import lannisters.devcor.view.ExcelReportView3;
@@ -42,7 +49,12 @@ public class AdminController {
 	private RoomsService roomsService;
 	@Autowired
 	private ReportService reportService;
+	@Autowired
+	private ProblemTypesService problemTypesService;
 
+	@Autowired
+	private UrgencyStatusesService urgencyStatusesService;
+	
 	@RequestMapping(value = "/technicians", method = RequestMethod.GET)
 	public String techniciansPage(Model model) {
 		model.addAttribute("technicians", playersService.getAllTechnicians());
@@ -196,12 +208,12 @@ public class AdminController {
 		dateToForReport = request.getParameter("date2");
 		String reportNum = request.getParameter("reportNum");
 		if (reportNum != null) {
-			if (reportNum.equals("Report1"))
-				model.addAttribute("report", reportService.getReport1(dateFromForReport, dateToForReport));
-			if (reportNum.equals("Report2"))
-				model.addAttribute("report2", reportService.getReport2(dateFromForReport, dateToForReport));
-			if (reportNum.equals("Report3"))
-				model.addAttribute("report3", reportService.getReport3(dateFromForReport, dateToForReport));
+			if (reportNum.equals("OrdersReport"))
+				model.addAttribute("report", reportService.getOrdersReport(dateFromForReport, dateToForReport));
+			if (reportNum.equals("TechniciansReport"))
+				model.addAttribute("report2", reportService.getTechniciansReport(dateFromForReport, dateToForReport));
+			if (reportNum.equals("DevicesReport"))
+				model.addAttribute("report3", reportService.getDevicesReport(dateFromForReport, dateToForReport));
 		}
 		return "reports";
 	}
@@ -212,15 +224,112 @@ public class AdminController {
 		String output = ServletRequestUtils.getStringParameter(request, "exel");
 		if ("EXCEL1".equals(output.toUpperCase())) {
 			return new ModelAndView(new ExcelReportView(), "reportData",
-					reportService.getReport1(dateFromForReport, dateToForReport));
+					reportService.getOrdersReport(dateFromForReport, dateToForReport));
 		} else if ("EXCEL2".equals(output.toUpperCase())) {
 			return new ModelAndView(new ExcelReportView2(), "reportData",
-					reportService.getReport2(dateFromForReport, dateToForReport));
+					reportService.getTechniciansReport(dateFromForReport, dateToForReport));
 		} else if ("EXCEL3".equals(output.toUpperCase())) {
 			return new ModelAndView(new ExcelReportView3(), "reportData",
-					reportService.getReport1(dateFromForReport, dateToForReport));
+					reportService.getDevicesReport(dateFromForReport, dateToForReport));
 		} else {
 			return new ModelAndView("reports");
 		}
+	}
+	
+	@RequestMapping(value = "/configuration", method = RequestMethod.GET)
+	public String extra(Model model) {
+		model.addAttribute("problemType", problemTypesService.getAllProblemTypes());
+		model.addAttribute("deviceType", deviceTypesService.getAllDeviceTypes());
+		model.addAttribute("urgStatus", urgencyStatusesService.getAllUrgencyStatuses());
+		return "configurationPanel";
+	}
+	@RequestMapping(value = "/problemType/edit/id/{id}", method = RequestMethod.GET)
+	public String editProblemType(@PathVariable("id") int id, Model model) {
+		model.addAttribute("action", "editProblemType");
+		model.addAttribute("problem", problemTypesService.getProblemTypeById(id));
+		return "configurationPanel";
+	}
+
+	@RequestMapping(value = "/problemType/edit/id/{id}", method = RequestMethod.POST)
+	public String saveEditedProblemType(@ModelAttribute("problem") ProblemType problemType) {
+		problemTypesService.updateProblemType(problemType);
+		return "redirect:/configuration";
+	}
+	@RequestMapping(value = "/problemType/add", method = RequestMethod.GET)
+	public String addProblemType(Model model) {
+		model.addAttribute("action", "addProblemType");
+		model.addAttribute("problem", new ProblemType());
+		return "configurationPanel";
+	}
+	@RequestMapping(value = "/problemType/add", method = RequestMethod.POST)
+	public String saveProblemType(@ModelAttribute("problem") ProblemType problemType) {
+		problemTypesService.addProblemType(problemType);
+		return "redirect:/configuration";
+	}
+	@RequestMapping(value = "/problemType/delete/id/{id}", method = RequestMethod.GET)
+	public String deleteProblemType(@PathVariable("id") int id) {
+		problemTypesService.deleteProblemType(id);
+		return "redirect:/configuration";
+	}
+	
+	
+	
+	@RequestMapping(value = "/deviceType/edit/id/{id}", method = RequestMethod.GET)
+	public String editDeviceType(@PathVariable("id") int id, Model model) {
+		model.addAttribute("action", "editDeviceType");
+		model.addAttribute("deviceType", deviceTypesService.getDeviceTypeById(id));
+		return "configurationPanel";
+	}
+
+	@RequestMapping(value = "/deviceType/edit/id/{id}", method = RequestMethod.POST)
+	public String saveEditedDeviceType(@ModelAttribute("deviceType") DeviceType deviceType) {
+		deviceTypesService.updateDeviceType(deviceType);
+		return "redirect:/configuration";
+	}
+	@RequestMapping(value = "/deviceType/add", method = RequestMethod.GET)
+	public String addDeviceType(Model model) {
+		model.addAttribute("action", "addDeviceType");
+		model.addAttribute("deviceType", new DeviceType());
+		return "configurationPanel";
+	}
+	@RequestMapping(value = "/deviceType/add", method = RequestMethod.POST)
+	public String saveDeviceType(@ModelAttribute("deviceType")DeviceType deviceType) {
+		deviceTypesService.addDeviceType(deviceType);
+		return "redirect:/configuration";
+	}
+	@RequestMapping(value = "/deviceType/delete/id/{id}", method = RequestMethod.GET)
+	public String deleteDeviceType(@PathVariable("id") int id) {
+		deviceTypesService.deleteDeviceType(id);
+		return "redirect:/configuration";
+	}
+	
+	
+	@RequestMapping(value = "/urgStatus/edit/id/{id}", method = RequestMethod.GET)
+	public String editUrgStatus(@PathVariable("id") int id, Model model) {
+		model.addAttribute("action", "editUrgStatus");
+		model.addAttribute("urgStatus", urgencyStatusesService.getUrgencyStatusById(id));
+		return "configurationPanel";
+	}
+
+	@RequestMapping(value = "/urgStatus/edit/id/{id}", method = RequestMethod.POST)
+	public String saveEditedUrgStatus(@ModelAttribute("urgStatus") UrgencyStatus urgencyStatus) {
+		urgencyStatusesService.updateUrgencyStatus(urgencyStatus);
+		return "redirect:/configuration";
+	}
+	@RequestMapping(value = "/urgStatus/add", method = RequestMethod.GET)
+	public String addUrgStatus(Model model) {
+		model.addAttribute("action", "addUrgStatus");
+		model.addAttribute("urgStatus", new UrgencyStatus());
+		return "configurationPanel";
+	}
+	@RequestMapping(value = "/urgStatus/add", method = RequestMethod.POST)
+	public String saveUrgStatus(@ModelAttribute("urgStatus")UrgencyStatus urgencyStatus) {
+		urgencyStatusesService.addUrgencyStatus(urgencyStatus);
+		return "redirect:/configuration";
+	}
+	@RequestMapping(value = "/urgStatus/delete/id/{id}", method = RequestMethod.GET)
+	public String deleteUrgStatus(@PathVariable("id") int id) {
+		urgencyStatusesService.deleteUrgencyStatus(id);
+		return "redirect:/configuration";
 	}
 }

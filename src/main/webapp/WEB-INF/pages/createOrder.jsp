@@ -1,51 +1,76 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@include file="header.jsp"%>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="resources/js/createOrder.js"></script>
-<title>${title}</title>
-<div class="container">
-	<div class="wrapper">
-		<div id="panel">
-		
-			<c:if test="${not empty message}">
-				<div>${message}</div>
-			</c:if>
-			<h2>Please, fill the following fields to create an order</h2>
-			<form:form modelAttribute="order" class="createOrder">
-				<label for="problemTypeOptions">Problem type: </label>
-				<form:select path="problemTypeId" id="problemTypeOptions" required="required">
-					<option value="">--Please choose one</option>
-					<form:options items="${problemTypes}" itemValue="problemTypeId" itemLabel="problemType" />
-				</form:select>
-				<br />
-				<label for="descriptionText">Problem description: </label>
-				<br />
-				<form:textarea path="description" id="descriptionText" />
-				<br />
-				<label for="roomNumberOptions">Room number: </label>
-				<form:select path="roomId" id="roomNumberOptions" required="required">
-					<option value="">--Please choose one</option>
-					<form:options items="${rooms}"  itemValue="roomId" itemLabel="roomNumber" />
-				</form:select>
-				<br />
-				<label for="serialPortOptions">Serial port: </label>
-				<form:select path="deviceId" id="serialPortOptions">
-					<option value="-1">--Not specified</option>
-				</form:select>
-				<br />
-				<label for="urgencyStatusOptions">Urgency status: </label>	
-				<form:select path="urgencyStatusId" id="urgencyStatusOptions" required="required">
-					<option value="">--Please choose one</option>
-					<form:options items="${urgencyStatuses}" itemValue="urgencyStatusId" itemLabel="urgencyStatus" />
-				</form:select>
-				<br />
-				<input type="submit" value="Complete" />
-				<input type="button" value="Cancell" />
-			</form:form>
-		
-		</div>
-	</div>
-</div>
+<script>
+$(document).ready(function(){
+	
+	$('#roomNumberOptions').change(function(){
+		$.get('/DevCor/getRoomDevices', {
+			roomId: $(this).val()
+		}, function(responseHTML){
+			$('#serialPortOptions').html(responseHTML);
+		})
+	});
+	
+	$('input[type=button]').click(function(){
+		window.location = "../dashboard";
+	});
+});
+</script>
 
+<br>
+<br>
+<br>
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<h3 class="panel-title">Please, fill the following fields to create an order</h3>
+	</div>
+	<form:form modelAttribute="order" class="order-form">
+		<table class="table table-striped table-bordered">
+			<tr>
+				<td><label for="problemTypeOptions">Problem type: </label></td>
+				<td>
+					<form:select  size="1" path="problemTypeId" id="problemTypeOptions" required="required">
+						<option value="">Please choose one</option>
+						<form:options items="${problemTypes}" itemValue="problemTypeId" itemLabel="problemType" />
+					</form:select>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="descriptionText">Problem description: </label></td>
+				<td><form:textarea path="description" id="descriptionText" /></td>
+			</tr>
+			<tr>
+				<td><label for="roomNumberOptions">Room number: </label></td>
+				<td>
+					<form:select   path="roomId" id="roomNumberOptions" required="required">
+						<option value="">Please choose one</option>
+						<form:options items="${rooms}"  itemValue="roomId" itemLabel="roomNumber" />
+					</form:select>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="serialPortOptions">Serial port: </label></td>
+				<td>
+					<form:select size="1"  path="deviceId" id="serialPortOptions">
+						<option value="-1">Not specified</option>
+					</form:select>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="urgencyStatusOptions">Urgency status: </label></td>
+				<td>
+					<form:select size="1"  path="urgencyStatusId" id="urgencyStatusOptions" required="required">
+						<option value="">Please choose one</option>
+						<form:options items="${urgencyStatuses}" itemValue="urgencyStatusId" itemLabel="urgencyStatus" />
+					</form:select>
+				</td>
+			</tr>
+		</table>
+		<p style="text-align: center">
+			<input type="submit" class="btn btn-success" value="Complete" />
+			<input type="button" class="btn btn-cancell" value="Cancell" />
+		</p>
+	</form:form>
+</div>
 <%@include file="footer.jsp"%>

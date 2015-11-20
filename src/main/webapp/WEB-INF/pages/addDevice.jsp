@@ -5,7 +5,7 @@
 <br>
 <div class="panel panel-success">
 	<div class="panel-heading">
-		<h3 class="panel-title">Create new Device:</h3>
+		<h3 class="panel-title">Create new device:</h3>
 	</div>
 	<c:url var="saveUrl" value="/devices/add" />
 	<form:form modelAttribute="device" method="POST" action="${saveUrl}">

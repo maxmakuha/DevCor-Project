@@ -1,5 +1,18 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@include file="header.jsp"%>
+<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/resources/js/bootbox.min.js"/>"></script>
+<script>
+	$(document).on("click", ".confirm", function(e) {
+		e.preventDefault();
+		var location = $(this).attr('href');
+		bootbox.confirm("Delete this Device?", function(result) {
+			if (result) {
+				window.location.replace(location);
+			}
+		});
+	});
+</script>
 <br>
 <br>
 <br>
@@ -58,11 +71,11 @@
 				<td><c:out value="${device.deviceId}" /></td>
 				<td><c:out value="${device.deviceSerialId}" /></td>
 				<td><c:out value="${device.getDeviceTypeObj().deviceType}" /></td>
-				<td><a href="../devices/edit/id/${device.deviceId}"
+				<td><a href="../../../devices/edit/id/${device.deviceId}"
 					id="${device.deviceId}"><span class="glyphicon glyphicon-edit"
 						aria-hidden="true"></span></a></td>
 				<td><a class="confirm"
-					href="../devices/delete/id/${device.deviceId}" id="${device.deviceId}">
+					href="../../../devices/delete/id/${device.deviceId}" id="${device.deviceId}">
 						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 				</a></td>
 			</tr>

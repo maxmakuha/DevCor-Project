@@ -170,14 +170,14 @@ public class AdminController {
 
 	@RequestMapping(value = "/rooms/edit/id/{id}/device/add", method = RequestMethod.GET)
 	public String addDeviceOfRoom(@PathVariable("id") int id, Model model) {
-		model.addAttribute("device", new Device());
+		model.addAttribute("deviceOfRoom", new Device());
 		model.addAttribute("room", roomsService.getRoomById(id));
 		model.addAttribute("deviceTypes", deviceTypesService.getAllDeviceTypes());
-		return "addDevice";
+		return "addDeviceOfRoom";
 	}
 	
 	@RequestMapping(value = "/rooms/edit/id/{id}/device/add", method = RequestMethod.POST)
-	public String processDeviceOfRoom(@ModelAttribute("device") Device device) {
+	public String processDeviceOfRoom(@ModelAttribute("deviceOfRoom") Device device) {
 		devicesService.addDevice(device);
 		return "redirect:/rooms/edit/id/{id}";
 	}

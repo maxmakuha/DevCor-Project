@@ -1,7 +1,18 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@include file="header.jsp"%>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<c:set var="role" value="${pageContext.request.userPrincipal.authorities.iterator().next().authority}" />
+<c:set var="email" value="${pageContext.request.userPrincipal.name}"/>
+<c:set var="isUser" value="${role == 'ROLE_USER'}"/>
+<c:set var="isTech" value="${role == 'ROLE_TECHNICIAN'}"/>
+<c:set var="isAdmin" value="${role == 'ROLE_ADMIN'}"/>
+<c:set var="isOrderAuthor" value="${isUser &&  order.authorEmail == email}" />
+<c:set var="isOrderTech" value="${isTech && order.technicianEmail == email}" />
+<c:set var="orderIsOpen" value="${order.executionStatus == 'Open'}" />
+<c:set var="orderIsInProgress" value="${order.executionStatus == 'In progress'}" />
+<c:set var="orderIsFinished" value="${order.executionStatus == 'Finished'}" />
+<c:set var="orderIsIncorrect" value="${order.executionStatus == 'Incorrect'}" />
+<c:set var="orderIsUnsolvable" value="${order.executionStatus == 'Unsolvable'}" />
 
 <script>
 $(document).ready(function(){
@@ -13,14 +24,14 @@ $(document).ready(function(){
 	});
 	
 	$(
-		'#problemTypeOptions option[value="${ order.getProblemTypeId()}"],' + 
-		'#roomNumberOptions option[value="${ order.getRoomId()}"], ' +
-		'#urgencyStatusOptions option[value="${ order.getUrgencyStatusId()}"], ' + 
-		'#technicianOptions option[value="${ order.getTechnicianId()}"]'
+		'#problemTypeOptions option[value="${ order.problemTypeId}"],' + 
+		'#roomNumberOptions option[value="${ order.roomId}"], ' +
+		'#urgencyStatusOptions option[value="${ order.urgencyStatusId}"], ' + 
+		'#technicianOptions option[value="${ order.technicianId}"]'
 		).attr('selected', 'selected');
 	
 	$('#executionStatusOptions')
-		.prepend('<option value="${order.getExecutionStatusId()}" selected="selected">${order.getExecutionStatus()}</value>');
+		.prepend('<option value="${order.executionStatusId}" selected="selected">${order.executionStatus}</value>');
 	
 	$('#roomNumberOptions').change(function(){
 		$.get('/DevCor/getRoomDevices', {
@@ -36,20 +47,17 @@ $(document).ready(function(){
 });
 </script>
 
-<title>Order information</title>
 <br>
 <br>
 <br>
 <div class="panel panel-success">
 	<div class="panel-heading">
-		<h3 class="panel-title">Order #${order.getOrderId()}</h3>
-	</div>
+		<h3 class="panel-title">Order #${order.orderId}</h3>
+	</div>	
 	<form:form modelAttribute="order" class="order-form">
-		<form:input path="orderId" type="hidden" value="${order.getOrderId()}"/>
+		<form:input path="orderId" type="hidden"/>
 		<table class="table table-striped table-bordered">
-			<c:if test="${role=='ROLE_USER' && 
-						order.getAuthorEmail() == pageContext.request.userPrincipal.name && 
-						order.getExecutionStatus() == 'Open'}">
+			<c:if test="${isOrderAuthor && orderIsOpen}">
 				<tr>
 					<td><label for="problemTypeOptions">Problem type: </label></td>
 					<td>
@@ -60,7 +68,7 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td><label for="descriptionText">Problem description: </label></td>
-					<td><form:textarea path="description" id="descriptionText" value="${order.getDescription() }"/></td>
+					<td><form:textarea path="description" id="descriptionText"/></td>
 				</tr>
 				<tr>
 					<td><label for="roomNumberOptions">Room number: </label></td>
@@ -80,33 +88,29 @@ $(document).ready(function(){
 				</tr>
 			</c:if>
 				
-			<c:if test="${role=='ROLE_TECHNICIAN' ||
-						role=='ROLE_ADMIN' ||
-						(role=='ROLE_USER' && (order.getExecutionStatus()!='Open' || order.getAuthorEmail()!=pageContext.request.userPrincipal.name))}">
+			<c:if test="${isTech || isAdmin || (isUser && (!orderIsOpen || !isOrderAuthor))}">
 				<tr>
 					<td><label>Problem type: </label></td>
-					<td>${order.getProblemType()}</td>
-					<form:input path="problemTypeId" value="${order.getProblemTypeId()}"/>
+					<td>${order.problemType}</td>
+					<form:input path="problemTypeId" type="hidden"/>
 				</tr>
 				<tr>
 					<td><label>Problem description: </label></td>
-					<td><form:textarea path="description" class="description" value="${order.getDescription()}" readonly="true" /></td>
+					<td><form:textarea path="description" class="description" readonly="true" /></td>
 				</tr>
 				<tr>
 					<td><label>Room number: </label></td>
-					<td>${order.getRoomNumber()}</td>
+					<td>${order.roomNumber}</td>
 				</tr>
-				<form:input path="roomId" type="hidden" value="${order.getRoomId()}"/>
+				<form:input path="roomId" type="hidden"/>
 				<tr>
 					<td><label>Serial port: </label></td>
-					<td>${order.getDeviceSerialId()}</td>
+					<td>${order.deviceSerialId}</td>
 				</tr>
-				<form:input path="deviceId" type="hidden" value="${order.getDeviceId()}"/>
+				<form:input path="deviceId" type="hidden"/>
 			</c:if>
 				
-			<c:if test="${((role=='ROLE_USER' && order.getAuthorEmail()==pageContext.request.userPrincipal.name) ||
-						(role=='ROLE_TECHNICIAN' && order.getTechnicianEmail()==pageContext.request.userPrincipal.name)) &&
-						order.getExecutionStatus()=='Open'}">
+			<c:if test="${(isOrderAuthor || isOrderTech) && orderIsOpen}">
 				<tr>
 					<td><label for="urgencyStatusOptions">Urgency status: </label></td>
 					<td>
@@ -117,44 +121,38 @@ $(document).ready(function(){
 				</tr>
 			</c:if>
 				
-			<c:if test="${not (((role=='ROLE_USER' && order.getAuthorEmail()==pageContext.request.userPrincipal.name) ||
-						 (role=='ROLE_TECHNICIAN' && order.getTechnicianEmail()==pageContext.request.userPrincipal.name)) &&
-						order.getExecutionStatus()=='Open')}">
+			<c:if test="${!((isOrderAthor || isOrderTech) && orderIsOpen)}">
 				<tr>
 					<td><label>Urgency status:</label></td>
-					<td>${order.getUrgencyStatus()}</td>
+					<td>${order.urgencyStatus}</td>
 				</tr>
-				<form:input path="urgencyStatusId" type="hidden" value="${order.getUrgencyStatusId()}"/>
+				<form:input path="urgencyStatusId" type="hidden"/>
 			</c:if>
 				
-			<c:if test="${role=='ROLE_USER' ||
-						role=='ROLE_ADMIN' || 
-						(role=='ROLE_TECHNICIAN' && (order.getExecutionStatus()=='Finished' || order.getTechnicianEmail()!=pageContext.request.userPrincipal.name))}">
+			<c:if test="${isUser || isAdmin || (isTech && (orderIsFinished || !isOrderTech))}">
 				<tr>
 					<td><label>Execution status:</label></td>
-					<td>${order.getExecutionStatus()}</td>
+					<td>${order.executionStatus}</td>
 				</tr>
-				<form:input path="executionStatusId" type="hidden" value="${order.getExecutionStatusId()}"/>
+				<form:input path="executionStatusId" type="hidden"/>
 			</c:if>
 				
-			<c:if test="${role=='ROLE_TECHNICIAN' && 
-						order.getExecutionStatus()!='Finished' &&
-						order.getTechnicianEmail()==pageContext.request.userPrincipal.name}">
+			<c:if test="${isOrderTech && !orderIsFinished}">
 				<tr>
 					<td><label for="executionStatusOptions">Execution status: </label></td>
 					<td>
 						<form:select path="executionStatusId" id="executionStatusOptions" required="required">
-							<c:if test="${order.getExecutionStatus()=='Open'}">
+							<c:if test="${orderIsOpen}">
 								<form:option value="2">In progress</form:option>
 							</c:if>
-							<c:if test="${order.getExecutionStatus()=='In progress'}">
+							<c:if test="${orderIsInProgress}">
 								<form:option value="3">Finished</form:option>
 							</c:if>
-							<c:if test="${order.getExecutionStatus()=='Open' || order.getExecutionStatus()=='In progress'}">
+							<c:if test="${orderIsOpen || orderIsInProgress}">
 								<form:option value="4">Incorrect</form:option>
 								<form:option value="5">Unsolvable</form:option>
 							</c:if>
-							<c:if test="${order.getExecutionStatus()=='Incorrect' || order.getExecutionStatus()=='Unsolvable'}">
+							<c:if test="${orderIsIncorrect || orderIsUnsolvable}">
 								<form:option value="1">Open</form:option>
 							</c:if>
 						</form:select>
@@ -164,35 +162,35 @@ $(document).ready(function(){
 			
 			<tr>
 				<td><label>Creation date:</label></td>
-				<td>${order.getCreationDate()}</td>
+				<td>${order.creationDate}</td>
 			</tr>
 			
-			<form:input path="creationDate" type="hidden" value="${order.getCreationDate()}"/>
+			<form:input path="creationDate" type="hidden"/>
 			
 			<tr>
 				<td><label>Due date:</label></td>
-				<td>${order.getDueDate()}</td>
+				<td>${order.dueDate}</td>
 			</tr>
 			
-			<form:input path="dueDate" type="hidden" value="${order.getDueDate()}"/>
+			<form:input path="dueDate" type="hidden"/>
 			
 			<tr>
 				<td><label>Author:</label></td>
-				<td>${order.getAuthorName()} ${order.getAuthorSurname()}</td>
+				<td>${order.authorName} ${order.authorSurname}</td>
 			</tr>
 			
-			<form:input path="authorId" type="hidden" value="${order.getAuthorId()}"/>
+			<form:input path="authorId" type="hidden"/>
 			
-			<c:if test="${role=='ROLE_USER' || role=='ROLE_TECHNICIAN'}">
+			<c:if test="${isUser || isTech}">
 				<tr>
 					<td><label>Technician:</label></td>
-					<td>${order.getTechnicianName()} ${order.getTechnicianSurname()}</td>
+					<td>${order.technicianName} ${order.technicianSurname}</td>
 				</tr>
 				
-				<form:input path="technicianId" type="hidden" value="${order.getTechnicianId()}"/>
+				<form:input path="technicianId" type="hidden"/>
 			</c:if>
 			
-			<c:if test="${role=='ROLE_ADMIN'}">
+			<c:if test="${isAdmin}">
 				<tr>
 					<td><label for="technicianOptions">Technician: </label></td>
 					<td>
@@ -203,11 +201,11 @@ $(document).ready(function(){
 			</c:if>
 			
 			<tr>
-				<td><label>Is overdue?:</label></td>
-				<td>${order.getOverdue()}</td>
+				<td><label>Is overdue?</label></td>
+				<td>${order.overdue}</td>
 			</tr>
 			
-			<form:input path="overdue" type="hidden" value="${order.getOverdue()}"/>
+			<form:input path="overdue" type="hidden"/>
 		</table>
 		<p style="text-align: center">
 			<input type="submit" class="btn btn-success" value="Confirm changes" />

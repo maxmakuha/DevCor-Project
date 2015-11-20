@@ -36,11 +36,11 @@
 		</thead>
 		<c:forEach var="order" items="${orders}">
 			<tr>
-				<td><c:out value="${order.getOrderId()}" /></td>
-				<td><c:out value="${order.getDescription()}" /></td>
-				<td><c:out value="${order.getCreationDate()}" /></td>
-				<td><c:out value="${order.getDueDate()}" /></td>
-				<td><c:out value="${order.getProblemType()}" /></td>
+				<td><c:out value="${order.orderId}" /></td>
+				<td><c:out value="${order.description}" /></td>
+				<td><c:out value="${order.creationDate}" /></td>
+				<td><c:out value="${order.dueDate}" /></td>
+				<td><c:out value="${order.problemType}" /></td>
 				<td><a href="order/id/${order.orderId}"
 					id="${order.orderId}"><span class="glyphicon glyphicon-edit"
 						aria-hidden="true"></span></a></td>

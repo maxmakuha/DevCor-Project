@@ -49,8 +49,6 @@ public class OrderController {
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String showDashboard(Model model, Principal principal) throws SQLException {
-		model.addAttribute("role", SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator()
-				.next().getAuthority());
 		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority()) {
 			case "ROLE_USER":
 				model.addAttribute("orders", ordersService.getALlOrdersOfUser(principal.getName()));
@@ -100,7 +98,6 @@ public class OrderController {
 		m.addAttribute("rooms", roomsService.getAllRooms());
 		m.addAttribute("urgencyStatuses", urgencyStatusesService.getAllUrgencyStatuses());
 		m.addAttribute("technicians", playersService.getAllTechnicians());
-		m.addAttribute("role", SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority());
 		return "viewOrder";
 	}
 	

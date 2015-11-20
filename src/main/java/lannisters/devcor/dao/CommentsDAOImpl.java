@@ -20,6 +20,7 @@ public class CommentsDAOImpl implements CommentsDAO {
 	private static final String SQL_INSERT_COMMENT = "INSERT INTO note(note, request_id, creation_date) VALUES (?, ?, ?)";
 	private static final String SQL_UPDATE_COMMENT = "UPDATE note SET note = ?, request_id = ?, creation_date = ? WHERE note_id=?";
 	private static final String SQL_DELETE_COMMENT = "DELETE note WHERE note_id=?";
+	private static final String SQL_SELECT_ALL_COMMENTS_OF_ORDER = "SELECT note.note_id, note.note, note.request_id, note.creation_date FROM note WHERE note.request_id = ? ORDER BY note.creation_date DESC";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -81,5 +82,10 @@ public class CommentsDAOImpl implements CommentsDAO {
 			if (ps != null)
 				ps.close();
 		}
+	}
+
+	@Override
+	public List<Comment> getAllCommentsOfOrder(int orderId) throws SQLException {
+		return jdbcTemplate.query(SQL_SELECT_ALL_COMMENTS_OF_ORDER, new CommentMapper(), orderId);
 	}
 }

@@ -34,4 +34,9 @@ public class CommentsServiceImpl implements CommentsService {
 	public void deleteComment(int commentId) throws SQLException {
 		commentsDao.deleteComment(commentId);
 	}
+
+	@Override
+	public List<Comment> getAllCommentsOfOrder(int orderId) throws SQLException {
+		return commentsDao.getAllCommentsOfOrder(orderId);
+	}
 }

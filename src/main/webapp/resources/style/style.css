@@ -166,6 +166,7 @@ input[type="password"] {
 	width: 100%;
 	max-width: 100%;
 	min-height: 50px;
+	background: transparent;
 }
 
 form p {
@@ -380,4 +381,24 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:first-chi
 div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child
 	{
 	padding-right: 0
+}
+
+.comments-table {
+	border: 1px solid #eee !important;
+}
+
+.comments-table tr:nth-of-type(4n+1), .comments-table tr:nth-of-type(4n+2){
+	background: #f9f9f9;
+}
+
+.newComment1, .newComment2 {
+	display: none;
+}
+
+.newComment1 { 
+	border-top: 5px dotted #eee;
+}
+
+.newComment2 {
+	border-bottom: 5px dotted #eee;
 }

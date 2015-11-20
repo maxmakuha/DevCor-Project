@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import lannisters.devcor.entity.Comment;
 import lannisters.devcor.entity.Order;
+import lannisters.devcor.entity.OrderAndComment;
 import lannisters.devcor.mail.MailService;
+import lannisters.devcor.service.CommentsService;
 import lannisters.devcor.service.DevicesService;
 import lannisters.devcor.service.OrdersService;
 import lannisters.devcor.service.PlayersService;
@@ -46,7 +49,13 @@ public class OrderController {
 	private UrgencyStatusesService urgencyStatusesService;
 	
 	@Autowired
+<<<<<<< HEAD
 	private MailService mail;
+=======
+	private CommentsService commentsService;
+	
+	private MailService mail = new MailService();
+>>>>>>> origin/master
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String showDashboard(Model model, Principal principal) throws SQLException {
@@ -94,17 +103,19 @@ public class OrderController {
 
 	@RequestMapping(value = "/order/id/{id}", method = RequestMethod.GET)
 	public String viewOrder(@PathVariable("id") int orderId, Model m) throws SQLException {
-		m.addAttribute("order", ordersService.getOrderById(orderId));
+		m.addAttribute("turple", new OrderAndComment(ordersService.getOrderById(orderId), new Comment()));
 		m.addAttribute("problemTypes", problemTypesService.getAllProblemTypes());
 		m.addAttribute("rooms", roomsService.getAllRooms());
 		m.addAttribute("urgencyStatuses", urgencyStatusesService.getAllUrgencyStatuses());
 		m.addAttribute("technicians", playersService.getAllTechnicians());
+		m.addAttribute("comments", commentsService.getAllCommentsOfOrder(orderId));
 		return "viewOrder";
 	}
 	
 	@RequestMapping(value = "/order/id/{id}", method = RequestMethod.POST)
-	public String updateOrder(Order order) throws SQLException {
-		ordersService.updateOrder(order);
+	public String updateOrder(OrderAndComment turple) throws SQLException {
+		ordersService.updateOrder(turple.getOrder());
+		commentsService.addComment(turple.getComment());
 		return "redirect:/dashboard";
 	}
 
@@ -113,4 +124,5 @@ public class OrderController {
 		m.addAttribute("devices", devicesService.getAllDevicesOfRoom(roomId));
 		return "getRoomDevices";
 	}
+	
 }

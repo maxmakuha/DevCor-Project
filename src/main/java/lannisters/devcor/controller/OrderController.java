@@ -49,13 +49,12 @@ public class OrderController {
 	private UrgencyStatusesService urgencyStatusesService;
 	
 	@Autowired
-<<<<<<< HEAD
 	private MailService mail;
-=======
+
+	@Autowired
 	private CommentsService commentsService;
-	
-	private MailService mail = new MailService();
->>>>>>> origin/master
+
+
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String showDashboard(Model model, Principal principal) throws SQLException {

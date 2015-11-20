@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,51 +48,25 @@ public class OrderController {
 	private MailService mail = new MailService();
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public String dashboardPage(Model model, Principal principal) throws SQLException {
-		model.addAttribute("role", SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator()
-				.next().getAuthority());
-		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()
-				.getAuthority()) {
-		case "ROLE_USER":
-			model.addAttribute("orders", ordersService.getALlOrdersOfUser(principal.getName()));
-			break;
-		case "ROLE_TECHNICIAN":
-			model.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
-			break;
-		case "ROLE_ADMIN":
-			model.addAttribute("orders", ordersService.getFirstOrders(100));
-			break;
-		default:
-			break;
+	public String showDashboard(Model model, Principal principal) throws SQLException {
+		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority()) {
+			case "ROLE_USER":
+				model.addAttribute("orders", ordersService.getALlOrdersOfUser(principal.getName()));
+				break;
+			case "ROLE_TECHNICIAN":
+				model.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
+				break;
+			case "ROLE_ADMIN":
+				model.addAttribute("orders", ordersService.getFirstOrders(100));
+				break;
+			default:
+				break;
 		}
 		return "dashboard";
 	}
 
-	@RequestMapping(value = "/dashboard", method = RequestMethod.POST)
-	public String dashboardPagePost(Model model, Order order, Principal principal) throws SQLException {
-		model.addAttribute("role", SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator()
-				.next().getAuthority());
-		ordersService.updateOrder(order);
-		model.addAttribute("message", "Your changes were succesfuully applied");
-		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()
-				.getAuthority()) {
-		case "ROLE_USER":
-			model.addAttribute("orders", ordersService.getALlOrdersOfUser(principal.getName()));
-			break;
-		case "ROLE_TECHNICIAN":
-			model.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
-			break;
-		case "ROLE_ADMIN":
-			model.addAttribute("orders", ordersService.getFirstOrders(100));
-			break;
-		default:
-			break;
-		}
-		return "dashboard";
-	}
-
-	@RequestMapping(value = "/createOrder", method = RequestMethod.GET)
-	public String loadCreateOrderPage(Model m) {
+	@RequestMapping(value = "/order/create", method = RequestMethod.GET)
+	public String showOrderAddingForm(Model m) {
 		Order order = new Order();
 		m.addAttribute("order", order);
 		m.addAttribute("problemTypes", problemTypesService.getAllProblemTypes());
@@ -100,8 +75,8 @@ public class OrderController {
 		return "createOrder";
 	}
 
-	@RequestMapping(value = "/createOrder", method = RequestMethod.POST)
-	public String showOrderCreateResult(@ModelAttribute Order order, Model m, Principal principal) throws SQLException {
+	@RequestMapping(value = "/order/create", method = RequestMethod.POST)
+	public String createNewOrder(@ModelAttribute Order order, Model m, Principal principal) throws SQLException {
 		order.setExecutionStatusId(1);
 		order.setCreationDate(new Date(Calendar.getInstance().getTimeInMillis()));
 		order.calcDueDate();
@@ -116,16 +91,20 @@ public class OrderController {
 		return "redirect:/dashboard";
 	}
 
-	@RequestMapping(value = "/singleOrder", method = RequestMethod.POST)
-	public String showSingleOrder(@RequestParam("orderId") int orderId, Model m) throws SQLException {
+	@RequestMapping(value = "/order/id/{id}", method = RequestMethod.GET)
+	public String viewOrder(@PathVariable("id") int orderId, Model m) throws SQLException {
 		m.addAttribute("order", ordersService.getOrderById(orderId));
 		m.addAttribute("problemTypes", problemTypesService.getAllProblemTypes());
 		m.addAttribute("rooms", roomsService.getAllRooms());
 		m.addAttribute("urgencyStatuses", urgencyStatusesService.getAllUrgencyStatuses());
 		m.addAttribute("technicians", playersService.getAllTechnicians());
-		m.addAttribute("role", SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()
-				.getAuthority());
-		return "singleOrder";
+		return "viewOrder";
+	}
+	
+	@RequestMapping(value = "/order/id/{id}", method = RequestMethod.POST)
+	public String updateOrder(Order order) throws SQLException {
+		ordersService.updateOrder(order);
+		return "redirect:/dashboard";
 	}
 
 	@RequestMapping(value = "/getRoomDevices", method = RequestMethod.GET)

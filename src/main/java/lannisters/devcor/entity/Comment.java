@@ -1,6 +1,6 @@
 package lannisters.devcor.entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Comment {
 
@@ -10,6 +10,7 @@ public class Comment {
 	private Date creationDate;
 
 	public Comment() {
+		order = new Order();
 	}
 
 	public Comment(int commentId, String comment, Order order, Date creationDate) {

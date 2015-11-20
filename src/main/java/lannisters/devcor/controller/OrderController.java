@@ -45,7 +45,8 @@ public class OrderController {
 	@Autowired
 	private UrgencyStatusesService urgencyStatusesService;
 	
-	private MailService mail = new MailService();
+	@Autowired
+	private MailService mail;
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String showDashboard(Model model, Principal principal) throws SQLException {
@@ -87,7 +88,7 @@ public class OrderController {
 			order.removeDevice();
 		}
 		ordersService.addOrder(order);
-		mail.orderCreatEmail(order, playersService);
+		mail.orderCreatEmail(order);
 		return "redirect:/dashboard";
 	}
 

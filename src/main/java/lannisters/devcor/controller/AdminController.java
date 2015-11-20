@@ -22,6 +22,7 @@ import lannisters.devcor.entity.Player;
 import lannisters.devcor.entity.ProblemType;
 import lannisters.devcor.entity.Room;
 import lannisters.devcor.entity.UrgencyStatus;
+import lannisters.devcor.mail.MailService;
 import lannisters.devcor.service.DeviceTypesService;
 import lannisters.devcor.service.DevicesService;
 import lannisters.devcor.service.PlayersService;
@@ -51,7 +52,9 @@ public class AdminController {
 	private ReportService reportService;
 	@Autowired
 	private ProblemTypesService problemTypesService;
-
+	@Autowired
+	private MailService mail;
+	
 	@Autowired
 	private UrgencyStatusesService urgencyStatusesService;
 	
@@ -85,6 +88,7 @@ public class AdminController {
 	public String saveTechnician(@ModelAttribute("user") Player user) {
 		user.setRoleId(2);
 		playersService.addPlayer(user);
+		mail.registrationEmail(user);
 		return "redirect:/technicians";
 	}
 
@@ -92,6 +96,7 @@ public class AdminController {
 	public String saveUser(@ModelAttribute("user") Player user) {
 		user.setRoleId(3);
 		playersService.addPlayer(user);
+		mail.registrationEmail(user);
 		return "redirect:/users";
 	}
 

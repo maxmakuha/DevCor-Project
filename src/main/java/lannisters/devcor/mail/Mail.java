@@ -3,11 +3,13 @@ package lannisters.devcor.mail;
 /**
  * @author xoma0_000
  */
+
 import org.springframework.mail.MailSender;  
 import org.springframework.mail.SimpleMailMessage;  
 
 
 public class Mail{  
+
     private MailSender mailSender;  
    
     public void setMailSender(MailSender mailSender) {  

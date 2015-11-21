@@ -1,6 +1,7 @@
 package lannisters.devcor.controller;
 
 import java.security.Principal;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,7 @@ public class MainController {
 
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public String mainPage() {
+		Locale.setDefault(Locale.ENGLISH);
 		return "main";
 	}
 

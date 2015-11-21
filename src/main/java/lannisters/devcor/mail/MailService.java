@@ -2,11 +2,11 @@ package lannisters.devcor.mail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import lannisters.devcor.entity.Order;
 import lannisters.devcor.entity.Player;
+import lannisters.devcor.mail.MailSender;
 import lannisters.devcor.service.PlayersService;
 
 /**
@@ -20,10 +20,10 @@ public class MailService {
 	private static final String STATUS_CHANGE = "Status on your order has changed";
 	private static final String ADMINISTRATOR = "Room: 1-101; E-mail: admin@ukma.kiev.ua;"
 			+ " Phone number: 444-44-44, 8-093-999-99-99";
-	private MailSender sender = (MailSender) new ClassPathXmlApplicationContext("applicationContext.xml")
-			.getBean("MailSender");
 	@Autowired
-	private PlayersService sservice;
+	private MailSender sender;
+	@Autowired
+	private PlayersService service;
 
 	/**
 	 * It will send an e-mail notification to a new player, to inform him that
@@ -34,12 +34,20 @@ public class MailService {
 	 * @param password
 	 *            - password created by administrator
 	 */
-	public void registrationEmail(String receiver, String password) {
-		String header = "Welcome to our system! \nYou have been registered in DevCor system " + "with \nLogin: ";
+	public void registrationEmail(Player user) {
+		String header = "Welcome to our system, ";
+		String name = user.getFullName();
+		String technician = "";
+		if(user.getRoleId()==2)
+			technician = ",as a technician ";
+		String text = "! \nYou have been registered in DevCor system " +technician+ "with \nLogin: ";
 		String pwd = "\nPassword: ";
 		String footer = "\nLater you can change your password. If you have any questions "
 				+ "be sure to contact with administrator:\n";
-		sender.send(receiver, REGISTRATION, header + receiver + pwd + password + footer + ADMINISTRATOR);
+		String email = user.getPlayerEmail();
+		String password = user.getPassword();
+		
+		sender.send(email, REGISTRATION, header + name + text + email + pwd + password + footer + ADMINISTRATOR);
 	}
 
 	/**
@@ -54,7 +62,7 @@ public class MailService {
 				+ order.getExecutionStatus();
 
 		int playerId = order.getAuthorId();
-		Player player = sservice.getPlayerById(playerId);
+		Player player = service.getPlayerById(playerId);
 		String receiver = player.getPlayerEmail();
 		sender.send(receiver, STATUS_CHANGE, message);
 	}
@@ -67,7 +75,7 @@ public class MailService {
 	 * @param order
 	 *            - A newly created order
 	 */
-	public void orderCreatEmail(Order order, PlayersService service) {
+	public void orderCreatEmail(Order order) {
 		int userId = order.getAuthorId();
 		Player user = service.getPlayerById(userId);
 		String receiver1 = user.getPlayerEmail();

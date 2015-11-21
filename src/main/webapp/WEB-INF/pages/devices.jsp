@@ -22,6 +22,7 @@
 		<li role="presentation" class="active"><a href="devices"
 			style="color: GREEN">Devices</a></li>
 		<li role="presentation"><a href="reports" style="color: GREEN">Reports</a></li>
+		<li role="presentation"><a href="configuration" style="color: GREEN">Configuration panel</a></li>
 	</ul>
 </div>
 <div class="row">

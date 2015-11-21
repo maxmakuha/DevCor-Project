@@ -10,6 +10,7 @@
 		<li role="presentation"><a href="rooms" style="color: GREEN">Rooms</a></li>
 		<li role="presentation"><a href="devices" style="color: GREEN">Devices</a></li>
 		<li role="presentation" class="active"><a href="reports" style="color: GREEN">Reports</a></li>
+		<li role="presentation"><a href="configuration" style="color: GREEN">Configuration panel</a></li>
 	</ul>
 
 	<%if (reportNum==null) {%>
@@ -32,7 +33,7 @@
 
 			<tr>
 			<form action="reports">
-				<td><input type="submit" name="reportNum" value="Report1" /></td>
+				<td><input type="submit" style="width: 150px" class="btn btn-success" name="reportNum" value="OrdersReport" /></td>
 				<td>Information about all Orders during specific period of time.</td>
 				<td><input type="date" name="date1" value=<%=date%>	max=<%=date%> min="2010-01-01"></td>
 				<td><input type="date" name="date2" value=<%=date%>	max=<%=date%> min="2010-01-01"></td>
@@ -41,14 +42,14 @@
 			
 			
 			<tr><form action="reports">
-				<td><input type="submit" name="reportNum" value="Report2" /></td>
+				<td><input type="submit" style="width: 150px" class="btn btn-success" name="reportNum" value="TechniciansReport" /></td>
 				<td>Information about Technicians, overdue Orders and quantity of Orders of each Execution status during specific period of time.</td>
 				<td><input type="date" name="date1" value=<%=date%> max=<%=date%> min="2010-01-01"></td>
 				<td><input type="date" name="date2" value=<%=date%> max=<%=date%> min="2010-01-01"></td>
 			</form></tr>
 			
 			<tr><form action="reports">
-				<td><input type="submit" name="reportNum" value="Report3" /></td>
+				<td><input type="submit"  style="width: 150px" class="btn btn-success" name="reportNum" value="DevicesReport" /></td>
 				<td>Information about Devices and quantity of Orders where	Problem type = "Hardware" during specific period of time.</td>
 				<td><input type="date" name="date1" value=<%=date%>	max=<%=date%> min="2010-01-01"></td>
 				<td><input type="date" name="date2" value=<%=date%>	max=<%=date%> min="2010-01-01"></td>
@@ -57,11 +58,11 @@
 	</div>
 	
 	<!-- Table Report1 -->
-	<%}else if(reportNum.equals("Report1")){ %>
+	<%}else if(reportNum.equals("OrdersReport")){ %>
 	<hr>
 	<div class="panel panel-success">
 		<div class="panel-heading">
-			<h3 class="panel-title">Report1</h3>
+			<h3 class="panel-title">OrdersReport</h3>
 		</div>
 		<table class="table table-striped table-bordered" id="report">
 			<thead>
@@ -104,11 +105,11 @@
 	</form>
 		
 	<!-- Table Report2 -->
-	<%}else if(reportNum.equals("Report2")){ %>
+	<%}else if(reportNum.equals("TechniciansReport")){ %>
 	<hr>
 	<div class="panel panel-success">
 		<div class="panel-heading">
-			<h3 class="panel-title">Report2</h3>
+			<h3 class="panel-title">TechniciansReport</h3>
 		</div>
 		<table class="table table-striped table-bordered" id="report">
 			<thead>
@@ -150,7 +151,7 @@
 	<hr>
 	<div class="panel panel-success">
 		<div class="panel-heading">
-			<h3 class="panel-title">Report3</h3>
+			<h3 class="panel-title">DevicesReport</h3>
 		</div>
 		<table class="table table-striped table-bordered" id="report">
 			<thead>

@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 #report {
 	font-size: 9pt;
 }
@@ -134,31 +138,35 @@ input[type="password"] {
 	border-color: #bce8f1;
 }
 
-.createOrder {
-	width: 300px;
-	margin: 50px auto;
+.order-form td {
+	vertical-align : middle !important;
 }
 
-.createOrder select, .createOrder input[type=button], .createOrder span:not(.description ){
-	float: right;
+.order-form tr > td:nth-of-type(2){
+	padding: 0 !important;
 }
 
-.title {
-	font-weight: bold;
-	font-size: 30px;
+.order-form select{	
+	border:none;
+	width:100%;
+	background: transparent;
 }
 
-.createOrder input:not([type="submit"] ):not([type="button"] ){
-	display: none;
+.order-form option {
+	padding: 9px;
+	height:100%;
 }
 
-.createOrder textarea {
+.order-form select option:nth-of-type(2){
+	margin-left:0;
+}
+
+.order-form textarea{
+	border: 0;
 	width: 100%;
 	max-width: 100%;
-}
-
-.createOrder input[type=submit], .createOrder input[type=button] {
-	margin-top: 20px;
+	min-height: 50px;
+	background: transparent;
 }
 
 form p {
@@ -373,4 +381,24 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:first-chi
 div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child
 	{
 	padding-right: 0
+}
+
+.comments-table {
+	border: 1px solid #eee !important;
+}
+
+.comments-table tr:nth-of-type(4n+1), .comments-table tr:nth-of-type(4n+2){
+	background: #f9f9f9;
+}
+
+.newComment1, .newComment2 {
+	display: none;
+}
+
+.newComment1 { 
+	border-top: 5px dotted #eee;
+}
+
+.newComment2 {
+	border-bottom: 5px dotted #eee;
 }

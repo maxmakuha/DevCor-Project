@@ -22,11 +22,12 @@
 		<li role="presentation"><a href="devices"
 			style="color: GREEN">Devices</a></li>
 		<li role="presentation"><a href="reports" style="color: GREEN">Reports</a></li>
+		<li role="presentation"><a href="configuration" style="color: GREEN">Configuration panel</a></li>
 	</ul>
 </div>
 <div class="row">
 	<div class="col-lg-7" style="margin-left: 10px;">
-		<a type="submit" class="btn btn-success btn-sm" href="rooms/add">Add
+		<a type="submit" class="btn btn-success btn-sm" href="add">Add
 			Room</a>
 	</div>
 </div>

@@ -12,14 +12,14 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired
 	private ReportDAO reportDao;
 	
-	public List<Report> getReport1(String d1,String d2) {
-		return reportDao.getReport1(d1,d2);
+	public List<Report> getOrdersReport(String d1,String d2) {
+		return reportDao.getOrdersReport(d1,d2);
 	}
-	public List<Report> getReport2(String d1,String d2) {
-		return reportDao.getReport2(d1,d2);
+	public List<Report> getTechniciansReport(String d1,String d2) {
+		return reportDao.getTechniciansReport(d1,d2);
 	}
-	public List<Report> getReport3(String d1,String d2) {
-		return reportDao.getReport3(d1,d2);
+	public List<Report> getDevicesReport(String d1,String d2) {
+		return reportDao.getDevicesReport(d1,d2);
 	}
 
 	

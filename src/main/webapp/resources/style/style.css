@@ -402,3 +402,7 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
 .newComment2 {
 	border-bottom: 5px dotted #eee;
 }
+
+td {
+	word-break: break-all;
+}

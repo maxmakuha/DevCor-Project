@@ -20,9 +20,9 @@ public class OrdersDAOImpl implements OrdersDAO {
 	private static final String SQL_INSERT_ORDER = "INSERT INTO request(problem_type_id, description, room_id, device_id, execution_status_id, urgency_status_id, creation_date, due_date, author_id, technician_id, overdue) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_ORDER = "UPDATE request SET problem_type_id = ?, description = ?, room_id = ?, device_id = ?, execution_status_id = ?, urgency_status_id = ?, creation_date = ?, due_date = ?, author_id = ?, technician_id = ?, overdue = ? WHERE request_id = ?";
 	private static final String SQL_DELETE_ORDER = "DELETE request WHERE request_id = ?";
-	private static final String SQL_SELECT_ALL_ORDERS_OF_USER = SQL_SELECT_ALL_ORDERS + " WHERE author.player_email =?";
-	private static final String SQL_SELECT_ALL_ORDERS_OF_TECHNICIAN = SQL_SELECT_ALL_ORDERS + " WHERE technician.player_email =?";
-	private static final String SQL_SELECT_FIRST_N_ORDERS = SQL_SELECT_ALL_ORDERS + " WHERE ROWNUM <= ?";
+	private static final String SQL_SELECT_ALL_ORDERS_OF_USER = SQL_SELECT_ALL_ORDERS + " WHERE author.player_email = ? ORDER BY CASE WHEN overdue='Y' AND execution_status_id < 3 THEN 1 WHEN execution_status_id = 2 THEN 2 WHEN execution_status_id = 1 THEN 3 WHEN execution_status_id = 3 THEN 4 ELSE 5 END, due_date";
+	private static final String SQL_SELECT_ALL_ORDERS_OF_TECHNICIAN = SQL_SELECT_ALL_ORDERS + " WHERE technician.player_email =? ORDER BY CASE WHEN overdue='Y' AND execution_status_id < 3 THEN 1 WHEN execution_status_id < 3 THEN 2 WHEN execution_status_id = 3 THEN 4 ELSE 3 END, due_date";
+	private static final String SQL_SELECT_ALL_ORDERS_SORTED = SQL_SELECT_ALL_ORDERS + " ORDER BY CASE WHEN overdue='Y' AND execution_status_id < 3 THEN 1 WHEN execution_status_id < 3 THEN 2 WHEN execution_status_id = 3 THEN 4 ELSE 3 END, due_date";
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -113,7 +113,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 	}
 
 	@Override
-	public List<Order> getFirstOrders(int num) throws SQLException {
-		return jdbcTemplate.query(SQL_SELECT_FIRST_N_ORDERS, new OrderMapper(), num);
+	public List<Order> getAllOrdersSorted() throws SQLException {
+		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_SORTED, new OrderMapper());
 	}
 }

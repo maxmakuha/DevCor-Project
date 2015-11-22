@@ -52,7 +52,7 @@ $(document).ready(function(){
 			$("#comment-creation-date").val($.datepicker.formatDate('yy-mm-dd', new Date()));
 			$(".newComment1 textarea").prop("required", "true");
 		} else {
-			$(".newComment1 textarea").prop("required", "false");
+			$(".newComment1 textarea").removeAttr("required");
 		}
 	});
 	
@@ -95,7 +95,8 @@ $(document).ready(function(){
 			}
 		});
 	});
-
+	
+	$("#comment-creation-date").val($.datepicker.formatDate('yy-mm-dd', new Date()));
 });
 </script>
 
@@ -262,19 +263,18 @@ $(document).ready(function(){
 	
 		<c:if test="${comments.size() != 0}">
 			<h2>Comments</h2>
-		
-			<table class="table table-bordered comments-table">
-				<c:if test="${isOrderTech}">
-					<tr class="newComment1">
-						<td>${orderAndComment.order.technicianName} ${orderAndComment.order.technicianSurname}</td>
-						<td rowspan="2"><form:textarea path="comment.comment" placeholder="Your new comment"/></td>
-					</tr>
-					<tr class="newComment2">
-						<td></td>
-					</tr>
-					<form:input path="comment.orderId" type="hidden" value="${orderAndComment.order.orderId}"/>
-					<form:hidden id="comment-creation-date" path="comment.creationDate"/>
-				</c:if>
+		</c:if>
+		<table class="table table-bordered comments-table">
+			<c:if test="${isOrderTech}">
+				<tr class="newComment1">
+					<td>${orderAndComment.order.technicianName} ${orderAndComment.order.technicianSurname}</td>
+					<td rowspan="2"><form:textarea path="comment.comment" placeholder="Your new comment"/></td>
+				</tr>
+				<tr class="newComment2"><td></td></tr>
+				<form:hidden path="comment.orderId" value="${orderAndComment.order.orderId}"/>
+				<form:hidden id="comment-creation-date" path="comment.creationDate"/>
+			</c:if>
+			<c:if test="${comments.size() != 0}">
 				<c:forEach var="comment" items="${comments}">
 					<tr>
 						<td>${orderAndComment.order.technicianName} ${orderAndComment.order.technicianSurname}</td>
@@ -284,8 +284,9 @@ $(document).ready(function(){
 						<td>${comment.creationDate}</td>
 					</tr>
 				</c:forEach>
-			</table>
-		</c:if>
+			</c:if>
+		</table>
+			
 		<p style="text-align: center">
 			<c:if test="${isAdmin || isOrderAuthor || isOrderTech}">	
 				<input type="submit" class="btn btn-success" value="Confirm changes" style="display:none;" />

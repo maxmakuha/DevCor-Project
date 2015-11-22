@@ -65,7 +65,7 @@ public class OrderController {
 			model.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
 			break;
 		case "ROLE_ADMIN":
-			model.addAttribute("orders", ordersService.getAllOrders());
+			model.addAttribute("orders", ordersService.getAllOrdersSorted());
 			break;
 		default:
 			break;
@@ -113,7 +113,7 @@ public class OrderController {
 	@RequestMapping(value = "/order/id/{id}", method = RequestMethod.POST)
 	public String updateOrder(OrderAndComment orderAndComment) throws SQLException {
 		ordersService.updateOrder(orderAndComment.getOrder());
-		if(orderAndComment.getComment() != null){
+		if(orderAndComment.getComment() != null && orderAndComment.getComment().getComment()!=null){
 			commentsService.addComment(orderAndComment.getComment());
 		}
 		return "redirect:/dashboard";

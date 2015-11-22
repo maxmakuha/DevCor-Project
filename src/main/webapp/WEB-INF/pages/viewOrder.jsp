@@ -6,33 +6,35 @@
 <c:set var="isUser" value="${role == 'ROLE_USER'}"/>
 <c:set var="isTech" value="${role == 'ROLE_TECHNICIAN'}"/>
 <c:set var="isAdmin" value="${role == 'ROLE_ADMIN'}"/>
-<c:set var="isOrderAuthor" value="${isUser &&  turple.order.authorEmail == email}" />
-<c:set var="isOrderTech" value="${isTech && turple.order.technicianEmail == email}" />
-<c:set var="orderIsOpen" value="${turple.order.executionStatus == 'Open'}" />
-<c:set var="orderIsInProgress" value="${turple.order.executionStatus == 'In progress'}" />
-<c:set var="orderIsFinished" value="${turple.order.executionStatus == 'Finished'}" />
-<c:set var="orderIsIncorrect" value="${turple.order.executionStatus == 'Incorrect'}" />
-<c:set var="orderIsUnsolvable" value="${turple.order.executionStatus == 'Unsolvable'}" />
+<c:set var="isOrderAuthor" value="${isUser &&  orderAndComment.order.authorEmail == email}" />
+<c:set var="isOrderTech" value="${isTech && orderAndComment.order.technicianEmail == email}" />
+<c:set var="orderIsOpen" value="${orderAndComment.order.executionStatus == 'Open'}" />
+<c:set var="orderIsInProgress" value="${orderAndComment.order.executionStatus == 'In progress'}" />
+<c:set var="orderIsFinished" value="${orderAndComment.order.executionStatus == 'Finished'}" />
+<c:set var="orderIsIncorrect" value="${orderAndComment.order.executionStatus == 'Incorrect'}" />
+<c:set var="orderIsUnsolvable" value="${orderAndComment.order.executionStatus == 'Unsolvable'}" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/resources/js/bootbox.min.js"/>"></script>
 <script>
 $(document).ready(function(){
 	$.get('/DevCor/getRoomDevices', {
 		roomId: $('#roomNumberOptions').val()
 	}, function(responseHTML){
 		$('#serialPortOptions').html(responseHTML);
-		$('#serialPortOptions option[value="${ turple.order.getDeviceId()}"]').attr('selected', 'selected');
+		$('#serialPortOptions option[value="${ orderAndComment.order.getDeviceId()}"]').attr('selected', 'selected');
 	});
 	
 	$(
-		'#problemTypeOptions option[value="${ turple.order.problemTypeId}"],' + 
-		'#roomNumberOptions option[value="${ turple.order.roomId}"], ' +
-		'#urgencyStatusOptions option[value="${ turple.order.urgencyStatusId}"], ' + 
-		'#technicianOptions option[value="${ turple.order.technicianId}"]'
+		'#problemTypeOptions option[value="${ orderAndComment.order.problemTypeId}"],' + 
+		'#roomNumberOptions option[value="${ orderAndComment.order.roomId}"], ' +
+		'#urgencyStatusOptions option[value="${ orderAndComment.order.urgencyStatusId}"], ' + 
+		'#technicianOptions option[value="${ orderAndComment.order.technicianId}"]'
 		).attr('selected', 'selected');
 	
 	$('#executionStatusOptions')
-		.prepend('<option value="${turple.order.executionStatusId}" selected="selected">${turple.order.executionStatus}</value>');
+		.prepend('<option value="${orderAndComment.order.executionStatusId}" selected="selected">${orderAndComment.order.executionStatus}</value>');
 	
 	$('#roomNumberOptions').change(function(){
 		$.get('/DevCor/getRoomDevices', {
@@ -43,23 +45,58 @@ $(document).ready(function(){
 	});
 	
 	$('#executionStatusOptions, #urgencyStatusOptions').change(function(){
-		$(".newComment1, .newComment2").show();
-		$(".newComment2 td").html($.datepicker.formatDate('yy-mm-dd', new Date()));
-		$("#comment-creation-date").val($.datepicker.formatDate('yy-mm-dd', new Date()));
-		if( $(this).find(":selected").text() == 'Incorrect' || 
+		if( $(this).find(":selected").text() == 'Incorrect' ||
 			$(this).find(":selected").text() == 'Unsolvable'){
+			$(".newComment1, .newComment2").show();
+			$(".newComment2 td").html($.datepicker.formatDate('yy-mm-dd', new Date()));
+			$("#comment-creation-date").val($.datepicker.formatDate('yy-mm-dd', new Date()));
 			$(".newComment1 textarea").prop("required", "true");
+		} else {
+			$(".newComment1 textarea").removeAttr("required");
 		}
 	});
 	
-	$('input[type=button]').click(function(){
+	$(".comment-button").click(function(){
+		$(this).hide();
+		$(".edit-button").click();
+		$(".newComment1, .newComment2").show();
+		$(".newComment2 td").html($.datepicker.formatDate('yy-mm-dd', new Date()));
+		$("#comment-creation-date").val($.datepicker.formatDate('yy-mm-dd', new Date()));
+	})
+	
+	$('input[type=button]:last-of-type').click(function(){
 		window.location = "../../dashboard";
 	});
 	
-	$('input[type=submit]').click(function(){
-		$(".order-form").submit();
+	function h(e) {
+	    $(e).css({'height':'auto','overflow-y':'hidden'}).height(e.scrollHeight);
+	}
+	$('textarea').each(function () {
+	  h(this);
+	}).on('input', function () {
+	  h(this);
 	});
-
+	
+	$(".order-and-comment-form").find("input, textarea, select").prop("disabled", true);
+	$(".order-and-comment-form input[type='button']").prop("disabled", false);
+	
+	$(".edit-button").click(function(){
+		$(".order-and-comment-form").find("input, textarea, select").prop("disabled", false);
+		$(this).hide();
+		$(".order-and-comment-form input[type='submit']").show();
+	});
+	
+	$(".delete-button").click(function(e){
+		e.preventDefault();
+		var location = $(this).attr('href');
+		bootbox.confirm("Are you sure you want to delete this order?", function(result) {
+			if (result) {
+				window.location.replace(location);
+			}
+		});
+	});
+	
+	$("#comment-creation-date").val($.datepicker.formatDate('yy-mm-dd', new Date()));
 });
 </script>
 
@@ -68,10 +105,10 @@ $(document).ready(function(){
 <br>
 <div class="panel panel-success">
 	<div class="panel-heading">
-		<h3 class="panel-title">Order #${turple.order.orderId}</h3>
+		<h3 class="panel-title">Order #${orderAndComment.order.orderId}</h3>
 	</div>	
-	<form:form modelAttribute="turple" class="order-form">
-		<form:input path="order.orderId" type="hidden"/>
+	<form:form modelAttribute="orderAndComment" class="order-and-comment-form">
+		<form:hidden path="order.orderId"/>
 		<table class="table table-striped table-bordered">
 			<c:if test="${isOrderAuthor && orderIsOpen}">
 				<tr>
@@ -84,7 +121,7 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td><label for="descriptionText">Problem description: </label></td>
-					<td><form:textarea path="order.description" id="descriptionText"/></td>
+					<td><form:textarea path="order.description" id="descriptionText" maxlength="1000" /></td>
 				</tr>
 				<tr>
 					<td><label for="roomNumberOptions">Room number: </label></td>
@@ -107,8 +144,8 @@ $(document).ready(function(){
 			<c:if test="${isTech || isAdmin || (isUser && (!orderIsOpen || !isOrderAuthor))}">
 				<tr>
 					<td><label>Problem type: </label></td>
-					<td>${turple.order.problemType}</td>
-					<form:input path="order.problemTypeId" type="hidden"/>
+					<td>${orderAndComment.order.problemType}</td>
+					<form:hidden path="order.problemTypeId"/>
 				</tr>
 				<tr>
 					<td><label>Problem description: </label></td>
@@ -116,14 +153,14 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td><label>Room number: </label></td>
-					<td>${turple.order.roomNumber}</td>
+					<td>${orderAndComment.order.roomNumber}</td>
 				</tr>
-				<form:input path="order.roomId" type="hidden"/>
+				<form:hidden path="order.roomId"/>
 				<tr>
 					<td><label>Serial port: </label></td>
-					<td>${turple.order.deviceSerialId}</td>
+					<td>${orderAndComment.order.deviceSerialId}</td>
 				</tr>
-				<form:input path="order.deviceId" type="hidden"/>
+				<form:hidden path="order.deviceId"/>
 			</c:if>
 				
 			<c:if test="${(isOrderAuthor || isOrderTech) && orderIsOpen}">
@@ -140,15 +177,15 @@ $(document).ready(function(){
 			<c:if test="${!((isOrderAthor || isOrderTech) && orderIsOpen)}">
 				<tr>
 					<td><label>Urgency status:</label></td>
-					<td>${turple.order.urgencyStatus}</td>
+					<td>${orderAndComment.order.urgencyStatus}</td>
 				</tr>
-				<form:input path="order.urgencyStatusId" type="hidden"/>
+				<form:hidden path="order.urgencyStatusId"/>
 			</c:if>
 				
 			<c:if test="${isUser || isAdmin || (isTech && (orderIsFinished || !isOrderTech))}">
 				<tr>
 					<td><label>Execution status:</label></td>
-					<td>${turple.order.executionStatus}</td>
+					<td>${orderAndComment.order.executionStatus}</td>
 				</tr>
 				<form:input path="order.executionStatusId" type="hidden"/>
 			</c:if>
@@ -178,32 +215,32 @@ $(document).ready(function(){
 			
 			<tr>
 				<td><label>Creation date:</label></td>
-				<td>${turple.order.creationDate}</td>
+				<td>${orderAndComment.order.creationDate}</td>
 			</tr>
 			
-			<form:input path="order.creationDate" type="hidden"/>
+			<form:hidden path="order.creationDate"/>
 			
 			<tr>
 				<td><label>Due date:</label></td>
-				<td>${turple.order.dueDate}</td>
+				<td>${orderAndComment.order.dueDate}</td>
 			</tr>
 			
-			<form:input path="order.dueDate" type="hidden"/>
+			<form:hidden path="order.dueDate"/>
 			
 			<tr>
 				<td><label>Author:</label></td>
-				<td>${turple.order.authorName} ${turple.order.authorSurname}</td>
+				<td>${orderAndComment.order.authorName} ${orderAndComment.order.authorSurname}</td>
 			</tr>
 			
-			<form:input path="order.authorId" type="hidden"/>
+			<form:hidden path="order.authorId"/>
 			
 			<c:if test="${isUser || isTech}">
 				<tr>
 					<td><label>Technician:</label></td>
-					<td>${turple.order.technicianName} ${turple.order.technicianSurname}</td>
+					<td>${orderAndComment.order.technicianName} ${orderAndComment.order.technicianSurname}</td>
 				</tr>
 				
-				<form:input path="order.technicianId" type="hidden"/>
+				<form:hidden path="order.technicianId"/>
 			</c:if>
 			
 			<c:if test="${isAdmin}">
@@ -218,43 +255,52 @@ $(document).ready(function(){
 			
 			<tr>
 				<td><label>Is overdue?</label></td>
-				<td>${turple.order.overdue}</td>
+				<td>${orderAndComment.order.overdue}</td>
 			</tr>
 			
-			<form:input path="order.overdue" type="hidden"/>
+			<form:hidden path="order.overdue"/>
 		</table>
 	
 		<c:if test="${comments.size() != 0}">
 			<h2>Comments</h2>
-		
-			<table class="table table-bordered comments-table">
+		</c:if>
+		<table class="table table-bordered comments-table">
+			<c:if test="${isOrderTech}">
 				<tr class="newComment1">
-					<td>${turple.order.technicianName} ${turple.order.technicianSurname}</td>
+					<td>${orderAndComment.order.technicianName} ${orderAndComment.order.technicianSurname}</td>
 					<td rowspan="2"><form:textarea path="comment.comment" placeholder="Your new comment"/></td>
 				</tr>
-				<tr class="newComment2">
-					<td></td>
-				</tr>
-				<form:input path="comment.orderId" type="hidden" value="${turple.order.orderId}"/>
-				<form:input id="comment-creation-date" path="comment.creationDate" type="hidden"/>
-			
+				<tr class="newComment2"><td></td></tr>
+				<form:hidden path="comment.orderId" value="${orderAndComment.order.orderId}"/>
+				<form:hidden id="comment-creation-date" path="comment.creationDate"/>
+			</c:if>
+			<c:if test="${comments.size() != 0}">
 				<c:forEach var="comment" items="${comments}">
 					<tr>
-						<td>${turple.order.technicianName} ${turple.order.technicianSurname}</td>
+						<td>${orderAndComment.order.technicianName} ${orderAndComment.order.technicianSurname}</td>
 						<td rowspan="2">${comment.comment}</td>
 					</tr>
 					<tr>
 						<td>${comment.creationDate}</td>
 					</tr>
 				</c:forEach>
-			</table>
-	</c:if>
+			</c:if>
+		</table>
+			
+		<p style="text-align: center">
+			<c:if test="${isAdmin || isOrderAuthor || isOrderTech}">	
+				<input type="submit" class="btn btn-success" value="Confirm changes" style="display:none;" />
+				<input type="button" class="btn btn-success edit-button" value="Edit" />
+			</c:if>
+			<c:if test="${isOrderTech}">
+				<input type="button" class="btn btn-success comment-button" value="Add comment" />
+			</c:if>
+			<c:if test="${isOrderAuthor && orderIsOpen}">
+				<a class="btn btn-danger delete-button" href="../delete/id/${orderAndComment.order.orderId}">Delete order</a>
+			</c:if>
+			<input type="button" class="btn btn-cancell" value="Go back" />
+		</p>
 	</form:form>
 	<br>
-	
-	<p style="text-align: center">
-		<input type="submit" class="btn btn-success" value="Confirm changes" />
-		<input type="button" class="btn btn-cancell" value="Go back" />
-	</p>
 </div>
 <%@include file="footer.jsp"%>

@@ -26,14 +26,25 @@
 			<tr>
 				<td><form:label path="roomNumber">Room Number:</form:label></td>
 				<td><form:input type="text" class="form-control"
-						path="roomNumber" required="true" /></td>
+						path="roomNumber" required="true" maxlength="16" /></td>
 			</tr>
 			<tr>
 				<td><form:label for="technicianOptions" path="playerId">Technician:</form:label></td>
 				<td><form:select path="playerId" id="technicianOptions"
 						required="required">
-						<form:options items="${technicians}" itemValue="playerId"
-							itemLabel="fullName" />
+						<c:forEach var="technician" items="${technicians}">
+							<c:choose>
+								<c:when
+									test="${room.getPlayerObj().getFullName()==technician.getFullName()}">
+									<form:option selected="true" value="${technician.playerId}"
+										label="${technician.getFullName()}" />
+								</c:when>
+								<c:otherwise>
+									<form:option value="${technician.playerId}"
+										label="${technician.getFullName()}" />
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
 					</form:select></td>
 			</tr>
 		</table>
@@ -46,11 +57,11 @@
 </div>
 <div class="row">
 	<div class="col-lg-7" style="margin-left: 10px;">
-		<a type="submit" class="btn btn-success btn-sm" href="${room.roomId}/device/add">Add
-			Device</a>
+		<a type="submit" class="btn btn-success btn-sm"
+			href="${room.roomId}/device/add">Add Device</a>
 	</div>
 </div>
-<br/>
+<br />
 <div class="panel panel-success">
 	<div class="panel-heading">
 		<h3 class="panel-title">Devices of this room</h3>
@@ -71,12 +82,14 @@
 				<td><c:out value="${device.deviceId}" /></td>
 				<td><c:out value="${device.deviceSerialId}" /></td>
 				<td><c:out value="${device.getDeviceTypeObj().deviceType}" /></td>
-				<td><a href="../../../devices/edit/id/${device.deviceId}"
+				<td><a
+					href="<c:url value="/rooms/edit/id/${room.roomId}/devices/edit/id/${device.deviceId}"/>"
 					id="${device.deviceId}"><span class="glyphicon glyphicon-edit"
 						aria-hidden="true"></span></a></td>
 				<td><a class="confirm"
-					href="../../../devices/delete/id/${device.deviceId}" id="${device.deviceId}">
-						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+					href="<c:url value="/rooms/edit/id/${room.roomId}/devices/delete/id/${device.deviceId}"/>"
+					id="${device.deviceId}"> <span
+						class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 				</a></td>
 			</tr>
 		</c:forEach>

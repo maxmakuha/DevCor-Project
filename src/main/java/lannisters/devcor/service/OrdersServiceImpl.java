@@ -46,7 +46,7 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public List<Order> getFirstOrders(int num) throws SQLException {
-		return ordersDao.getFirstOrders(num);
+	public List<Order> getAllOrdersSorted() throws SQLException {
+		return ordersDao.getAllOrdersSorted();
 	}
 }

@@ -1,4 +1,6 @@
 $(document).ready(function() {
-    $('#pagination').DataTable();
+	$('#pagination').DataTable({
+		"order": []
+	});
 } );
 

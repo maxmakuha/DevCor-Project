@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lannisters.devcor.entity.Comment;
 import lannisters.devcor.entity.Order;
-import lannisters.devcor.entity.OrderAndComment;
 import lannisters.devcor.mail.MailService;
 import lannisters.devcor.service.CommentsService;
 import lannisters.devcor.service.DevicesService;
@@ -26,6 +25,7 @@ import lannisters.devcor.service.PlayersService;
 import lannisters.devcor.service.ProblemTypesService;
 import lannisters.devcor.service.RoomsService;
 import lannisters.devcor.service.UrgencyStatusesService;
+import lannisters.devcor.util.OrderAndComment;
 
 @Controller
 public class OrderController {
@@ -47,29 +47,33 @@ public class OrderController {
 
 	@Autowired
 	private UrgencyStatusesService urgencyStatusesService;
-	
+
 	@Autowired
 	private MailService mail;
 
 	@Autowired
 	private CommentsService commentsService;
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/master
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String showDashboard(Model model, Principal principal) throws SQLException {
-		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority()) {
-			case "ROLE_USER":
-				model.addAttribute("orders", ordersService.getALlOrdersOfUser(principal.getName()));
-				break;
-			case "ROLE_TECHNICIAN":
-				model.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
-				break;
-			case "ROLE_ADMIN":
-				model.addAttribute("orders", ordersService.getFirstOrders(100));
-				break;
-			default:
-				break;
+		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()
+				.getAuthority()) {
+		case "ROLE_USER":
+			model.addAttribute("orders", ordersService.getALlOrdersOfUser(principal.getName()));
+			break;
+		case "ROLE_TECHNICIAN":
+			model.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
+			break;
+		case "ROLE_ADMIN":
+			model.addAttribute("orders", ordersService.getAllOrdersSorted());
+			break;
+		default:
+			break;
 		}
 		return "dashboard";
 	}
@@ -102,7 +106,7 @@ public class OrderController {
 
 	@RequestMapping(value = "/order/id/{id}", method = RequestMethod.GET)
 	public String viewOrder(@PathVariable("id") int orderId, Model m) throws SQLException {
-		m.addAttribute("turple", new OrderAndComment(ordersService.getOrderById(orderId), new Comment()));
+		m.addAttribute("orderAndComment", new OrderAndComment(ordersService.getOrderById(orderId), new Comment()));
 		m.addAttribute("problemTypes", problemTypesService.getAllProblemTypes());
 		m.addAttribute("rooms", roomsService.getAllRooms());
 		m.addAttribute("urgencyStatuses", urgencyStatusesService.getAllUrgencyStatuses());
@@ -110,11 +114,19 @@ public class OrderController {
 		m.addAttribute("comments", commentsService.getAllCommentsOfOrder(orderId));
 		return "viewOrder";
 	}
-	
+
 	@RequestMapping(value = "/order/id/{id}", method = RequestMethod.POST)
-	public String updateOrder(OrderAndComment turple) throws SQLException {
-		ordersService.updateOrder(turple.getOrder());
-		commentsService.addComment(turple.getComment());
+	public String updateOrder(OrderAndComment orderAndComment) throws SQLException {
+		ordersService.updateOrder(orderAndComment.getOrder());
+		if(orderAndComment.getComment() != null && orderAndComment.getComment().getComment()!=null){
+			commentsService.addComment(orderAndComment.getComment());
+		}
+		return "redirect:/dashboard";
+	}
+	
+	@RequestMapping(value = "/order/delete/id/{id}", method = RequestMethod.GET)
+	public String deleteOrder(@PathVariable("id") int orderId) throws SQLException {
+		ordersService.deleteOrder(orderId);
 		return "redirect:/dashboard";
 	}
 
@@ -123,5 +135,4 @@ public class OrderController {
 		m.addAttribute("devices", devicesService.getAllDevicesOfRoom(roomId));
 		return "getRoomDevices";
 	}
-	
 }

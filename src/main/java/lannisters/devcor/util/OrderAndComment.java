@@ -1,13 +1,16 @@
-package lannisters.devcor.entity;
+package lannisters.devcor.util;
 
-public class OrderAndComment {
+import lannisters.devcor.entity.Comment;
+import lannisters.devcor.entity.Order;
+
+public class OrderAndComment{
 	
 	private Order order;
 	private Comment comment;
 	
 	public OrderAndComment() {
-		this.order = new Order();
-		this.comment = new Comment();
+		this.order = null;
+		this.comment = null;
 	}
 	
 	public OrderAndComment(Order order, Comment comment) {
@@ -18,21 +21,18 @@ public class OrderAndComment {
 	public Order getOrder() {
 		return order;
 	}
-
+	
 	public Comment getComment() {
 		return comment;
 	}
-
+	
 	public void setOrder(Order order) {
 		this.order = order;
 	}
-
+	
 	public void setComment(Comment comment) {
 		this.comment = comment;
 	}
-
-	@Override
-	public String toString() {
-		return "OrderAndComment [order=" + order + ", comment=" + comment + "]";
-	}
+	
+	
 }

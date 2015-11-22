@@ -21,5 +21,5 @@ public interface OrdersService {
 
 	public List<Order> getAllOrdersOfTechnician(String email) throws SQLException;
 
-	public List<Order> getFirstOrders(int num) throws SQLException; 
+	public List<Order> getAllOrdersSorted() throws SQLException; 
 }

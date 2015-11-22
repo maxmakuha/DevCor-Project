@@ -15,6 +15,15 @@ $(document).ready(function(){
 	$('input[type=button]').click(function(){
 		window.location = "../dashboard";
 	});
+	
+	function h(e) {
+	    $(e).css({'height':'auto','overflow-y':'hidden'}).height(e.scrollHeight);
+	}
+	$('textarea').each(function () {
+	  h(this);
+	}).on('input', function () {
+	  h(this);
+	});
 });
 </script>
 
@@ -25,7 +34,7 @@ $(document).ready(function(){
 	<div class="panel-heading">
 		<h3 class="panel-title">Please, fill the following fields to create an order</h3>
 	</div>
-	<form:form modelAttribute="order" class="order-form">
+	<form:form modelAttribute="order" class="order-and-comment-form">
 		<table class="table table-striped table-bordered">
 			<tr>
 				<td><label for="problemTypeOptions">Problem type: </label></td>

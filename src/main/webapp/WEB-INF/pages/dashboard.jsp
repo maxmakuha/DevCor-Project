@@ -10,7 +10,7 @@
 	<div class="msg">${message}</div>
 </c:if>
 
-<c:if test="${role == 'ROLE_USER'}">
+<c:if test="${pageContext.request.userPrincipal.authorities.iterator().next().authority == 'ROLE_USER'}">
 	<div class="col-lg-7" style="margin-left: 10px;">
 		<a type="submit" class="btn btn-success btn-sm" href="order/create">Create order</a>
 	</div>

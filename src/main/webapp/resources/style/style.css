@@ -138,33 +138,33 @@ input[type="password"] {
 	border-color: #bce8f1;
 }
 
-.order-form td {
+.order-and-comment-form td {
 	vertical-align : middle !important;
 }
 
-.order-form tr > td:nth-of-type(2){
+.order-and-comment-form tr > td:nth-of-type(2){
 	padding: 0 !important;
 }
 
-.order-form select{	
+.order-and-comment-form select{	
 	border:none;
 	width:100%;
 	background: transparent;
 }
 
-.order-form option {
+.order-and-comment-form option {
 	padding: 9px;
 	height:100%;
 }
 
-.order-form select option:nth-of-type(2){
+.order-and-comment-form select option:nth-of-type(2){
 	margin-left:0;
 }
 
-.order-form textarea{
+.order-and-comment-form textarea{
 	border: 0;
 	width: 100%;
-	max-width: 100%;
+	resize: none;
 	min-height: 50px;
 	background: transparent;
 }

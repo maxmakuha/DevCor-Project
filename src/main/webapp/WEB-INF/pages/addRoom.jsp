@@ -13,7 +13,7 @@
 			<tr>
 				<td><form:label path="roomNumber">Room Number:</form:label></td>
 				<td><form:input type="text" class="form-control"
-						path="roomNumber" required="true" /></td>
+						path="roomNumber" required="true" maxlength="16" /></td>
 			</tr>
 			<tr>
 				<td><form:label for="technicianOptions" path="playerId">Technician:</form:label></td>

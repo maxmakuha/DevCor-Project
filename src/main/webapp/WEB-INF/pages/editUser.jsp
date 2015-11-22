@@ -18,27 +18,27 @@
 			<tr>
 				<td><form:label path="firstName">First Name:</form:label></td>
 				<td><form:input type="text" class="form-control"
-						path="firstName" required="true" /></td>
+						path="firstName" required="true" maxlength="32" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="lastName">Surname:</form:label></td>
 				<td><form:input type="text" class="form-control"
-						path="lastName" required="true" /></td>
+						path="lastName" required="true" maxlength="32" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="playerEmail">Email:</form:label></td>
 				<td><form:input type="email" class="form-control"
-						path="playerEmail" required="true" /></td>
+						path="playerEmail" required="true" maxlength="64" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="password">Password:</form:label></td>
 				<td><form:input type="text" class="form-control"
-						path="password" required="true" /></td>
+						path="password" required="true" maxlength="64" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="phoneNumber">Phone number:</form:label></td>
 				<td><form:input type="number" class="form-control"
-						path="phoneNumber" required="true" /></td>
+						path="phoneNumber" required="true" maxlength="15" /></td>
 			</tr>
 		</table>
 		<form:input type="hidden" class="form-control" path="playerId"

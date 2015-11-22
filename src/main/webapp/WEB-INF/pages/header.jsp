@@ -27,7 +27,7 @@
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a href="welcome"> <img
+				<a href="<c:url value="/welcome"/>"><img
 					src="<c:url value="/resources/img/logo.png"/>" class="img-rounded" /></a>
 			</div>
 			<div class="navbar-collapse collapse">

@@ -47,7 +47,7 @@ public class DevicesServiceImpl implements DevicesService {
 		}
 	}
 
-	public List<Device> getAllDevicesOfRoom(int roomId) throws SQLException {
+	public List<Device> getAllDevicesOfRoom(int roomId) {
 		return devicesDao.getAllDevicesOfRoom(roomId);
 	}
 }

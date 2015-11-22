@@ -84,7 +84,7 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td><label for="descriptionText">Problem description: </label></td>
-					<td><form:textarea path="order.description" id="descriptionText"/></td>
+					<td><form:textarea path="order.description" id="descriptionText" maxlength="1000" /></td>
 				</tr>
 				<tr>
 					<td><label for="roomNumberOptions">Room number: </label></td>
@@ -230,7 +230,7 @@ $(document).ready(function(){
 			<table class="table table-bordered comments-table">
 				<tr class="newComment1">
 					<td>${turple.order.technicianName} ${turple.order.technicianSurname}</td>
-					<td rowspan="2"><form:textarea path="comment.comment" placeholder="Your new comment"/></td>
+					<td rowspan="2"><form:textarea path="comment.comment" placeholder="Your new comment" maxlength="500" /></td>
 				</tr>
 				<tr class="newComment2">
 					<td></td>

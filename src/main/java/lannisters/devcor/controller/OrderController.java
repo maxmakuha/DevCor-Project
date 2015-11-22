@@ -47,30 +47,28 @@ public class OrderController {
 
 	@Autowired
 	private UrgencyStatusesService urgencyStatusesService;
-	
+
 	@Autowired
-<<<<<<< HEAD
 	private MailService mail;
-=======
+
+	@Autowired
 	private CommentsService commentsService;
-	
-	private MailService mail = new MailService();
->>>>>>> origin/master
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String showDashboard(Model model, Principal principal) throws SQLException {
-		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority()) {
-			case "ROLE_USER":
-				model.addAttribute("orders", ordersService.getALlOrdersOfUser(principal.getName()));
-				break;
-			case "ROLE_TECHNICIAN":
-				model.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
-				break;
-			case "ROLE_ADMIN":
-				model.addAttribute("orders", ordersService.getFirstOrders(100));
-				break;
-			default:
-				break;
+		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()
+				.getAuthority()) {
+		case "ROLE_USER":
+			model.addAttribute("orders", ordersService.getALlOrdersOfUser(principal.getName()));
+			break;
+		case "ROLE_TECHNICIAN":
+			model.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
+			break;
+		case "ROLE_ADMIN":
+			model.addAttribute("orders", ordersService.getAllOrders());
+			break;
+		default:
+			break;
 		}
 		return "dashboard";
 	}
@@ -111,7 +109,7 @@ public class OrderController {
 		m.addAttribute("comments", commentsService.getAllCommentsOfOrder(orderId));
 		return "viewOrder";
 	}
-	
+
 	@RequestMapping(value = "/order/id/{id}", method = RequestMethod.POST)
 	public String updateOrder(OrderAndComment turple) throws SQLException {
 		ordersService.updateOrder(turple.getOrder());
@@ -124,5 +122,4 @@ public class OrderController {
 		m.addAttribute("devices", devicesService.getAllDevicesOfRoom(roomId));
 		return "getRoomDevices";
 	}
-	
 }

@@ -12,10 +12,10 @@ public interface DevicesService {
 	public Device getDeviceById(int deviceId);
 
 	public void addDevice(Device device);
-	
+
 	public void updateDevice(Device device);
 
 	public void deleteDevice(int deviceId);
-	
-	public List<Device> getAllDevicesOfRoom(int roomId) throws SQLException;
+
+	public List<Device> getAllDevicesOfRoom(int roomId);
 }

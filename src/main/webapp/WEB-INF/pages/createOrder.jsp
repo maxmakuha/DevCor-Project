@@ -69,7 +69,7 @@ $(document).ready(function(){
 		</table>
 		<p style="text-align: center">
 			<input type="submit" class="btn btn-success" value="Complete" />
-			<input type="button" class="btn btn-cancell" value="Cancell" />
+			<input type="button" class="btn btn-cancell" value="Cancel" />
 		</p>
 	</form:form>
 </div>

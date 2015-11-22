@@ -5,7 +5,7 @@
 <br />
 <div class="panel panel-success">
 	<div class="panel-heading">
-		<h3 class="panel-title">Create new device:</h3>
+		<h3 class="panel-title">Add new device:</h3>
 	</div>
 	<c:url var="saveUrl" value="/rooms/edit/id/${room.roomId}/device/add" />
 	<form:form modelAttribute="deviceOfRoom" method="POST"
@@ -14,7 +14,7 @@
 			<tr>
 				<td><form:label path="deviceSerialId">Serial Number:</form:label></td>
 				<td><form:input type="text" class="form-control"
-						path="deviceSerialId" required="true" /></td>
+						path="deviceSerialId" required="true" maxlength="15" /></td>
 			</tr>
 			<tr>
 				<td><form:label for="deviceTypeOptions" path="deviceTypeId">Device type:</form:label></td>
@@ -26,15 +26,14 @@
 					</form:select></td>
 			</tr>
 			<tr>
-				<td><form:label for="roomNumberOptions" path="roomId">Room number: </form:label></td>
-				<td id="roomNumberOptions"><form:select path="roomId"
-						id="roomNumberOptions">
-						<form:option value="${room.roomId}" label = "${room.roomNumber}" selected="true"></form:option>
-					</form:select></td>
+				<td><label>Room number: </label></td>
+				<td><label>${room.roomNumber}</label></td>
 			</tr>
 		</table>
+		<form:input type="hidden" class="form-control" path="roomId"
+			value="${room.roomId}" required="true" />
 		<p style="text-align: center">
-			<input type="submit" class="btn btn-success" value="Create" />
+			<input type="submit" class="btn btn-success" value="Add" />
 		</p>
 	</form:form>
 </div>

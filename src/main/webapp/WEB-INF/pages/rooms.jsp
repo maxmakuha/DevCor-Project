@@ -15,19 +15,19 @@
 </script>
 <div class="wrapper">
 	<ul class="nav nav-tabs">
-		<li role="presentation"><a href="technicians"
+		<li role="presentation"><a href="<c:url value="/technicians"/>"
 			style="color: GREEN">Technicians</a></li>
-		<li role="presentation"><a href="users" style="color: GREEN">Users</a></li>
-		<li role="presentation" class="active"><a href="rooms" style="color: GREEN">Rooms</a></li>
-		<li role="presentation"><a href="devices"
+		<li role="presentation"><a href="<c:url value="/users"/>" style="color: GREEN">Users</a></li>
+		<li role="presentation" class="active"><a href="<c:url value="/rooms"/>" style="color: GREEN">Rooms</a></li>
+		<li role="presentation"><a href="<c:url value="/devices"/>"
 			style="color: GREEN">Devices</a></li>
-		<li role="presentation"><a href="reports" style="color: GREEN">Reports</a></li>
-		<li role="presentation"><a href="configuration" style="color: GREEN">Configuration panel</a></li>
+		<li role="presentation"><a href="<c:url value="/reports"/>" style="color: GREEN">Reports</a></li>
+		<li role="presentation"><a href="<c:url value="/configuration"/>" style="color: GREEN">Configuration panel</a></li>
 	</ul>
 </div>
 <div class="row">
 	<div class="col-lg-7" style="margin-left: 10px;">
-		<a type="submit" class="btn btn-success btn-sm" href="add">Add
+		<a type="submit" class="btn btn-success btn-sm" href="rooms/add">Add
 			Room</a>
 	</div>
 </div>

@@ -25,12 +25,16 @@
 			<security:authorize
 				access="hasAnyRole('ROLE_TECHNICIAN','ROLE_USER')">
 				<tr>
-					<td><form:label path="firstName">First Name:</form:label></td>
-					<td><c:out value="${profile.firstName}" /></td>
+					<td><label>First Name:</label></td>
+					<td><label>${profile.firstName}</label></td>
+					<form:input type="hidden" class="form-control" path="firstName"
+						value="${profile.firstName}" required="true" />
 				</tr>
 				<tr>
-					<td><form:label path="firstName">Surname:</form:label></td>
-					<td><c:out value="${profile.lastName}" /></td>
+					<td><label>Surname:</label></td>
+					<td><label>${profile.lastName}</label></td>
+					<form:input type="hidden" class="form-control" path="lastName"
+						value="${profile.lastName}" required="true" />
 				</tr>
 			</security:authorize>
 			<tr>

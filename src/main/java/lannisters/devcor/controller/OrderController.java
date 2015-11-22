@@ -53,11 +53,7 @@ public class OrderController {
 
 	@Autowired
 	private CommentsService commentsService;
-<<<<<<< HEAD
 
-
-=======
->>>>>>> origin/master
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String showDashboard(Model model, Principal principal) throws SQLException {

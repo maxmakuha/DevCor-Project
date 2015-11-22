@@ -5,7 +5,7 @@
 <br>
 <div class="panel panel-success">
 	<div class="panel-heading">
-		<h3 class="panel-title">Create new device:</h3>
+		<h3 class="panel-title">Add new device:</h3>
 	</div>
 	<c:url var="saveUrl" value="/devices/add" />
 	<form:form modelAttribute="device" method="POST" action="${saveUrl}">
@@ -13,7 +13,7 @@
 			<tr>
 				<td><form:label path="deviceSerialId">Serial Number:</form:label></td>
 				<td><form:input type="text" class="form-control"
-						path="deviceSerialId" required="true" /></td>
+						path="deviceSerialId" required="true" maxlength="15" /></td>
 			</tr>
 			<tr>
 				<td><form:label for="deviceTypeOptions" path="deviceTypeId">Device type:</form:label></td>

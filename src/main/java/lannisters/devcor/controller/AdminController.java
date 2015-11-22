@@ -1,7 +1,6 @@
 package lannisters.devcor.controller;
 
 import java.security.Principal;
-import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,22 +41,28 @@ public class AdminController {
 
 	@Autowired
 	private PlayersService playersService;
+
 	@Autowired
 	private DevicesService devicesService;
+
 	@Autowired
 	private DeviceTypesService deviceTypesService;
+
 	@Autowired
 	private RoomsService roomsService;
+
 	@Autowired
 	private ReportService reportService;
+
 	@Autowired
 	private ProblemTypesService problemTypesService;
-	@Autowired
-	private MailService mail;
-	
+
 	@Autowired
 	private UrgencyStatusesService urgencyStatusesService;
-	
+
+	@Autowired
+	private MailService mail;
+
 	@RequestMapping(value = "/technicians", method = RequestMethod.GET)
 	public String techniciansPage(Model model) {
 		model.addAttribute("technicians", playersService.getAllTechnicians());
@@ -152,12 +157,7 @@ public class AdminController {
 	public String editRoom(@PathVariable("id") int id, Model model) {
 		model.addAttribute("room", roomsService.getRoomById(id));
 		model.addAttribute("technicians", playersService.getAllTechnicians());
-		try {
-			model.addAttribute("roomDevices", devicesService.getAllDevicesOfRoom(id));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		model.addAttribute("roomDevices", devicesService.getAllDevicesOfRoom(id));
 		return "editRoom";
 	}
 
@@ -180,13 +180,13 @@ public class AdminController {
 		model.addAttribute("deviceTypes", deviceTypesService.getAllDeviceTypes());
 		return "addDeviceOfRoom";
 	}
-	
-	@RequestMapping(value = "/rooms/edit/id/{id}/device/add", method = RequestMethod.POST)
-	public String processDeviceOfRoom(@ModelAttribute("deviceOfRoom") Device device) {
+
+	@RequestMapping(value = "/rooms/edit/id/{room_id}/device/add", method = RequestMethod.POST)
+	public String processDeviceOfRoom(@ModelAttribute("deviceOfRoom") Device device, @PathVariable("room_id") int id) {
 		devicesService.addDevice(device);
-		return "redirect:/rooms/edit/id/{id}";
+		return "redirect:/rooms/edit/id/" + id;
 	}
-	
+
 	@RequestMapping(value = "/devices", method = RequestMethod.GET)
 	public String devicesPage(Model model) {
 		model.addAttribute("devices", devicesService.getAllDevices());
@@ -207,11 +207,13 @@ public class AdminController {
 		return "redirect:/devices";
 	}
 
-	@RequestMapping(value = "/devices/edit/id/{id}", method = RequestMethod.GET)
-	public String editDevice(@PathVariable("id") int id, Model model) {
+	@RequestMapping(value = { "/devices/edit/id/{device_id}",
+			"/rooms/edit/id/{room_id}/devices/edit/id/{device_id}" }, method = RequestMethod.GET)
+	public String editDevice(@PathVariable("device_id") int id, Model model, HttpServletRequest request) {
 		model.addAttribute("device", devicesService.getDeviceById(id));
 		model.addAttribute("deviceTypes", deviceTypesService.getAllDeviceTypes());
 		model.addAttribute("rooms", roomsService.getAllRooms());
+		model.addAttribute("page", request.getServletPath());
 		return "editDevice";
 	}
 
@@ -221,10 +223,18 @@ public class AdminController {
 		return "redirect:/devices";
 	}
 
-	@RequestMapping(value = "/devices/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteDevice(@PathVariable("id") int id) {
+	@RequestMapping(value = "/rooms/edit/id/{room_id}/devices/edit/id/{device_id}", method = RequestMethod.POST)
+	public String saveEditedRoomDevice(@ModelAttribute("device") Device device, @PathVariable("room_id") int id) {
+		devicesService.updateDevice(device);
+		return "redirect:/rooms/edit/id/" + id;
+	}
+
+	@RequestMapping(value = { "/devices/delete/id/{device_id}",
+			"/rooms/edit/id/{room_id}/devices/delete/id/{device_id}" }, method = RequestMethod.GET)
+	public String deleteDevice(@PathVariable("device_id") int id, HttpServletRequest request) {
 		devicesService.deleteDevice(id);
-		return "redirect:/devices";
+		String referer = request.getHeader("Referer");
+		return "redirect:" + referer;
 	}
 
 	@RequestMapping(value = "/reports", method = RequestMethod.GET)
@@ -260,7 +270,7 @@ public class AdminController {
 			return new ModelAndView("reports");
 		}
 	}
-	
+
 	@RequestMapping(value = "/configuration", method = RequestMethod.GET)
 	public String extra(Model model) {
 		model.addAttribute("problemType", problemTypesService.getAllProblemTypes());
@@ -268,6 +278,7 @@ public class AdminController {
 		model.addAttribute("urgStatus", urgencyStatusesService.getAllUrgencyStatuses());
 		return "configurationPanel";
 	}
+
 	@RequestMapping(value = "/problemType/edit/id/{id}", method = RequestMethod.GET)
 	public String editProblemType(@PathVariable("id") int id, Model model) {
 		model.addAttribute("action", "editProblemType");
@@ -280,25 +291,26 @@ public class AdminController {
 		problemTypesService.updateProblemType(problemType);
 		return "redirect:/configuration";
 	}
+
 	@RequestMapping(value = "/problemType/add", method = RequestMethod.GET)
 	public String addProblemType(Model model) {
 		model.addAttribute("action", "addProblemType");
 		model.addAttribute("problem", new ProblemType());
 		return "configurationPanel";
 	}
+
 	@RequestMapping(value = "/problemType/add", method = RequestMethod.POST)
 	public String saveProblemType(@ModelAttribute("problem") ProblemType problemType) {
 		problemTypesService.addProblemType(problemType);
 		return "redirect:/configuration";
 	}
+
 	@RequestMapping(value = "/problemType/delete/id/{id}", method = RequestMethod.GET)
 	public String deleteProblemType(@PathVariable("id") int id) {
 		problemTypesService.deleteProblemType(id);
 		return "redirect:/configuration";
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/deviceType/edit/id/{id}", method = RequestMethod.GET)
 	public String editDeviceType(@PathVariable("id") int id, Model model) {
 		model.addAttribute("action", "editDeviceType");
@@ -311,24 +323,26 @@ public class AdminController {
 		deviceTypesService.updateDeviceType(deviceType);
 		return "redirect:/configuration";
 	}
+
 	@RequestMapping(value = "/deviceType/add", method = RequestMethod.GET)
 	public String addDeviceType(Model model) {
 		model.addAttribute("action", "addDeviceType");
 		model.addAttribute("deviceType", new DeviceType());
 		return "configurationPanel";
 	}
+
 	@RequestMapping(value = "/deviceType/add", method = RequestMethod.POST)
-	public String saveDeviceType(@ModelAttribute("deviceType")DeviceType deviceType) {
+	public String saveDeviceType(@ModelAttribute("deviceType") DeviceType deviceType) {
 		deviceTypesService.addDeviceType(deviceType);
 		return "redirect:/configuration";
 	}
+
 	@RequestMapping(value = "/deviceType/delete/id/{id}", method = RequestMethod.GET)
 	public String deleteDeviceType(@PathVariable("id") int id) {
 		deviceTypesService.deleteDeviceType(id);
 		return "redirect:/configuration";
 	}
-	
-	
+
 	@RequestMapping(value = "/urgStatus/edit/id/{id}", method = RequestMethod.GET)
 	public String editUrgStatus(@PathVariable("id") int id, Model model) {
 		model.addAttribute("action", "editUrgStatus");
@@ -341,17 +355,20 @@ public class AdminController {
 		urgencyStatusesService.updateUrgencyStatus(urgencyStatus);
 		return "redirect:/configuration";
 	}
+
 	@RequestMapping(value = "/urgStatus/add", method = RequestMethod.GET)
 	public String addUrgStatus(Model model) {
 		model.addAttribute("action", "addUrgStatus");
 		model.addAttribute("urgStatus", new UrgencyStatus());
 		return "configurationPanel";
 	}
+
 	@RequestMapping(value = "/urgStatus/add", method = RequestMethod.POST)
-	public String saveUrgStatus(@ModelAttribute("urgStatus")UrgencyStatus urgencyStatus) {
+	public String saveUrgStatus(@ModelAttribute("urgStatus") UrgencyStatus urgencyStatus) {
 		urgencyStatusesService.addUrgencyStatus(urgencyStatus);
 		return "redirect:/configuration";
 	}
+
 	@RequestMapping(value = "/urgStatus/delete/id/{id}", method = RequestMethod.GET)
 	public String deleteUrgStatus(@PathVariable("id") int id) {
 		urgencyStatusesService.deleteUrgencyStatus(id);

@@ -15,6 +15,7 @@
 		<intercept-url pattern="/rooms/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/devices/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/reports/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/configuration/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/createOrder" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/getRoomDevices" access="hasRole('ROLE_USER')" />
 

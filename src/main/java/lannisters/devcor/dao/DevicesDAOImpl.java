@@ -79,7 +79,7 @@ public class DevicesDAOImpl implements DevicesDAO {
 		}
 	}
 
-	public List<Device> getAllDevicesOfRoom(int roomId) throws SQLException {
+	public List<Device> getAllDevicesOfRoom(int roomId) {
 		return jdbcTemplate.query(SQL_SELECT_ALL_DEVICES_OF_ROOM, new Integer[] { roomId }, new DeviceMapper());
 	}
 }

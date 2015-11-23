@@ -25,6 +25,11 @@
 		<li role="presentation"><a href="<c:url value="/configuration"/>" style="color: GREEN">Configuration panel</a></li>
 	</ul>
 </div>
+
+<c:if test="${not empty device}">
+	<div class="msg">${device}</div>
+</c:if>
+
 <div class="row">
 	<div class="col-lg-7" style="margin-left: 10px;">
 		<a type="submit" class="btn btn-success btn-sm" href="devices/add">Add

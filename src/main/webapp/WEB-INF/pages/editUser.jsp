@@ -50,4 +50,7 @@
 		</p>
 	</form:form>
 </div>
+<c:if test="${not empty unique}">
+	<div class="error">${unique}</div>
+</c:if>
 <%@include file="footer.jsp"%>

@@ -19,7 +19,7 @@ public interface PlayersDAO {
 
 	public Player getPlayerByEmail(String email);
 
-	public int getPlayerIdByEmail(String email) throws SQLException;
+	public int getPlayerIdByEmail(String email);
 
 	public List<Player> getAllUsers();
 

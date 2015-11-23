@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lannisters.devcor.entity.Device;
 import lannisters.devcor.entity.DeviceType;
@@ -90,19 +92,35 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/technicians/add", method = RequestMethod.POST)
-	public String saveTechnician(@ModelAttribute("user") Player user) {
-		user.setRoleId(2);
-		playersService.addPlayer(user);
-		mail.registrationEmail(user);
-		return "redirect:/technicians";
+	public String saveTechnician(@ModelAttribute("user") Player user, RedirectAttributes redirectAttributes) {
+		String page = null;
+		if (playersService.checkEmailExistence(user)) {
+			page = "redirect:/technicians/add";
+			redirectAttributes.addFlashAttribute("unique", "User with this email exist!");
+		} else {
+			user.setRoleId(2);
+			playersService.addPlayer(user);
+			page = "redirect:/technicians";
+			mail.registrationEmail(user);
+			redirectAttributes.addFlashAttribute("tech", "Technician created successfully!");
+		}
+		return page;
 	}
 
 	@RequestMapping(value = "/users/add", method = RequestMethod.POST)
-	public String saveUser(@ModelAttribute("user") Player user) {
-		user.setRoleId(3);
-		playersService.addPlayer(user);
-		mail.registrationEmail(user);
-		return "redirect:/users";
+	public String saveUser(@ModelAttribute("user") Player user, RedirectAttributes redirectAttributes) {
+		String page = null;
+		if (playersService.checkEmailExistence(user)) {
+			page = "redirect:/users/add";
+			redirectAttributes.addFlashAttribute("unique", "User with this email exist!");
+		} else {
+			user.setRoleId(3);
+			playersService.addPlayer(user);
+			page = "redirect:/users";
+			mail.registrationEmail(user);
+			redirectAttributes.addFlashAttribute("user", "User created successfully!");
+		}
+		return page;
 	}
 
 	@RequestMapping(value = { "/technicians/edit/id/{id}", "/users/edit/id/{id}" }, method = RequestMethod.GET)
@@ -112,25 +130,40 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = { "/technicians/edit/id/{id}", "/users/edit/id/{id}" }, method = RequestMethod.POST)
-	public String saveEditedUser(@ModelAttribute("user") Player user) {
-		playersService.updatePlayer(user);
+	public String saveEditedUser(@ModelAttribute("user") Player user, @PathVariable("id") int id,
+			RedirectAttributes redirectAttributes) {
 		String page = null;
-		if (user.getRoleId() == 2)
-			page = "redirect:/technicians";
-		else
-			page = "redirect:/users";
+		if (playersService.checkEmailExistence(user)
+				&& playersService.getPlayerIdByEmail(user.getPlayerEmail()) != user.getPlayerId()) {
+			if (user.getRoleId() == 2)
+				page = "redirect:/technicians/edit/id/" + id;
+			else
+				page = "redirect:/users/edit/id/" + id;
+			redirectAttributes.addFlashAttribute("unique", "User with this email exist!");
+		} else {
+			playersService.updatePlayer(user);
+			if (user.getRoleId() == 2) {
+				page = "redirect:/technicians";
+				redirectAttributes.addFlashAttribute("tech", "Technician edited successfully!");
+			} else {
+				page = "redirect:/users";
+				redirectAttributes.addFlashAttribute("user", "User edited successfully!");
+			}
+		}
 		return page;
 	}
 
 	@RequestMapping(value = "/technicians/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteTechnician(@PathVariable("id") int id) {
+	public String deleteTechnician(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
 		playersService.deletePlayer(id);
+		redirectAttributes.addFlashAttribute("tech", "Technician deleted successfully!");
 		return "redirect:/technicians";
 	}
 
 	@RequestMapping(value = "/users/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteUser(@PathVariable("id") int id) {
+	public String deleteUser(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
 		playersService.deletePlayer(id);
+		redirectAttributes.addFlashAttribute("user", "User deleted successfully!");
 		return "redirect:/users";
 	}
 
@@ -148,8 +181,9 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/rooms/add", method = RequestMethod.POST)
-	public String saveRoom(@ModelAttribute("room") Room room) {
+	public String saveRoom(@ModelAttribute("room") Room room, RedirectAttributes redirectAttributes) {
 		roomsService.addRoom(room);
+		redirectAttributes.addFlashAttribute("room", "Room created successfully!");
 		return "redirect:/rooms";
 	}
 
@@ -162,14 +196,16 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/rooms/edit/id/{id}", method = RequestMethod.POST)
-	public String saveEditedRoom(@ModelAttribute("room") Room room) {
+	public String saveEditedRoom(@ModelAttribute("room") Room room, RedirectAttributes redirectAttributes) {
 		roomsService.updateRoom(room);
+		redirectAttributes.addFlashAttribute("room", "Room edited successfully!");
 		return "redirect:/rooms";
 	}
 
 	@RequestMapping(value = "/rooms/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteRoom(@PathVariable("id") int id) {
+	public String deleteRoom(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
 		roomsService.deleteRoom(id);
+		redirectAttributes.addFlashAttribute("room", "Room deleted successfully!");
 		return "redirect:/rooms";
 	}
 
@@ -182,8 +218,10 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/rooms/edit/id/{room_id}/device/add", method = RequestMethod.POST)
-	public String processDeviceOfRoom(@ModelAttribute("deviceOfRoom") Device device, @PathVariable("room_id") int id) {
+	public String processDeviceOfRoom(@ModelAttribute("deviceOfRoom") Device device, @PathVariable("room_id") int id,
+			RedirectAttributes redirectAttributes) {
 		devicesService.addDevice(device);
+		redirectAttributes.addFlashAttribute("device", "Device created successfully!");
 		return "redirect:/rooms/edit/id/" + id;
 	}
 
@@ -202,8 +240,9 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/devices/add", method = RequestMethod.POST)
-	public String saveDevice(@ModelAttribute("device") Device device) {
+	public String saveDevice(@ModelAttribute("device") Device device, RedirectAttributes redirectAttributes) {
 		devicesService.addDevice(device);
+		redirectAttributes.addFlashAttribute("device", "Device created successfully!");
 		return "redirect:/devices";
 	}
 
@@ -218,22 +257,27 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/devices/edit/id/{id}", method = RequestMethod.POST)
-	public String saveEditedDevice(@ModelAttribute("device") Device device) {
+	public String saveEditedDevice(@ModelAttribute("device") Device device, RedirectAttributes redirectAttributes) {
 		devicesService.updateDevice(device);
+		redirectAttributes.addFlashAttribute("device", "Device edited successfully!");
 		return "redirect:/devices";
 	}
 
 	@RequestMapping(value = "/rooms/edit/id/{room_id}/devices/edit/id/{device_id}", method = RequestMethod.POST)
-	public String saveEditedRoomDevice(@ModelAttribute("device") Device device, @PathVariable("room_id") int id) {
+	public String saveEditedRoomDevice(@ModelAttribute("device") Device device, @PathVariable("room_id") int id,
+			RedirectAttributes redirectAttributes) {
 		devicesService.updateDevice(device);
+		redirectAttributes.addFlashAttribute("device", "Device edited successfully!");
 		return "redirect:/rooms/edit/id/" + id;
 	}
 
 	@RequestMapping(value = { "/devices/delete/id/{device_id}",
 			"/rooms/edit/id/{room_id}/devices/delete/id/{device_id}" }, method = RequestMethod.GET)
-	public String deleteDevice(@PathVariable("device_id") int id, HttpServletRequest request) {
+	public String deleteDevice(@PathVariable("device_id") int id, HttpServletRequest request,
+			RedirectAttributes redirectAttributes) {
 		devicesService.deleteDevice(id);
 		String referer = request.getHeader("Referer");
+		redirectAttributes.addFlashAttribute("device", "Device deleted successfully!");
 		return "redirect:" + referer;
 	}
 

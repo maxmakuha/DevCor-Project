@@ -7,6 +7,7 @@ import lannisters.devcor.dao.PlayersDAO;
 import lannisters.devcor.entity.Player;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,7 +52,7 @@ public class PlayersServiceImpl implements PlayersService {
 		return playersDao.getPlayerByEmail(email);
 	}
 
-	public int getPlayerIdByEmail(String email) throws SQLException {
+	public int getPlayerIdByEmail(String email) {
 		return playersDao.getPlayerIdByEmail(email);
 	}
 
@@ -61,5 +62,16 @@ public class PlayersServiceImpl implements PlayersService {
 
 	public List<Player> getAllTechnicians() {
 		return playersDao.getAllTechnicians();
+	}
+
+	public boolean checkEmailExistence(Player player) {
+		boolean existence;
+		try {
+			playersDao.getPlayerByEmail(player.getPlayerEmail());
+			existence = true;
+		} catch (EmptyResultDataAccessException e) {
+			existence = false;
+		}
+		return existence;
 	}
 }

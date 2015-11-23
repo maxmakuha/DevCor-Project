@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lannisters.devcor.entity.Player;
 import lannisters.devcor.service.PlayersService;
@@ -45,13 +46,22 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
-	public String saveProfile(@ModelAttribute("profile") Player player, Principal principal, Model model) {
-		playersService.updatePlayer(player);
+	public String saveProfile(@ModelAttribute("profile") Player player, Principal principal, Model model,
+			RedirectAttributes redirectAttributes) {
 		String page = null;
-		if(principal.getName().equals(player.getPlayerEmail()))
-			page = "redirect:/dashboard";
-		else
-			page = "redirect:/logout";
+		if (playersService.checkEmailExistence(player)
+				&& playersService.getPlayerIdByEmail(player.getPlayerEmail()) != player.getPlayerId()) {
+			page = "redirect:/profile";
+			redirectAttributes.addFlashAttribute("unique", "User with this email exist!");
+		} else {
+			playersService.updatePlayer(player);
+			if (principal.getName().equals(player.getPlayerEmail())) {
+				page = "redirect:/dashboard";
+				redirectAttributes.addFlashAttribute("profile", "Profile edited successfully!");
+			} else {
+				page = "redirect:/logout";
+			}
+		}
 		return page;
 	}
 

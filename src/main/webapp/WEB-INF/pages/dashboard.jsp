@@ -15,6 +15,10 @@
 	<div class="msg">${message}</div>
 </c:if>
 
+<c:if test="${not empty profile}">
+	<div class="msg">${profile}</div>
+</c:if>
+
 <c:if test="${isUser}">
 	<div class="col-lg-7" style="margin-left: 10px;">
 		<a type="submit" class="btn btn-success btn-sm" href="order/create">Create order</a>

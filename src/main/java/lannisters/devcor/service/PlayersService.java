@@ -1,6 +1,5 @@
 package lannisters.devcor.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import lannisters.devcor.entity.Player;
@@ -19,9 +18,11 @@ public interface PlayersService {
 
 	public Player getPlayerByEmail(String email);
 
-	public int getPlayerIdByEmail(String email) throws SQLException;
+	public int getPlayerIdByEmail(String email);
 
 	public List<Player> getAllUsers();
 
 	public List<Player> getAllTechnicians();
+	
+	public boolean checkEmailExistence(Player player);
 }

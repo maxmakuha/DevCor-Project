@@ -15,15 +15,25 @@
 </script>
 <div class="wrapper">
 	<ul class="nav nav-tabs">
-		<li role="presentation" class="active"><a href="<c:url value="/technicians"/>"
-			style="color: GREEN">Technicians</a></li>
-		<li role="presentation"><a href="<c:url value="/users"/>" style="color: GREEN">Users</a></li>
-		<li role="presentation"><a href="<c:url value="/rooms"/>" style="color: GREEN">Rooms</a></li>
-		<li role="presentation"><a href="<c:url value="/devices"/>" style="color: GREEN">Devices</a></li>
-		<li role="presentation"><a href="<c:url value="/reports"/>" style="color: GREEN">Reports</a></li>
-		<li role="presentation"><a href="<c:url value="/configuration"/>" style="color: GREEN">Configuration panel</a></li>
+		<li role="presentation" class="active"><a
+			href="<c:url value="/technicians"/>" style="color: GREEN">Technicians</a></li>
+		<li role="presentation"><a href="<c:url value="/users"/>"
+			style="color: GREEN">Users</a></li>
+		<li role="presentation"><a href="<c:url value="/rooms"/>"
+			style="color: GREEN">Rooms</a></li>
+		<li role="presentation"><a href="<c:url value="/devices"/>"
+			style="color: GREEN">Devices</a></li>
+		<li role="presentation"><a href="<c:url value="/reports"/>"
+			style="color: GREEN">Reports</a></li>
+		<li role="presentation"><a href="<c:url value="/configuration"/>"
+			style="color: GREEN">Configuration panel</a></li>
 	</ul>
 </div>
+
+<c:if test="${not empty tech}">
+	<div class="msg">${tech}</div>
+</c:if>
+
 <div class="row">
 	<div class="col-lg-7" style="margin-left: 10px;">
 		<a type="submit" class="btn btn-success btn-sm" href="technicians/add">Add

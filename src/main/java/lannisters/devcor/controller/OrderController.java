@@ -54,7 +54,6 @@ public class OrderController {
 	@Autowired
 	private CommentsService commentsService;
 
-
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String showDashboard(Model model, Principal principal) throws SQLException {
 		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()

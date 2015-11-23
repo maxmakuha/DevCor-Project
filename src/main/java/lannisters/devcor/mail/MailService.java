@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 
+import lannisters.devcor.entity.Comment;
 import lannisters.devcor.entity.Order;
 import lannisters.devcor.entity.Player;
 import lannisters.devcor.mail.MailSender;
 import lannisters.devcor.service.PlayersService;
+import lannisters.devcor.util.OrderAndComment;
 
 /**
  * @author xoma0_000
@@ -18,6 +20,7 @@ public class MailService {
 	private static final String REGISTRATION = "Authorization Information";
 	private static final String ORDER_CREATED = "Order created";
 	private static final String STATUS_CHANGE = "Status on your order has changed";
+	private static final String COMMENT = "New comment";
 	private static final String ADMINISTRATOR = "Room: 1-101; E-mail: admin@ukma.kiev.ua;"
 			+ " Phone number: 444-44-44, 8-093-999-99-99";
 	@Autowired
@@ -65,6 +68,17 @@ public class MailService {
 		Player player = service.getPlayerById(playerId);
 		String receiver = player.getPlayerEmail();
 		sender.send(receiver, STATUS_CHANGE, message);
+	}
+
+	public void commentEmail(OrderAndComment orderAndComment) {
+		String message = "Technician responsible for your order has left this comment: \n";
+		Order order = orderAndComment.getOrder();
+		Comment comment = orderAndComment.getComment();
+		String mesComment = comment.getComment();
+		int playerId = order.getAuthorId();
+		Player player = service.getPlayerById(playerId);
+		String receiver = player.getPlayerEmail();
+		sender.send(receiver, COMMENT, message+mesComment);
 	}
 
 	/**

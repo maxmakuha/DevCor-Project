@@ -115,6 +115,7 @@ public class OrderController {
 		ordersService.updateOrder(orderAndComment.getOrder());
 		if(orderAndComment.getComment() != null && orderAndComment.getComment().getComment()!=null){
 			commentsService.addComment(orderAndComment.getComment());
+			mail.commentEmail(orderAndComment);
 		}
 		return "redirect:/dashboard";
 	}

@@ -31,9 +31,9 @@ import lannisters.devcor.service.ProblemTypesService;
 import lannisters.devcor.service.ReportService;
 import lannisters.devcor.service.RoomsService;
 import lannisters.devcor.service.UrgencyStatusesService;
-import lannisters.devcor.view.ExcelReportView;
-import lannisters.devcor.view.ExcelReportView2;
-import lannisters.devcor.view.ExcelReportView3;
+import lannisters.devcor.view.OrdersReport;
+import lannisters.devcor.view.TechniciansReport;
+import lannisters.devcor.view.DevicesReport;
 
 @Controller
 public class AdminController {
@@ -300,15 +300,17 @@ public class AdminController {
 	@RequestMapping(value = "/DevCorReport", method = RequestMethod.GET)
 	public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+		
 		String output = ServletRequestUtils.getStringParameter(request, "exel");
-		if ("EXCEL1".equals(output.toUpperCase())) {
-			return new ModelAndView(new ExcelReportView(), "reportData",
+		System.out.println(output);
+		if ("OrdersReport".equals(output)) {
+			return new ModelAndView(new OrdersReport(), "reportData",
 					reportService.getOrdersReport(dateFromForReport, dateToForReport));
-		} else if ("EXCEL2".equals(output.toUpperCase())) {
-			return new ModelAndView(new ExcelReportView2(), "reportData",
+		} else if ("TechniciansReport".equals(output)) {
+			return new ModelAndView(new TechniciansReport(), "reportData",
 					reportService.getTechniciansReport(dateFromForReport, dateToForReport));
-		} else if ("EXCEL3".equals(output.toUpperCase())) {
-			return new ModelAndView(new ExcelReportView3(), "reportData",
+		} else if ("DevicesReport".equals(output)) {
+			return new ModelAndView(new DevicesReport(), "reportData",
 					reportService.getDevicesReport(dateFromForReport, dateToForReport));
 		} else {
 			return new ModelAndView("reports");
@@ -323,97 +325,97 @@ public class AdminController {
 		return "configurationPanel";
 	}
 
-	@RequestMapping(value = "/problemType/edit/id/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/configuration/problemType/edit/id/{id}", method = RequestMethod.GET)
 	public String editProblemType(@PathVariable("id") int id, Model model) {
 		model.addAttribute("action", "editProblemType");
 		model.addAttribute("problem", problemTypesService.getProblemTypeById(id));
 		return "configurationPanel";
 	}
 
-	@RequestMapping(value = "/problemType/edit/id/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/configuration/problemType/edit/id/{id}", method = RequestMethod.POST)
 	public String saveEditedProblemType(@ModelAttribute("problem") ProblemType problemType) {
 		problemTypesService.updateProblemType(problemType);
 		return "redirect:/configuration";
 	}
 
-	@RequestMapping(value = "/problemType/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/configuration/problemType/add", method = RequestMethod.GET)
 	public String addProblemType(Model model) {
 		model.addAttribute("action", "addProblemType");
 		model.addAttribute("problem", new ProblemType());
 		return "configurationPanel";
 	}
 
-	@RequestMapping(value = "/problemType/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/configuration/problemType/add", method = RequestMethod.POST)
 	public String saveProblemType(@ModelAttribute("problem") ProblemType problemType) {
 		problemTypesService.addProblemType(problemType);
 		return "redirect:/configuration";
 	}
 
-	@RequestMapping(value = "/problemType/delete/id/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/configuration/problemType/delete/id/{id}", method = RequestMethod.GET)
 	public String deleteProblemType(@PathVariable("id") int id) {
 		problemTypesService.deleteProblemType(id);
 		return "redirect:/configuration";
 	}
 
-	@RequestMapping(value = "/deviceType/edit/id/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/configuration/deviceType/edit/id/{id}", method = RequestMethod.GET)
 	public String editDeviceType(@PathVariable("id") int id, Model model) {
 		model.addAttribute("action", "editDeviceType");
 		model.addAttribute("deviceType", deviceTypesService.getDeviceTypeById(id));
 		return "configurationPanel";
 	}
 
-	@RequestMapping(value = "/deviceType/edit/id/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/configuration/deviceType/edit/id/{id}", method = RequestMethod.POST)
 	public String saveEditedDeviceType(@ModelAttribute("deviceType") DeviceType deviceType) {
 		deviceTypesService.updateDeviceType(deviceType);
 		return "redirect:/configuration";
 	}
 
-	@RequestMapping(value = "/deviceType/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/configuration/deviceType/add", method = RequestMethod.GET)
 	public String addDeviceType(Model model) {
 		model.addAttribute("action", "addDeviceType");
 		model.addAttribute("deviceType", new DeviceType());
 		return "configurationPanel";
 	}
 
-	@RequestMapping(value = "/deviceType/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/configuration/deviceType/add", method = RequestMethod.POST)
 	public String saveDeviceType(@ModelAttribute("deviceType") DeviceType deviceType) {
 		deviceTypesService.addDeviceType(deviceType);
 		return "redirect:/configuration";
 	}
 
-	@RequestMapping(value = "/deviceType/delete/id/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/configuration/deviceType/delete/id/{id}", method = RequestMethod.GET)
 	public String deleteDeviceType(@PathVariable("id") int id) {
 		deviceTypesService.deleteDeviceType(id);
 		return "redirect:/configuration";
 	}
 
-	@RequestMapping(value = "/urgStatus/edit/id/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/configuration/urgStatus/edit/id/{id}", method = RequestMethod.GET)
 	public String editUrgStatus(@PathVariable("id") int id, Model model) {
 		model.addAttribute("action", "editUrgStatus");
 		model.addAttribute("urgStatus", urgencyStatusesService.getUrgencyStatusById(id));
 		return "configurationPanel";
 	}
 
-	@RequestMapping(value = "/urgStatus/edit/id/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/configuration/urgStatus/edit/id/{id}", method = RequestMethod.POST)
 	public String saveEditedUrgStatus(@ModelAttribute("urgStatus") UrgencyStatus urgencyStatus) {
 		urgencyStatusesService.updateUrgencyStatus(urgencyStatus);
 		return "redirect:/configuration";
 	}
 
-	@RequestMapping(value = "/urgStatus/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/configuration/urgStatus/add", method = RequestMethod.GET)
 	public String addUrgStatus(Model model) {
 		model.addAttribute("action", "addUrgStatus");
 		model.addAttribute("urgStatus", new UrgencyStatus());
 		return "configurationPanel";
 	}
 
-	@RequestMapping(value = "/urgStatus/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/configuration/urgStatus/add", method = RequestMethod.POST)
 	public String saveUrgStatus(@ModelAttribute("urgStatus") UrgencyStatus urgencyStatus) {
 		urgencyStatusesService.addUrgencyStatus(urgencyStatus);
 		return "redirect:/configuration";
 	}
 
-	@RequestMapping(value = "/urgStatus/delete/id/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/configuration/urgStatus/delete/id/{id}", method = RequestMethod.GET)
 	public String deleteUrgStatus(@PathVariable("id") int id) {
 		urgencyStatusesService.deleteUrgencyStatus(id);
 		return "redirect:/configuration";

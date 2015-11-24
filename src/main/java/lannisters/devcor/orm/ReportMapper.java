@@ -10,8 +10,8 @@ public class ReportMapper implements RowMapper<Report> {
 	public Report mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Report report = new Report();
 		report.setReportId(rs.getInt("request_id"));
-		report.setCreatingDate(rs.getDate("creation_date"));
-		report.setDueDate(rs.getDate("due_date"));
+		report.setCreatingDate(rs.getTimestamp("creation_date"));
+		report.setDueDate(rs.getTimestamp("due_date"));
 		report.setProblemType(rs.getString("problem_type"));
 		report.setProblemDescription(rs.getString("description"));
 		report.setRoomNumber(rs.getString("room_number"));

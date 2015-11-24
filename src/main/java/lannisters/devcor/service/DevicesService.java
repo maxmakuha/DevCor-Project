@@ -1,6 +1,5 @@
 package lannisters.devcor.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import lannisters.devcor.entity.Device;
@@ -18,4 +17,8 @@ public interface DevicesService {
 	public void deleteDevice(int deviceId);
 
 	public List<Device> getAllDevicesOfRoom(int roomId);
+	
+	public Device getDeviceBySerial(String deviceSerialId);
+	
+	public boolean checkSerialExistence(Device device);
 }

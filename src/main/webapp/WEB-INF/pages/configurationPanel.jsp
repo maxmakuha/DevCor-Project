@@ -5,7 +5,6 @@
 <script src="<c:url value="/resources/js/bootbox.min.js"/>"></script>
 <script>
 	$(document).on("click", ".problemTypeConfirm", function(e) {
-
 		e.preventDefault();
 		var location = $(this).attr('href');
 		bootbox.confirm("Delete this problem type?", function(result) {
@@ -133,8 +132,8 @@
 					<tr>
 						<td><form:input type="text" class="form-control"
 								path="urgencyStatus" required="true" maxlength="20" /></td>
-						<td><form:input type="text" class="form-control"
-								path="days" required="true" maxlength="20" /></td>
+						<td><form:input type="text" class="form-control" path="days"
+								required="true" maxlength="20" /></td>
 						<td><input type="submit" class="btn btn-success" value="Save" /></td>
 					</tr>
 				</table>
@@ -156,8 +155,8 @@
 					<tr>
 						<td><form:input type="text" class="form-control"
 								path="urgencyStatus" required="true" maxlength="20" /></td>
-						<td><form:input type="text" class="form-control"
-								path="days" required="true" maxlength="20" /></td>
+						<td><form:input type="text" class="form-control" path="days"
+								required="true" maxlength="20" /></td>
 						<td><input type="submit" class="btn btn-success" value="Add" /></td>
 					</tr>
 				</table>
@@ -216,7 +215,8 @@
 							<td><c:out value="${deviceType.deviceTypeId}" /></td>
 							<td><c:out value="${deviceType.deviceType}" /></td>
 
-							<td><a href="configuration/deviceType/edit/id/${deviceType.deviceTypeId}"
+							<td><a
+								href="configuration/deviceType/edit/id/${deviceType.deviceTypeId}"
 								id="${deviceType.deviceTypeId}"><span
 									class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
 							<td><a class="deviceTypeconfirm"
@@ -251,7 +251,8 @@
 							<td><c:out value="${urgStatus.urgencyStatusId}" /></td>
 							<td><c:out value="${urgStatus.urgencyStatus}" /></td>
 							<td><c:out value="${urgStatus.days}" /></td>
-							<td><a href="configuration/urgStatus/edit/id/${urgStatus.urgencyStatusId}"
+							<td><a
+								href="configuration/urgStatus/edit/id/${urgStatus.urgencyStatusId}"
 								id="${urgStatus.urgencyStatusId}"><span
 									class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
 							<td><a class="urgStatusConfirm"

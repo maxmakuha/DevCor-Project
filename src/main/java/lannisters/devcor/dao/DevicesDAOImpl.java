@@ -6,7 +6,6 @@ import java.util.List;
 
 import lannisters.devcor.entity.Device;
 import lannisters.devcor.orm.DeviceMapper;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,6 +19,7 @@ public class DevicesDAOImpl implements DevicesDAO {
 	private static final String SQL_UPDATE_DEVICE = "UPDATE device SET device_serial_id = ?, device_type_id = ?, room_id = ? WHERE device_id = ?";
 	private static final String SQL_DELETE_DEVICE = "DELETE device WHERE device_id=?";
 	private static final String SQL_SELECT_ALL_DEVICES_OF_ROOM = SQL_SELECT_ALL_DEVICES + " WHERE device.room_id = ?";
+	private static final String SQL_GET_DEVICE_BY_SERIAL = SQL_SELECT_ALL_DEVICES + " WHERE device_serial_id = ?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -81,5 +81,9 @@ public class DevicesDAOImpl implements DevicesDAO {
 
 	public List<Device> getAllDevicesOfRoom(int roomId) {
 		return jdbcTemplate.query(SQL_SELECT_ALL_DEVICES_OF_ROOM, new Integer[] { roomId }, new DeviceMapper());
+	}
+
+	public Device getDeviceBySerial(String deviceSerialId) {
+		return jdbcTemplate.queryForObject(SQL_GET_DEVICE_BY_SERIAL, new DeviceMapper(), deviceSerialId);
 	}
 }

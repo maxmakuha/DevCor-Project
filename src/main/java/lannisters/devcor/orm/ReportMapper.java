@@ -18,9 +18,9 @@ public class ReportMapper implements RowMapper<Report> {
 		report.setSerialNumber(rs.getString("device_serial_id"));
 		report.setExecutionStatus(rs.getString("execution_status"));
 		report.setUrgencyStatus(rs.getString("urgency_status"));
-		report.setAuthor(rs.getString("author_name")+" "+rs.getString("author_surname"));
+		report.setAuthor(rs.getString("author_name") + " " + rs.getString("author_surname"));
 		report.setOverdue(rs.getString("overdue"));
-		report.setTechnician(rs.getString("technician_name")+" "+rs.getString("technician_surname"));
+		report.setTechnician(rs.getString("technician_name") + " " + rs.getString("technician_surname"));
 		return report;
 	}
 }

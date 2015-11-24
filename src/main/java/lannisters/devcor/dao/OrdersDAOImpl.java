@@ -20,10 +20,14 @@ public class OrdersDAOImpl implements OrdersDAO {
 	private static final String SQL_INSERT_ORDER = "INSERT INTO request(problem_type_id, description, room_id, device_id, execution_status_id, urgency_status_id, creation_date, due_date, author_id, technician_id, overdue) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_ORDER = "UPDATE request SET problem_type_id = ?, description = ?, room_id = ?, device_id = ?, execution_status_id = ?, urgency_status_id = ?, creation_date = ?, due_date = ?, author_id = ?, technician_id = ?, overdue = ? WHERE request_id = ?";
 	private static final String SQL_DELETE_ORDER = "DELETE request WHERE request_id = ?";
-	private static final String SQL_SELECT_ALL_ORDERS_OF_USER = SQL_SELECT_ALL_ORDERS + " WHERE author.player_email = ? ORDER BY CASE WHEN overdue='Y' AND execution_status_id < 3 THEN 1 WHEN execution_status_id = 2 THEN 2 WHEN execution_status_id = 1 THEN 3 WHEN execution_status_id = 3 THEN 4 ELSE 5 END, due_date";
-	private static final String SQL_SELECT_ALL_ORDERS_OF_TECHNICIAN = SQL_SELECT_ALL_ORDERS + " WHERE technician.player_email =? ORDER BY CASE WHEN overdue='Y' AND execution_status_id < 3 THEN 1 WHEN execution_status_id < 3 THEN 2 WHEN execution_status_id = 3 THEN 4 ELSE 3 END, due_date";
-	private static final String SQL_SELECT_ALL_ORDERS_SORTED = SQL_SELECT_ALL_ORDERS + " ORDER BY CASE WHEN overdue='Y' AND execution_status_id < 3 THEN 1 WHEN execution_status_id < 3 THEN 2 WHEN execution_status_id = 3 THEN 4 ELSE 3 END, due_date";
-	
+	private static final String SQL_SELECT_ALL_ORDERS_OF_USER = SQL_SELECT_ALL_ORDERS
+			+ " WHERE author.player_email = ? ORDER BY CASE WHEN overdue='Y' AND execution_status_id < 3 THEN 1 WHEN execution_status_id = 2 THEN 2 WHEN execution_status_id = 1 THEN 3 WHEN execution_status_id = 3 THEN 4 ELSE 5 END, due_date";
+	private static final String SQL_SELECT_ALL_ORDERS_OF_TECHNICIAN = SQL_SELECT_ALL_ORDERS
+			+ " WHERE technician.player_email =? ORDER BY CASE WHEN overdue='Y' AND execution_status_id < 3 THEN 1 WHEN execution_status_id < 3 THEN 2 WHEN execution_status_id = 3 THEN 4 ELSE 3 END, due_date";
+	private static final String SQL_SELECT_ALL_ORDERS_SORTED = SQL_SELECT_ALL_ORDERS
+			+ " ORDER BY CASE WHEN overdue='Y' AND execution_status_id < 3 THEN 1 WHEN execution_status_id < 3 THEN 2 WHEN execution_status_id = 3 THEN 4 ELSE 3 END, due_date";
+	private static final String SQL_SELECT_ALL_ORDERS_OF_ROOM = SQL_SELECT_ALL_ORDERS + " WHERE request.room_id = ?";
+
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -32,19 +36,17 @@ public class OrdersDAOImpl implements OrdersDAO {
 	}
 
 	public Order getOrderById(int orderId) {
-		return jdbcTemplate.queryForObject(SQL_SELECT_ORDER_BY_ID,
-				new OrderMapper(), orderId);
+		return jdbcTemplate.queryForObject(SQL_SELECT_ORDER_BY_ID, new OrderMapper(), orderId);
 	}
 
 	public void addOrder(Order order) throws SQLException {
 		PreparedStatement ps = null;
 		try {
-			ps = jdbcTemplate.getDataSource().getConnection()
-					.prepareStatement(SQL_INSERT_ORDER);
+			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_ORDER);
 			ps.setInt(1, order.getProblemTypeId());
 			ps.setString(2, order.getDescription());
 			ps.setInt(3, order.getRoomId());
-			ps.setObject(4, order.getDeviceObj() == null ? null :order.getDeviceId());
+			ps.setObject(4, order.getDeviceObj() == null ? null : order.getDeviceId());
 			ps.setInt(5, order.getExecutionStatusId());
 			ps.setInt(6, order.getUrgencyStatusId());
 			ps.setDate(7, (Date) order.getCreationDate());
@@ -64,12 +66,11 @@ public class OrdersDAOImpl implements OrdersDAO {
 	public void updateOrder(Order order) throws SQLException {
 		PreparedStatement ps = null;
 		try {
-			ps = jdbcTemplate.getDataSource().getConnection()
-					.prepareStatement(SQL_UPDATE_ORDER);
+			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_ORDER);
 			ps.setInt(1, order.getProblemTypeId());
 			ps.setString(2, order.getDescription());
 			ps.setInt(3, order.getRoomId());
-			ps.setObject(4, order.getDeviceId() == -1 ? null :order.getDeviceId());
+			ps.setObject(4, order.getDeviceId() == -1 ? null : order.getDeviceId());
 			ps.setInt(5, order.getExecutionStatusId());
 			ps.setInt(6, order.getUrgencyStatusId());
 			ps.setDate(7, (Date) order.getCreationDate());
@@ -90,8 +91,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 	public void deleteOrder(int orderId) throws SQLException {
 		PreparedStatement ps = null;
 		try {
-			ps = jdbcTemplate.getDataSource().getConnection()
-					.prepareStatement(SQL_DELETE_ORDER);
+			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_ORDER);
 			ps.setInt(1, orderId);
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -115,5 +115,10 @@ public class OrdersDAOImpl implements OrdersDAO {
 	@Override
 	public List<Order> getAllOrdersSorted() throws SQLException {
 		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_SORTED, new OrderMapper());
+	}
+
+	@Override
+	public List<Order> getAllOrdersOfRoom(int roomId) {
+		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_OF_ROOM, new OrderMapper(), roomId);
 	}
 }

@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -220,9 +219,16 @@ public class AdminController {
 	@RequestMapping(value = "/rooms/edit/id/{room_id}/device/add", method = RequestMethod.POST)
 	public String processDeviceOfRoom(@ModelAttribute("deviceOfRoom") Device device, @PathVariable("room_id") int id,
 			RedirectAttributes redirectAttributes) {
-		devicesService.addDevice(device);
-		redirectAttributes.addFlashAttribute("device", "Device created successfully!");
-		return "redirect:/rooms/edit/id/" + id;
+		String page = null;
+		if (devicesService.checkSerialExistence(device)) {
+			page = "redirect:/rooms/edit/id/" + id + "/device/add";
+			redirectAttributes.addFlashAttribute("unique", "Device with this serial number exist!");
+		} else {
+			devicesService.addDevice(device);
+			page = "redirect:/rooms/edit/id/" + id;
+			redirectAttributes.addFlashAttribute("device", "Device created successfully!");
+		}
+		return page;
 	}
 
 	@RequestMapping(value = "/devices", method = RequestMethod.GET)
@@ -241,9 +247,16 @@ public class AdminController {
 
 	@RequestMapping(value = "/devices/add", method = RequestMethod.POST)
 	public String saveDevice(@ModelAttribute("device") Device device, RedirectAttributes redirectAttributes) {
-		devicesService.addDevice(device);
-		redirectAttributes.addFlashAttribute("device", "Device created successfully!");
-		return "redirect:/devices";
+		String page = null;
+		if (devicesService.checkSerialExistence(device)) {
+			page = "redirect:/devices/add";
+			redirectAttributes.addFlashAttribute("unique", "Device with this serial number exist!");
+		} else {
+			devicesService.addDevice(device);
+			page = "redirect:/devices";
+			redirectAttributes.addFlashAttribute("device", "Device created successfully!");
+		}
+		return page;
 	}
 
 	@RequestMapping(value = { "/devices/edit/id/{device_id}",
@@ -257,18 +270,35 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/devices/edit/id/{id}", method = RequestMethod.POST)
-	public String saveEditedDevice(@ModelAttribute("device") Device device, RedirectAttributes redirectAttributes) {
-		devicesService.updateDevice(device);
-		redirectAttributes.addFlashAttribute("device", "Device edited successfully!");
-		return "redirect:/devices";
+	public String saveEditedDevice(@ModelAttribute("device") Device device, @PathVariable("id") int id,
+			RedirectAttributes redirectAttributes) {
+		String page = null;
+		if (devicesService.checkSerialExistence(device) && !devicesService.getDeviceById(device.getDeviceId())
+				.getDeviceSerialId().equals(device.getDeviceSerialId())) {
+			page = "redirect:/devices/edit/id/" + id;
+			redirectAttributes.addFlashAttribute("unique", "Device with this serial number exist!");
+		} else {
+			devicesService.updateDevice(device);
+			redirectAttributes.addFlashAttribute("device", "Device edited successfully!");
+			page = "redirect:/devices";
+		}
+		return page;
 	}
 
 	@RequestMapping(value = "/rooms/edit/id/{room_id}/devices/edit/id/{device_id}", method = RequestMethod.POST)
-	public String saveEditedRoomDevice(@ModelAttribute("device") Device device, @PathVariable("room_id") int id,
-			RedirectAttributes redirectAttributes) {
-		devicesService.updateDevice(device);
-		redirectAttributes.addFlashAttribute("device", "Device edited successfully!");
-		return "redirect:/rooms/edit/id/" + id;
+	public String saveEditedRoomDevice(@ModelAttribute("device") Device device, @PathVariable("room_id") int rid,
+			@PathVariable("device_id") int did, RedirectAttributes redirectAttributes) {
+		String page = null;
+		if (devicesService.checkSerialExistence(device) && !devicesService.getDeviceById(device.getDeviceId())
+				.getDeviceSerialId().equals(device.getDeviceSerialId())) {
+			page = "redirect:/rooms/edit/id/" + rid + "/devices/edit/id/" + did;
+			redirectAttributes.addFlashAttribute("unique", "Device with this serial number exist!");
+		} else {
+			devicesService.updateDevice(device);
+			redirectAttributes.addFlashAttribute("device", "Device edited successfully!");
+			page = "redirect:/rooms/edit/id/" + rid;
+		}
+		return page;
 	}
 
 	@RequestMapping(value = { "/devices/delete/id/{device_id}",

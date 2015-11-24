@@ -18,5 +18,7 @@ public interface DevicesDAO {
 	public void deleteDevice(int deviceId) throws SQLException;
 
 	public List<Device> getAllDevicesOfRoom(int roomId);
+	
+	public Device getDeviceBySerial(String deviceSerialId);
 
 }

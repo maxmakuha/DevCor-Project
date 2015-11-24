@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.Font;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 import lannisters.devcor.entity.Report;
 
-public class ExcelReportView extends AbstractExcelView{
+public class OrdersReport extends AbstractExcelView{
 	
 	@Override
 	protected void buildExcelDocument(Map model, HSSFWorkbook workbook,	HttpServletRequest request, HttpServletResponse response)throws Exception {

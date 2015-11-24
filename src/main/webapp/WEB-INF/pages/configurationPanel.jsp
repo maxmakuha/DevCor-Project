@@ -5,7 +5,6 @@
 <script src="<c:url value="/resources/js/bootbox.min.js"/>"></script>
 <script>
 	$(document).on("click", ".problemTypeConfirm", function(e) {
-
 		e.preventDefault();
 		var location = $(this).attr('href');
 		bootbox.confirm("Delete this problem type?", function(result) {
@@ -56,7 +55,7 @@
 
 		<c:if test="${action == 'editProblemType'}">
 			<c:url var="saveUrl"
-				value="/problemType/edit/id/${problem.problemTypeId}" />
+				value="/configuration/problemType/edit/id/${problem.problemTypeId}" />
 			<form:form modelAttribute="problem" method="POST" action="${saveUrl}">
 				<table class="table table-striped table-bordered">
 					<tr>
@@ -73,7 +72,7 @@
 
 
 		<c:if test="${action == 'addProblemType'}">
-			<c:url var="saveUrl" value="/problemType/add" />
+			<c:url var="saveUrl" value="/configuration/problemType/add" />
 			<form:form modelAttribute="problem" method="POST" action="${saveUrl}">
 				<table class="table table-striped table-bordered">
 					<tr>
@@ -88,7 +87,7 @@
 
 		<c:if test="${action == 'editDeviceType'}">
 			<c:url var="saveUrl"
-				value="/deviceType/edit/id/${deviceType.deviceTypeId}" />
+				value="/configuration/deviceType/edit/id/${deviceType.deviceTypeId}" />
 			<form:form modelAttribute="deviceType" method="POST"
 				action="${saveUrl}">
 				<table class="table table-striped table-bordered">
@@ -105,7 +104,7 @@
 		</c:if>
 
 		<c:if test="${action == 'addDeviceType'}">
-			<c:url var="saveUrl" value="/deviceType/add" />
+			<c:url var="saveUrl" value="/configuration/deviceType/add" />
 			<form:form modelAttribute="deviceType" method="POST"
 				action="${saveUrl}">
 				<table class="table table-striped table-bordered">
@@ -121,14 +120,20 @@
 
 		<c:if test="${action == 'editUrgStatus'}">
 			<c:url var="saveUrl"
-				value="/urgStatus/edit/id/${urgStatus.urgencyStatusId}" />
+				value="/configuration/urgStatus/edit/id/${urgStatus.urgencyStatusId}" />
 			<form:form modelAttribute="urgStatus" method="POST"
 				action="${saveUrl}">
 				<table class="table table-striped table-bordered">
 					<tr>
 						<td><form:label path="urgencyStatus">Title:</form:label></td>
+						<td><form:label path="urgencyStatus">Days:</form:label></td>
+						<td><form:label path="urgencyStatus">Save:</form:label></td>
+					</tr>
+					<tr>
 						<td><form:input type="text" class="form-control"
 								path="urgencyStatus" required="true" maxlength="20" /></td>
+						<td><form:input type="text" class="form-control" path="days"
+								required="true" maxlength="20" /></td>
 						<td><input type="submit" class="btn btn-success" value="Save" /></td>
 					</tr>
 				</table>
@@ -138,14 +143,20 @@
 		</c:if>
 
 		<c:if test="${action == 'addUrgStatus'}">
-			<c:url var="saveUrl" value="/urgStatus/add" />
+			<c:url var="saveUrl" value="/configuration/urgStatus/add" />
 			<form:form modelAttribute="urgStatus" method="POST"
 				action="${saveUrl}">
 				<table class="table table-striped table-bordered">
 					<tr>
 						<td><form:label path="urgencyStatus">Title:</form:label></td>
+						<td><form:label path="urgencyStatus">Days:</form:label></td>
+						<td><form:label path="urgencyStatus">Save:</form:label></td>
+					</tr>
+					<tr>
 						<td><form:input type="text" class="form-control"
 								path="urgencyStatus" required="true" maxlength="20" /></td>
+						<td><form:input type="text" class="form-control" path="days"
+								required="true" maxlength="20" /></td>
 						<td><input type="submit" class="btn btn-success" value="Add" /></td>
 					</tr>
 				</table>
@@ -170,11 +181,11 @@
 							<td><c:out value="${problemType.problemType}" /></td>
 
 							<td><a
-								href="problemType/edit/id/${problemType.problemTypeId}"
+								href="configuration/problemType/edit/id/${problemType.problemTypeId}"
 								id="${problemType.problemTypeId}"><span
 									class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
 							<td><a class="problemTypeConfirm"
-								href="problemType/delete/id/${problemType.problemTypeId}"
+								href="configuration/problemType/delete/id/${problemType.problemTypeId}"
 								id="${problemType.problemTypeId}"> <span
 									class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 							</a></td>
@@ -182,7 +193,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<form action="problemType/add">
+			<form action="configuration/problemType/add">
 				<input type="submit" class="btn btn-success"
 					value="Add new problem type" />
 			</form>
@@ -204,11 +215,12 @@
 							<td><c:out value="${deviceType.deviceTypeId}" /></td>
 							<td><c:out value="${deviceType.deviceType}" /></td>
 
-							<td><a href="deviceType/edit/id/${deviceType.deviceTypeId}"
+							<td><a
+								href="configuration/deviceType/edit/id/${deviceType.deviceTypeId}"
 								id="${deviceType.deviceTypeId}"><span
 									class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
 							<td><a class="deviceTypeconfirm"
-								href="deviceType/delete/id/${deviceType.deviceTypeId}"
+								href="configuration/deviceType/delete/id/${deviceType.deviceTypeId}"
 								id="${deviceType.deviceTypeId}"> <span
 									class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 							</a></td>
@@ -216,7 +228,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<form action="deviceType/add">
+			<form action="configuration/deviceType/add">
 				<input type="submit" class="btn btn-success"
 					value="Add new device type" />
 			</form>
@@ -228,6 +240,7 @@
 					<tr>
 						<th>ID</th>
 						<th>Title</th>
+						<th>Days</th>
 						<th>Edit</th>
 						<th>Delete</th>
 					</tr>
@@ -237,12 +250,13 @@
 						<tr>
 							<td><c:out value="${urgStatus.urgencyStatusId}" /></td>
 							<td><c:out value="${urgStatus.urgencyStatus}" /></td>
-
-							<td><a href="urgStatus/edit/id/${urgStatus.urgencyStatusId}"
+							<td><c:out value="${urgStatus.days}" /></td>
+							<td><a
+								href="configuration/urgStatus/edit/id/${urgStatus.urgencyStatusId}"
 								id="${urgStatus.urgencyStatusId}"><span
 									class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
 							<td><a class="urgStatusConfirm"
-								href="urgStatus/delete/id/${urgStatus.urgencyStatusId}"
+								href="configuration/urgStatus/delete/id/${urgStatus.urgencyStatusId}"
 								id="${urgStatus.urgencyStatusId}"> <span
 									class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 							</a></td>
@@ -250,7 +264,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<form action="urgStatus/add">
+			<form action="configuration/urgStatus/add">
 				<input type="submit" class="btn btn-success"
 					value="Add new urgency status" />
 			</form>

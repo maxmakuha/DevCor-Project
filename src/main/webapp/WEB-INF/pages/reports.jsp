@@ -60,6 +60,10 @@
 	<!-- Table Report1 -->
 	<%}else if(reportNum.equals("OrdersReport")){ %>
 	<hr>
+	<form action="DevCorReport">
+	<input type="text" hidden="true" name="exel" value="OrdersReport">
+	<button type="submit"  class="btn btn-xs btn-default">to xls</button>
+	</form>
 	<div class="panel panel-success">
 		<div class="panel-heading">
 			<h3 class="panel-title">OrdersReport</h3>
@@ -67,17 +71,17 @@
 		<table class="table table-striped table-bordered" id="report">
 			<thead>
 				<tr>
-					<th>Creating date</th>
-					<th>Due date</th>
-					<th>Problem type</th>
-					<th>Problem description</th>
-					<th>Room number</th>
-					<th>Serial number</th>
-					<th>Execution status</th>
-					<th>Urgency status</th>
-					<th>Author</th>
-					<th>Overdue</th>
-					<th>Technician</th>
+					<th width="15%">Creating date and time</th>
+					<th width="15%">Due date and time</th>
+					<th width="10%">Problem type</th>
+					<th width="30%">Problem description</th>
+					<th >Room number</th>
+					<th >Serial number</th>
+					<th >Execution status</th>
+					<th >Urgency status</th>
+					<th width="10%">Author</th>
+					<th >Overdue</th>
+					<th width="10%">Technician</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -99,14 +103,15 @@
 			</tbody>
 		</table>
 	</div>
-	<form action="DevCorReport">
-	<input type="text" hidden="true" name="exel" value="EXCEL1">
-	<button type="submit"  class="btn btn-xs btn-default">to xls</button>
-	</form>
+	
 		
 	<!-- Table Report2 -->
 	<%}else if(reportNum.equals("TechniciansReport")){ %>
 	<hr>
+	<form action="DevCorReport">
+	<input type="text" hidden="true" name="exel" value="TechniciansReport">
+	<button type="submit"  class="btn btn-xs btn-default">to xls</button>
+	</form>
 	<div class="panel panel-success">
 		<div class="panel-heading">
 			<h3 class="panel-title">TechniciansReport</h3>
@@ -142,13 +147,14 @@
 			</tbody>
 		</table>
 	</div>
-	<form action="DevCorReport">
-	<input type="text" hidden="true" name="exel" value="EXCEL2">
-	<button type="submit"  class="btn btn-xs btn-default">to xls</button>
-	</form>
+	
 	<!-- Table Report3 -->
 	<%} else{%>
 	<hr>
+	<form action="DevCorReport">
+	<input type="text" hidden="true" name="exel" value="DevicesReport">
+	<button type="submit"  class="btn btn-xs btn-default">to xls</button>
+	</form>
 	<div class="panel panel-success">
 		<div class="panel-heading">
 			<h3 class="panel-title">DevicesReport</h3>
@@ -174,10 +180,7 @@
 			</tbody>
 		</table>
 	</div>
-	<form action="DevCorReport">
-	<input type="text" hidden="true" name="exel" value="EXCEL3">
-	<button type="submit"  class="btn btn-xs btn-default">to xls</button>
-	</form>
+	
 	<%}%>
 	
 </div>

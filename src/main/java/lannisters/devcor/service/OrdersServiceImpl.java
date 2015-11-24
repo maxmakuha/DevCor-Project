@@ -49,4 +49,9 @@ public class OrdersServiceImpl implements OrdersService {
 	public List<Order> getAllOrdersSorted() throws SQLException {
 		return ordersDao.getAllOrdersSorted();
 	}
+
+	@Override
+	public List<Order> getAllOrdersOfRoom(int roomId) {
+		return ordersDao.getAllOrdersOfRoom(roomId);
+	}
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import lannisters.devcor.entity.Comment;
 import lannisters.devcor.entity.Order;
 import lannisters.devcor.entity.Player;
-import lannisters.devcor.mail.MailSender;
+import lannisters.devcor.mail.EmailSender;
 import lannisters.devcor.service.PlayersService;
 import lannisters.devcor.util.OrderAndComment;
 
@@ -24,7 +24,7 @@ public class MailService {
 	private static final String ADMINISTRATOR = "Room: 1-101; E-mail: admin@ukma.kiev.ua;"
 			+ " Phone number: 444-44-44, 8-093-999-99-99";
 	@Autowired
-	private MailSender sender;
+	private EmailSender sender;
 	@Autowired
 	private PlayersService service;
 
@@ -38,8 +38,8 @@ public class MailService {
 	 *            - password created by administrator
 	 */
 	public void registrationEmail(Player user) {
+		StringBuilder message = new StringBuilder();
 		String header = "Welcome to our system, ";
-		String name = user.getFullName();
 		String technician = "";
 		if(user.getRoleId()==2)
 			technician = ",as a technician ";
@@ -48,9 +48,15 @@ public class MailService {
 		String footer = "\nLater you can change your password. If you have any questions "
 				+ "be sure to contact with administrator:\n";
 		String email = user.getPlayerEmail();
-		String password = user.getPassword();
-		
-		sender.send(email, REGISTRATION, header + name + text + email + pwd + password + footer + ADMINISTRATOR);
+		message.append(header);
+		message.append(user.getFullName());
+		message.append(text);
+		message.append(email);
+		message.append(pwd);
+		message.append(user.getPassword());
+		message.append(footer);
+		message.append(ADMINISTRATOR);
+		sender.send(email, REGISTRATION, message.toString());
 	}
 
 	/**
@@ -71,14 +77,16 @@ public class MailService {
 	}
 
 	public void commentEmail(OrderAndComment orderAndComment) {
-		String message = "Technician responsible for your order has left this comment: \n";
+		StringBuilder message = new StringBuilder();
+		String text = "Technician responsible for your order has left this comment: \n";
 		Order order = orderAndComment.getOrder();
 		Comment comment = orderAndComment.getComment();
-		String mesComment = comment.getComment();
 		int playerId = order.getAuthorId();
 		Player player = service.getPlayerById(playerId);
 		String receiver = player.getPlayerEmail();
-		sender.send(receiver, COMMENT, message+mesComment);
+		message.append(text);
+		message.append(comment.getComment());
+		sender.send(receiver, COMMENT, message.toString());
 	}
 
 	/**
@@ -93,14 +101,16 @@ public class MailService {
 		int userId = order.getAuthorId();
 		Player user = service.getPlayerById(userId);
 		String receiver1 = user.getPlayerEmail();
-
+		StringBuilder messageUser = new StringBuilder();
 		int technicianId = order.getTechnicianId();
 		Player technician = service.getPlayerById(technicianId);
 		String receiver2 = technician.getPlayerEmail();
-		String messageUser = "Your order has been succesfully created! " + "Technician responsible for it is "
-				+ technician.getFirstName() + "" + " " + technician.getLastName() + ". It is predicted to be "
-				+ "made by " + order.getDueDate();
-		sender.send(receiver1, ORDER_CREATED, messageUser);
+		messageUser.append("Your order has been succesfully created! Technician responsible for it is ");
+		messageUser.append(technician.getFirstName());
+		messageUser.append(" " + technician.getLastName());
+		messageUser.append(". It is predicted to be made by ");
+		messageUser.append(order.getDueDate());
+		sender.send(receiver1, ORDER_CREATED, messageUser.toString());
 		String messageTechnician = "There is an order for you! It must be done by " + order.getDueDate();
 		sender.send(receiver2, ORDER_CREATED, messageTechnician);
 	}

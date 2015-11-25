@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lannisters.devcor.entity.Comment;
 import lannisters.devcor.entity.Order;
+import lannisters.devcor.entity.Room;
 import lannisters.devcor.mail.MailService;
 import lannisters.devcor.service.CommentsService;
 import lannisters.devcor.service.DevicesService;
@@ -130,5 +131,10 @@ public class OrderController {
 	public String getRoomDevices(@RequestParam("roomId") int roomId, Model m) throws SQLException {
 		m.addAttribute("devices", devicesService.getAllDevicesOfRoom(roomId));
 		return "getRoomDevices";
+	}
+	@RequestMapping(value = "/getDuplicateOrders", method = RequestMethod.GET)
+	public String getDuplicateOrders(@RequestParam("roomId") int roomId, Model m) throws SQLException {
+		m.addAttribute("orders", ordersService.getAllOrdersOfRoom(roomId));
+		return "getDuplicateOrders";
 	}
 }

@@ -11,6 +11,14 @@
 				$('#serialPortOptions').html(responseHTML);
 			})
 		});
+		
+		$('#roomNumberOptions').change(function() {
+		$.get('/DevCor/getDuplicateOrders', {
+			roomId : $(this).val()
+		}, function(responseHTML) {
+			$('#duplicates').html(responseHTML);
+		})
+		});
 
 		$('input[type=button]').click(function() {
 			window.location = "../dashboard";
@@ -82,7 +90,8 @@
 		<p style="text-align: center">
 			<input type="submit" class="btn btn-success" value="Complete" /> <input
 				type="button" class="btn btn-cancell" value="Cancel" />
-		</p>
+		</p>	
+	<div id="duplicates"/>	
 	</form:form>
 </div>
 <%@include file="footer.jsp"%>

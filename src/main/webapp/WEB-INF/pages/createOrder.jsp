@@ -19,6 +19,15 @@
 			$('#duplicates').html(responseHTML);
 		})
 		});
+		
+		$('#serialPortOptions').change(function() {
+			$.get('/DevCor/getDuplicateOrdersDevice', {
+				roomId : $('#roomNumberOptions').val(),
+				deviceId : $(this).val()
+			}, function(responseHTML) {
+				$('#duplicates').html(responseHTML);
+			})
+			});
 
 		$('input[type=button]').click(function() {
 			window.location = "../dashboard";

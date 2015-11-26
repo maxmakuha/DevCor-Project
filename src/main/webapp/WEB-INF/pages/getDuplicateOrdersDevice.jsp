@@ -18,7 +18,7 @@
 		</thead>	
 			
 		<c:forEach var="order" items="${orders}">
-		<c:if test="${order.executionStatusId < 3 && order.getDeviceId() == -1}">
+		<c:if test="${order.executionStatusId < 3 && order.getDeviceId() == device.getDeviceId()}">
 		
 		
 			<tr

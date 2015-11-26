@@ -1,6 +1,6 @@
 package lannisters.devcor.dao;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
@@ -49,8 +49,8 @@ public class OrdersDAOImpl implements OrdersDAO {
 			ps.setObject(4, order.getDeviceObj() == null ? null : order.getDeviceId());
 			ps.setInt(5, order.getExecutionStatusId());
 			ps.setInt(6, order.getUrgencyStatusId());
-			ps.setDate(7, (Date) order.getCreationDate());
-			ps.setDate(8, (Date) order.getDueDate());
+			ps.setTimestamp(7, order.getCreationDate());
+			ps.setTimestamp(8, order.getDueDate());
 			ps.setInt(9, order.getAuthorId());
 			ps.setInt(10, order.getTechnicianId());
 			ps.setString(11, order.getOverdue());
@@ -73,8 +73,8 @@ public class OrdersDAOImpl implements OrdersDAO {
 			ps.setObject(4, order.getDeviceId() == -1 ? null : order.getDeviceId());
 			ps.setInt(5, order.getExecutionStatusId());
 			ps.setInt(6, order.getUrgencyStatusId());
-			ps.setDate(7, (Date) order.getCreationDate());
-			ps.setDate(8, (Date) order.getDueDate());
+			ps.setTimestamp(7, order.getCreationDate());
+			ps.setTimestamp(8, order.getDueDate());
 			ps.setInt(9, order.getAuthorId());
 			ps.setInt(10, order.getTechnicianId());
 			ps.setString(11, order.getOverdue());

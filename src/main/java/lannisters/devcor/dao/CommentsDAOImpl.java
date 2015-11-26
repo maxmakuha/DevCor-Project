@@ -41,7 +41,7 @@ public class CommentsDAOImpl implements CommentsDAO {
 					.prepareStatement(SQL_INSERT_COMMENT);
 			ps.setString(1, comment.getComment());
 			ps.setInt(2, comment.getOrderId());
-			ps.setDate(3, (Date) comment.getCreationDate());
+			ps.setTimestamp(3,comment.getCreationDate());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -58,7 +58,7 @@ public class CommentsDAOImpl implements CommentsDAO {
 					.prepareStatement(SQL_UPDATE_COMMENT);
 			ps.setString(1, comment.getComment());
 			ps.setInt(2, comment.getOrderId());
-			ps.setDate(3, (Date) comment.getCreationDate());
+			ps.setTimestamp(3, comment.getCreationDate());
 			ps.setInt(4, comment.getCommentId());
 			ps.executeUpdate();
 		} catch (SQLException e) {

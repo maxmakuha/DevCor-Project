@@ -28,8 +28,8 @@ public class OrderMapper implements RowMapper<Order> {
 		order.setExecutionStatus(rs.getString("execution_status"));
 		order.setUrgencyStatusId(rs.getInt("urgency_status_id"));
 		order.setUrgencyStatus(rs.getString("urgency_status"));
-		order.setCreationDate(rs.getDate("creation_date"));
-		order.setDueDate(rs.getDate("due_date"));
+		order.setCreationDate(rs.getTimestamp("creation_date"));
+		order.setDueDate(rs.getTimestamp("due_date"));
 		order.setAuthorId(rs.getInt("author_id"));
 		order.setAuthorEmail(rs.getString("author_email"));
 		order.setAuthorName(rs.getString("author_name"));

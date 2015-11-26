@@ -1,6 +1,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@include file="header.jsp"%>
 <%@page session="true"%>
+
+<script src=<c:url value="/resources/js/bootstrap.min.js" />></script>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+});
+</script>
 
 <c:set var="role" value="${pageContext.request.userPrincipal.authorities.iterator().next().authority}" />
 <c:set var="isUser" value="${role == 'ROLE_USER'}"/>
@@ -21,7 +29,7 @@
 
 <c:if test="${isUser}">
 	<div class="col-lg-7" style="margin-left: 10px;">
-		<a type="submit" class="btn btn-success btn-sm" href="order/create">Create order</a>
+		<a type="submit" class="btn btn-success btn-sm" href="dashboard/order/create">Create order</a>
 	</div>
 </c:if>
 
@@ -31,6 +39,19 @@
 	<div class="panel-heading">
 		<h3 class="panel-title">Orders</h3>
 	</div>
+	<br>
+	<a href="#" data-toggle="popover" data-html="true" title="Order colors" data-content="
+		<div class='order-overdue'></div> - Overdued orders
+		<br>
+		<div class='order-open-not-overdue'></div> - Opened and not overdued orders
+		<br>
+		<div class='order-in-progress-not-overdue'></div> - In progress and not overdued orders
+		<br>
+		<div class='order-finished'></div> - Finished orders
+		<br>
+		<div class='order-incorrect-or-unsolvable'></div> - Incorrect or Unsolvable orders
+	">What does all this colors mean?</a>
+	<br>
 	<br>
 	<table class="table table-striped table-bordered" id="pagination">
 		<thead bgcolor="#8FBC8F">
@@ -62,22 +83,22 @@
 			</tr>
 		</thead>
 		<c:forEach var="order" items="${orders}">
-			<tr
+			<tr class=
 			<c:choose>
 				<c:when test="${order.overdue == 'Y' && order.executionStatusId < 3}">
-					style="background-color: red;"
+					"order-overdue"
 				</c:when>
 				<c:when test="${order.executionStatus == 'Open'}">
-					style="background-color: lightgreen;"
+					"order-open-not-overdue"
 				</c:when>
 				<c:when test="${order.executionStatus == 'In progress'}">
-					style="background-color: yellow;"
+					"order-in-progress-not-overdue"
 				</c:when>
 				<c:when test="${order.executionStatus != 'Finished'}">
-					style="background-color: lightgrey;"
+					"order-finished"
 				</c:when>
 				<c:otherwise>
-					style="background-color: cyan;"
+					"order-incorrect-or-unsolvable"
 				</c:otherwise>
 			</c:choose>
 			>
@@ -88,8 +109,8 @@
 					<td><c:out value="${order.problemType}" /></td>
 				</c:if>
 				<c:if test="${isUser}">
-					<td><c:out value="${order.creationDate}" /></td>
-					<td><c:out value="${order.dueDate}" /></td>
+					<td><c:out value="${fn:substring(order.creationDate, 0, 16)}" /></td>
+					<td><c:out value="${fn:substring(order.dueDate, 0, 16)}" /></td>
 					<td><c:out value="${order.problemType}" /></td>
 					<td><c:out value="${order.roomNumber}" /></td>
 					<td><c:out value="${order.technicianName} ${order.technicianSurname}" /></td>
@@ -97,14 +118,14 @@
 				<c:if test="${isAdmin}">
 					<td><c:out value="${order.authorName} ${order.authorSurname}" /></td>
 					<td><c:out value="${order.technicianName} ${order.technicianSurname}" /></td>
-					<td><c:out value="${order.creationDate}" /></td>
-					<td><c:out value="${order.dueDate}" /></td>
+					<td><c:out value="${fn:substring(order.creationDate, 0, 16)}" /></td>
+					<td><c:out value="${fn:substring(order.dueDate, 0, 16)}" /></td>
 					<td><c:out value="${order.problemType}" /></td>
 					<td><c:out value="${order.roomNumber}" /></td>
 					<td><c:out value="${order.deviceSerialId}" /></td>
 					<td><c:out value="${order.executionStatus}" /></td>
 				</c:if>
-				<td><a href="order/id/${order.orderId}"
+				<td><a href="dashboard/order/id/${order.orderId}"
 					id="${order.orderId}"><span class="glyphicon glyphicon-edit"
 						aria-hidden="true"></span></a></td>
 			</tr>

@@ -406,3 +406,37 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
 td {
 	word-break: break-all;
 }
+
+.order-overdue{
+	background-color: #FFBBCC !important;
+}
+
+.order-open-not-overdue{
+	background-color: #BEFFAD !important;
+}
+
+.order-in-progress-not-overdue{
+	background-color: #FBFFD8 !important;
+}
+
+.order-finished{
+	background-color: #F0EFFE !important;
+}
+
+.order-incorrect-or-unsolvable{
+	background-color: grey !important;
+}
+
+.popover-content > div {
+	width: 10px;
+	height: 10px;
+	display: inline-block;
+}
+
+.row {
+	margin: 0 !important;
+}
+
+.col-sm-12 {
+	padding: 0 !important;
+}

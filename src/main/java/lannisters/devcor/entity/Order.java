@@ -1,5 +1,6 @@
 package lannisters.devcor.entity;
 
+import java.sql.Timestamp;
 import java.sql.Date;
 
 public class Order {
@@ -11,8 +12,8 @@ public class Order {
 	private Device device;
 	private ExecutionStatus executionStatus;
 	private UrgencyStatus urgencyStatus;
-	private Date creationDate;
-	private Date dueDate;
+	private Timestamp creationDate;
+	private Timestamp dueDate;
 	private Player author;
 	private Player technician;
 	private String overdue;
@@ -28,7 +29,7 @@ public class Order {
 
 	public Order(int orderId, ProblemType problemType, String description,
 			Room room, Device device, ExecutionStatus executionStatus,
-			UrgencyStatus urgencyStatus, Date creationDate, Date dueDate,
+			UrgencyStatus urgencyStatus, Timestamp creationDate, Timestamp dueDate,
 			Player author, Player technician, String overdue) {
 		this.orderId = orderId;
 		this.problemType = problemType;
@@ -184,19 +185,19 @@ public class Order {
 		this.urgencyStatus.setUrgencyStatus(urgencyStatus);
 	}
 
-	public Date getCreationDate() {
+	public Timestamp getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(Timestamp creationDate) {
 		this.creationDate = creationDate;
 	}
 
-	public Date getDueDate() {
+	public Timestamp getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(Date dueDate) {
+	public void setDueDate(Timestamp dueDate) {
 		this.dueDate = dueDate;
 	}
 
@@ -307,7 +308,7 @@ public class Order {
 	}
 	
 	public void calcDueDate(){
-		setDueDate(new Date(this.getCreationDate().getTime() + getDueMilis(this.urgencyStatus)));
+		setDueDate(new Timestamp(this.getCreationDate().getTime() + getDueMilis(this.urgencyStatus)));
 	}
 	
 	private int getDueMilis(UrgencyStatus urgencyStatus){

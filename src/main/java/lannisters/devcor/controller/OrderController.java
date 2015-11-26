@@ -3,6 +3,7 @@ package lannisters.devcor.controller;
 import java.security.Principal;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +75,7 @@ public class OrderController {
 		return "dashboard";
 	}
 
-	@RequestMapping(value = "/order/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/dashboard/order/create", method = RequestMethod.GET)
 	public String showOrderAddingForm(Model m) {
 		Order order = new Order();
 		m.addAttribute("order", order);
@@ -84,10 +85,10 @@ public class OrderController {
 		return "createOrder";
 	}
 
-	@RequestMapping(value = "/order/create", method = RequestMethod.POST)
+	@RequestMapping(value = "/dashboard/order/create", method = RequestMethod.POST)
 	public String createNewOrder(@ModelAttribute Order order, Model m, Principal principal) throws SQLException {
 		order.setExecutionStatusId(1);
-		order.setCreationDate(new Date(Calendar.getInstance().getTimeInMillis()));
+		order.setCreationDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 		order.calcDueDate();
 		order.setAuthorId(playersService.getPlayerIdByEmail(principal.getName()));
 		order.setTechnicianId(roomsService.getTechnicianIdByRoomId(order.getRoomId()));
@@ -100,7 +101,7 @@ public class OrderController {
 		return "redirect:/dashboard";
 	}
 
-	@RequestMapping(value = "/order/id/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "dashboard/order/id/{id}", method = RequestMethod.GET)
 	public String viewOrder(@PathVariable("id") int orderId, Model m) throws SQLException {
 		m.addAttribute("orderAndComment", new OrderAndComment(ordersService.getOrderById(orderId), new Comment()));
 		m.addAttribute("problemTypes", problemTypesService.getAllProblemTypes());
@@ -111,7 +112,7 @@ public class OrderController {
 		return "viewOrder";
 	}
 
-	@RequestMapping(value = "/order/id/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/dashboard/order/id/{id}", method = RequestMethod.POST)
 	public String updateOrder(OrderAndComment orderAndComment) throws SQLException {
 		ordersService.updateOrder(orderAndComment.getOrder());
 		if(orderAndComment.getComment() != null && orderAndComment.getComment().getComment()!=null){
@@ -121,7 +122,7 @@ public class OrderController {
 		return "redirect:/dashboard";
 	}
 	
-	@RequestMapping(value = "/order/delete/id/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/dashboard/order/delete/id/{id}", method = RequestMethod.GET)
 	public String deleteOrder(@PathVariable("id") int orderId) throws SQLException {
 		ordersService.deleteOrder(orderId);
 		return "redirect:/dashboard";
@@ -132,6 +133,7 @@ public class OrderController {
 		m.addAttribute("devices", devicesService.getAllDevicesOfRoom(roomId));
 		return "getRoomDevices";
 	}
+	
 	@RequestMapping(value = "/getDuplicateOrders", method = RequestMethod.GET)
 	public String getDuplicateOrders(@RequestParam("roomId") int roomId, Model m) throws SQLException {
 		m.addAttribute("orders", ordersService.getAllOrdersOfRoom(roomId));

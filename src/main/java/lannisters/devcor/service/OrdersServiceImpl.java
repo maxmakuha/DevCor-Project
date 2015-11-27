@@ -54,4 +54,13 @@ public class OrdersServiceImpl implements OrdersService {
 	public List<Order> getAllOrdersOfRoom(int roomId) {
 		return ordersDao.getAllOrdersOfRoom(roomId);
 	}
+	
+	@Override
+	public List<Order> getAllOrdersOfRoomNoDevice(int roomId) throws SQLException {
+		return ordersDao.getAllOrdersOfRoomNoDevice(roomId);
+	}
+	@Override
+	public List<Order> getAllOrdersOfRoomWithDevice(int roomId) throws SQLException {
+		return ordersDao.getAllOrdersOfRoomWithDevice(roomId);
+	}
 }

@@ -24,4 +24,8 @@ public interface OrdersDAO {
 	public List<Order> getAllOrdersSorted() throws SQLException;
 	
 	public List<Order> getAllOrdersOfRoom(int roomId);
+
+	List<Order> getAllOrdersOfRoomNoDevice(int roomId) throws SQLException;
+
+	List<Order> getAllOrdersOfRoomWithDevice(int roomId) throws SQLException;
 }

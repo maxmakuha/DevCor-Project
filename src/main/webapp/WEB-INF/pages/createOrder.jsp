@@ -13,7 +13,7 @@
 		});
 		
 		$('#roomNumberOptions').change(function() {
-		$.get('/DevCor/getDuplicateOrders', {
+		$.get('/DevCor/getDuplicateOrdersRoom', {
 			roomId : $(this).val()
 		}, function(responseHTML) {
 			$('#duplicates').html(responseHTML);

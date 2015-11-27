@@ -127,10 +127,18 @@ public class OrderController {
 	@RequestMapping(value = "/dashboard/order/id/{id}", method = RequestMethod.POST)
 	public String updateOrder(OrderAndComment orderAndComment)
 			throws SQLException {
+		Order order = ordersService.getOrderById(orderAndComment.getOrder().getOrderId());
+		int oldStatusId = order.getExecutionStatusId();
+		
 		ordersService.updateOrder(orderAndComment.getOrder());
 		if (orderAndComment.getComment() != null
 				&& orderAndComment.getComment().getComment() != null) {
 			commentsService.addComment(orderAndComment.getComment());
+		int newStatusId = orderAndComment.getOrder().getExecutionStatusId();
+		
+		if(newStatusId>3 && oldStatusId!=newStatusId){
+			order = ordersService.getOrderById(orderAndComment.getOrder().getOrderId());
+			mail.statusEmail(order);}
 			mail.commentEmail(orderAndComment);
 		}
 		return "redirect:/dashboard";
@@ -150,11 +158,11 @@ public class OrderController {
 		return "getRoomDevices";
 	}
 
-	@RequestMapping(value = "/getDuplicateOrders", method = RequestMethod.GET)
+	@RequestMapping(value = "/getDuplicateOrdersRoom", method = RequestMethod.GET)
 	public String getDuplicateOrders(@RequestParam("roomId") int roomId, Model m)
 			throws SQLException {
-		m.addAttribute("orders", ordersService.getAllOrdersOfRoom(roomId));
-		return "getDuplicateOrders";
+		m.addAttribute("orders", ordersService.getAllOrdersOfRoomNoDevice((roomId)));
+		return "getDuplicateOrdersRoom";
 	}
 
 	@RequestMapping(value = "/getDuplicateOrdersDevice", method = RequestMethod.GET)
@@ -162,10 +170,12 @@ public class OrderController {
 			@RequestParam("deviceId") int deviceId, Model m)
 			throws SQLException {
 
-		m.addAttribute("orders", ordersService.getAllOrdersOfRoom(roomId));
-		if (deviceId == -1)
-			return "getDuplicateOrders";
+		
+		if (deviceId == -1){
+			m.addAttribute("orders", ordersService.getAllOrdersOfRoomNoDevice((roomId)));
+			return "getDuplicateOrdersRoom";}
 		else {
+			m.addAttribute("orders", ordersService.getAllOrdersOfRoomWithDevice(roomId));
 			m.addAttribute("device", devicesService.getDeviceById(deviceId));
 			return "getDuplicateOrdersDevice";
 		}

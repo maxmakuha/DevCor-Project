@@ -67,13 +67,16 @@ public class MailService {
 	 *            - An order which status had been changed
 	 */
 	public void statusEmail(Order order) {
-		String message = "Status on your order from " + order.getCreationDate() + "" + "has changed to "
-				+ order.getExecutionStatus();
-
+		StringBuilder message = new StringBuilder();
+		message.append("Status on your order from ");
+		message.append(order.getCreationDate() +" has changed to ");
+		message.append(order.getExecutionStatus());
+		message.append(". For more details connect with Administrator: \n");
+		message.append(ADMINISTRATOR);
 		int playerId = order.getAuthorId();
 		Player player = service.getPlayerById(playerId);
 		String receiver = player.getPlayerEmail();
-		sender.send(receiver, STATUS_CHANGE, message);
+		sender.send(receiver, STATUS_CHANGE, message.toString());
 	}
 
 	public void commentEmail(OrderAndComment orderAndComment) {

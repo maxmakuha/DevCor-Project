@@ -14,7 +14,6 @@ public class EmailSender {
 	
 	public void send(String receiver, String subject, String body){
 		mail.sendMail(SENDER, receiver, subject, body);
-		System.out.println("message successfully sent");
 	}
 	
 

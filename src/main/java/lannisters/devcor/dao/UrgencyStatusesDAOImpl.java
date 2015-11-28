@@ -20,9 +20,9 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO{
 	private JdbcTemplate jdbcTemplate;
 	
 	private static final String SQL_SELECT_ALL_URGENCY_STATUS = "SELECT * FROM urgency_status";
-	private static final String SQL_SELECT_URGENCY_STATUS_BY_ID = "SELECT urgency_status_id, urgency_status FROM urgency_status WHERE urgency_status.urgency_status_id=?";
-	private static final String SQL_UPDATE_URGENCY_STATUS = "UPDATE urgency_status SET urgency_status = ? WHERE urgency_status_id = ?";
-	private static final String SQL_INSERT_URGENCY_STATUS = "INSERT INTO urgency_status( urgency_status_id, urgency_status) VALUES (?, ?)";
+	private static final String SQL_SELECT_URGENCY_STATUS_BY_ID = "SELECT urgency_status_id, urgency_status,days FROM urgency_status WHERE urgency_status.urgency_status_id=?";
+	private static final String SQL_UPDATE_URGENCY_STATUS = "UPDATE urgency_status SET urgency_status = ?, days = ? WHERE urgency_status_id = ?";
+	private static final String SQL_INSERT_URGENCY_STATUS = "INSERT INTO urgency_status(  urgency_status, days) VALUES ( ?,?)";
 	private static final String SQL_DELETE_URGENCY_STATUS = "DELETE urgency_status WHERE urgency_status_id=?";
 
 	
@@ -40,9 +40,9 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO{
 		PreparedStatement ps = null;
 		try {
 			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_URGENCY_STATUS);
-			ps.setString(1, urgencyStatus.getUrgencyStatus());
-			ps.setInt(2, urgencyStatus.getUrgencyStatusId());
-			
+			ps.setString(1, urgencyStatus.getUrgencyStatus());			
+			ps.setInt(2, urgencyStatus.getDays());
+			ps.setInt(3, urgencyStatus.getUrgencyStatusId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -57,8 +57,9 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO{
 		PreparedStatement ps = null;
 		try {
 			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_URGENCY_STATUS);
-			ps.setInt(1, urgencyStatus.getUrgencyStatusId());
-			ps.setString(2, urgencyStatus.getUrgencyStatus());
+			
+			ps.setString(1, urgencyStatus.getUrgencyStatus());
+			ps.setInt(2, urgencyStatus.getDays());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

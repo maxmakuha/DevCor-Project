@@ -39,17 +39,18 @@ public class TechniciansReport extends AbstractExcelView{
 			header.getCell(i).setCellStyle(stylerowHeading);
 		}
 		int rowNum = 1;
-		 for (int k = 0; k < getAllReport.size(); k++) {
+		 for (int i = 0; i < getAllReport.size(); i++) {
 			HSSFRow row = sheet.createRow(rowNum++);
-			row.createCell(0).setCellValue(getAllReport.get(k).getTechnician());
-			row.createCell(1).setCellValue(getAllReport.get(k).getCoutOfopenOrders());
-			row.createCell(2).setCellValue(getAllReport.get(k).getCountOfinprogressOrders());
-			row.createCell(3).setCellValue(getAllReport.get(k).getCountOfunsolvableOrders());
-			row.createCell(4).setCellValue(getAllReport.get(k).getCountOfincorrectOrders());
-			row.createCell(5).setCellValue(getAllReport.get(k).getCountOffinishedOrders());
-			row.createCell(6).setCellValue(getAllReport.get(k).getCountOffinishedwithOverdueOrders());
-			row.createCell(7).setCellValue(getAllReport.get(k).getCountOfnotfinishedwithOverdueOrders());
-			row.createCell(8).setCellValue(getAllReport.get(k).getTotalOrders());
+			Report report = getAllReport.get(i);
+			row.createCell(0).setCellValue(report.getTechnician());
+			row.createCell(1).setCellValue(report.getCoutOfopenOrders());
+			row.createCell(2).setCellValue(report.getCountOfinprogressOrders());
+			row.createCell(3).setCellValue(report.getCountOfunsolvableOrders());
+			row.createCell(4).setCellValue(report.getCountOfincorrectOrders());
+			row.createCell(5).setCellValue(report.getCountOffinishedOrders());
+			row.createCell(6).setCellValue(report.getCountOffinishedwithOverdueOrders());
+			row.createCell(7).setCellValue(report.getCountOfnotfinishedwithOverdueOrders());
+			row.createCell(8).setCellValue(report.getTotalOrders());
 		 }
 	}
 }

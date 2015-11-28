@@ -2,9 +2,9 @@ package lannisters.devcor.dao;
 
 import java.util.List;
 import lannisters.devcor.entity.Report;
-import lannisters.devcor.orm.ReportMapper;
-import lannisters.devcor.orm.ReportMapper2;
-import lannisters.devcor.orm.ReportMapper3;
+import lannisters.devcor.orm.ReportMapperOrders;
+import lannisters.devcor.orm.ReportMapperTechnicians;
+import lannisters.devcor.orm.ReportMapperDevices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,16 +48,16 @@ public class ReportDAOImpl implements ReportDAO {
 	private JdbcTemplate jdbcTemplate;
 	
 	
-	public List<Report> getOrdersReport(String d1,String d2) {
-		return jdbcTemplate.query(SQL_SELECT_ORDER_REPORT, new ReportMapper(),d1,d2);
+	public List<Report> getOrdersReport(String dayFrom,String dayTo) {
+		return jdbcTemplate.query(SQL_SELECT_ORDER_REPORT, new ReportMapperOrders(),dayFrom,dayTo);
 	}
 	
-	public List<Report> getTechniciansReport(String d1, String d2) {
-		return jdbcTemplate.query(SQL_SELECT_TECHNICIANS_REPORT, new ReportMapper2(),d1,d2,d1,d2,d1,d2,d1,d2,d1,d2,d1,d2,d1,d2,d1,d2);
+	public List<Report> getTechniciansReport(String dayFrom, String dayTo) {
+		return jdbcTemplate.query(SQL_SELECT_TECHNICIANS_REPORT, new ReportMapperTechnicians(),dayFrom,dayTo,dayFrom,dayTo,dayFrom,dayTo,dayFrom,dayTo,dayFrom,dayTo,dayFrom,dayTo,dayFrom,dayTo,dayFrom,dayTo);
 	}
 	
-	public List<Report> getDevicesReport(String d1, String d2) {
-		return jdbcTemplate.query(SQL_SELECT_DEVICE_REPORT, new ReportMapper3(),d1,d2);
+	public List<Report> getDevicesReport(String dayFrom, String dayTo) {
+		return jdbcTemplate.query(SQL_SELECT_DEVICE_REPORT, new ReportMapperDevices(),dayFrom,dayTo);
 	}
 	
 		

@@ -21,7 +21,7 @@ public class DeviceTypesDAOImpl implements DeviceTypesDAO {
 	private static final String SQL_SELECT_ALL_DEVICE_TYPES = "SELECT * FROM device_type";
 	private static final String SQL_SELECT_DEVICE_TYPE_BY_ID = "SELECT device_type_id, device_type FROM device_type WHERE device_type.device_type_id=?";
 	private static final String SQL_UPDATE_DEVICE_TYPE = "UPDATE device_type SET device_type = ? WHERE device_type_id = ?";
-	private static final String SQL_INSERT_DEVICE_TYPE = "INSERT INTO device_type( device_type_id, device_type) VALUES (?, ?)";
+	private static final String SQL_INSERT_DEVICE_TYPE = "INSERT INTO device_type( device_type) VALUES (?)";
 	private static final String SQL_DELETE_DEVICE_TYPE = "DELETE device_type WHERE device_type_id=?";
 
 	
@@ -57,8 +57,7 @@ public class DeviceTypesDAOImpl implements DeviceTypesDAO {
 		PreparedStatement ps = null;
 		try {
 			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_DEVICE_TYPE);
-			ps.setInt(1, deviceType.getDeviceTypeId());
-			ps.setString(2, deviceType.getDeviceType());
+			ps.setString(1, deviceType.getDeviceType());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

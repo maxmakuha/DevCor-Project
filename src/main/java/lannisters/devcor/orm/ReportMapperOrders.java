@@ -6,7 +6,7 @@ import lannisters.devcor.entity.Report;
 
 import org.springframework.jdbc.core.RowMapper;
 
-public class ReportMapper implements RowMapper<Report> {
+public class ReportMapperOrders implements RowMapper<Report> {
 	public Report mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Report report = new Report();
 		report.setReportId(rs.getInt("request_id"));

@@ -1,4 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <%@include file="header.jsp"%>
 
 <c:set var="role" value="${pageContext.request.userPrincipal.authorities.iterator().next().authority}" />
@@ -18,6 +20,21 @@
 <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 <script src="<c:url value="/resources/js/bootbox.min.js"/>"></script>
 <script>
+function getCurrentDateAndTime(){
+	var s = function(a,b){return(1e15+a+"").slice(-b)};
+	
+	if (typeof d === 'undefined'){
+		d = new Date();
+	};
+
+	return d.getFullYear() + '-' + 
+		s(d.getMonth()+1,2) + '-' +
+		s(d.getDate(),2) + ' ' +
+		s(d.getHours(),2) + ':' +
+		s(d.getMinutes(),2) + ':' +
+		s(d.getSeconds(),2);
+}
+
 $(document).ready(function(){
 	$.get('/DevCor/getRoomDevices', {
 		roomId: $('#roomNumberOptions').val()
@@ -47,9 +64,7 @@ $(document).ready(function(){
 	$('#executionStatusOptions, #urgencyStatusOptions').change(function(){
 		if( $(this).find(":selected").text() == 'Incorrect' ||
 			$(this).find(":selected").text() == 'Unsolvable'){
-			$(".newComment1, .newComment2").show();
-			$(".newComment2 td").html($.datepicker.formatDate('yy-mm-dd', new Date()));
-			$("#comment-creation-date").val($.datepicker.formatDate('yy-mm-dd', new Date()));
+			$(".comment-button").click();
 			$(".newComment1 textarea").prop("required", "true");
 		} else {
 			$(".newComment1 textarea").removeAttr("required");
@@ -60,12 +75,12 @@ $(document).ready(function(){
 		$(this).hide();
 		$(".edit-button").click();
 		$(".newComment1, .newComment2").show();
-		$(".newComment2 td").html($.datepicker.formatDate('yy-mm-dd', new Date()));
-		$("#comment-creation-date").val($.datepicker.formatDate('yy-mm-dd', new Date()));
+		$(".newComment2 td").html(getCurrentDateAndTime().slice(0, -3));
+		$("#comment-creation-date").val(getCurrentDateAndTime());
 	})
 	
 	$('input[type=button]:last-of-type').click(function(){
-		window.location = "../../dashboard";
+		window.location = "/DevCor/dashboard";
 	});
 	
 	function h(e) {
@@ -96,7 +111,7 @@ $(document).ready(function(){
 		});
 	});
 	
-	$("#comment-creation-date").val($.datepicker.formatDate('yy-mm-dd', new Date()));
+	$("#comment-creation-date").val(getCurrentDateAndTime());
 });
 </script>
 
@@ -215,14 +230,13 @@ $(document).ready(function(){
 			
 			<tr>
 				<td><label>Creation date:</label></td>
-				<td>${orderAndComment.order.creationDate}</td>
+				<td>${fn:substring(orderAndComment.order.creationDate, 0, 16)}</td>
 			</tr>
 			
 			<form:hidden path="order.creationDate"/>
-			
 			<tr>
 				<td><label>Due date:</label></td>
-				<td>${orderAndComment.order.dueDate}</td>
+				<td>${fn:substring(orderAndComment.order.dueDate, 0, 16)}</td>
 			</tr>
 			
 			<form:hidden path="order.dueDate"/>
@@ -261,9 +275,27 @@ $(document).ready(function(){
 			<form:hidden path="order.overdue"/>
 		</table>
 	
+		<p style="text-align: center">
+			<c:if test="${isAdmin || isOrderAuthor || isOrderTech}">	
+				<input type="submit" class="btn btn-success" value="Confirm changes" style="display:none;" />
+				<input type="button" class="btn btn-success edit-button" value="Edit" />
+			</c:if>
+			<c:if test="${isOrderTech}">
+				<input type="button" class="btn btn-success comment-button" value="Add comment" />
+			</c:if>
+			<c:if test="${isOrderAuthor && orderIsOpen}">
+				<a class="btn btn-danger delete-button" href="../delete/id/${orderAndComment.order.orderId}">Delete order</a>
+			</c:if>
+			<input type="button" class="btn btn-cancell" value="Go back" />
+		</p>
+	
 		<c:if test="${comments.size() != 0}">
 			<h2>Comments</h2>
 		</c:if>
+		<c:if test="${comments.size() == 0 }">
+			<h2>No comments</h2>
+		</c:if>
+		
 		<table class="table table-bordered comments-table">
 			<c:if test="${isOrderTech}">
 				<tr class="newComment1">
@@ -281,25 +313,11 @@ $(document).ready(function(){
 						<td rowspan="2">${comment.comment}</td>
 					</tr>
 					<tr>
-						<td>${comment.creationDate}</td>
+						<td>${fn:substring(comment.creationDate, 0, 16)}</td>
 					</tr>
 				</c:forEach>
 			</c:if>
 		</table>
-			
-		<p style="text-align: center">
-			<c:if test="${isAdmin || isOrderAuthor || isOrderTech}">	
-				<input type="submit" class="btn btn-success" value="Confirm changes" style="display:none;" />
-				<input type="button" class="btn btn-success edit-button" value="Edit" />
-			</c:if>
-			<c:if test="${isOrderTech}">
-				<input type="button" class="btn btn-success comment-button" value="Add comment" />
-			</c:if>
-			<c:if test="${isOrderAuthor && orderIsOpen}">
-				<a class="btn btn-danger delete-button" href="../delete/id/${orderAndComment.order.orderId}">Delete order</a>
-			</c:if>
-			<input type="button" class="btn btn-cancell" value="Go back" />
-		</p>
 	</form:form>
 	<br>
 </div>

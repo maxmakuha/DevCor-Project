@@ -1,6 +1,5 @@
 package lannisters.devcor.dao;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
@@ -27,6 +26,8 @@ public class OrdersDAOImpl implements OrdersDAO {
 	private static final String SQL_SELECT_ALL_ORDERS_SORTED = SQL_SELECT_ALL_ORDERS
 			+ " ORDER BY CASE WHEN overdue='Y' AND execution_status_id < 3 THEN 1 WHEN execution_status_id < 3 THEN 2 WHEN execution_status_id = 3 THEN 4 ELSE 3 END, due_date";
 	private static final String SQL_SELECT_ALL_ORDERS_OF_ROOM = SQL_SELECT_ALL_ORDERS + " WHERE request.room_id = ?";
+	private static final String SQL_SELECT_ALL_ORDERS_OF_ROOM_NO_DEVICE = SQL_SELECT_ALL_ORDERS + "WHERE request.device_id IS NULL AND request.execution_status_id <3 AND request.room_id = ?";
+	private static final String SQL_SELECT_ALL_ORDERS_OF_ROOM_WITH_DEVICE = SQL_SELECT_ALL_ORDERS + "WHERE request.device_id IS NOT NULL AND request.execution_status_id <3 AND request.room_id = ?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -49,8 +50,8 @@ public class OrdersDAOImpl implements OrdersDAO {
 			ps.setObject(4, order.getDeviceObj() == null ? null : order.getDeviceId());
 			ps.setInt(5, order.getExecutionStatusId());
 			ps.setInt(6, order.getUrgencyStatusId());
-			ps.setDate(7, (Date) order.getCreationDate());
-			ps.setDate(8, (Date) order.getDueDate());
+			ps.setTimestamp(7, order.getCreationDate());
+			ps.setTimestamp(8, order.getDueDate());
 			ps.setInt(9, order.getAuthorId());
 			ps.setInt(10, order.getTechnicianId());
 			ps.setString(11, order.getOverdue());
@@ -73,8 +74,8 @@ public class OrdersDAOImpl implements OrdersDAO {
 			ps.setObject(4, order.getDeviceId() == -1 ? null : order.getDeviceId());
 			ps.setInt(5, order.getExecutionStatusId());
 			ps.setInt(6, order.getUrgencyStatusId());
-			ps.setDate(7, (Date) order.getCreationDate());
-			ps.setDate(8, (Date) order.getDueDate());
+			ps.setTimestamp(7, order.getCreationDate());
+			ps.setTimestamp(8, order.getDueDate());
 			ps.setInt(9, order.getAuthorId());
 			ps.setInt(10, order.getTechnicianId());
 			ps.setString(11, order.getOverdue());
@@ -120,5 +121,13 @@ public class OrdersDAOImpl implements OrdersDAO {
 	@Override
 	public List<Order> getAllOrdersOfRoom(int roomId) {
 		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_OF_ROOM, new OrderMapper(), roomId);
+	}
+	@Override
+	public List<Order> getAllOrdersOfRoomNoDevice(int roomId) throws SQLException {
+		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_OF_ROOM_NO_DEVICE, new OrderMapper(), roomId);
+	}
+	@Override
+	public List<Order> getAllOrdersOfRoomWithDevice(int roomId) throws SQLException {
+		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_OF_ROOM_WITH_DEVICE, new OrderMapper(), roomId);
 	}
 }

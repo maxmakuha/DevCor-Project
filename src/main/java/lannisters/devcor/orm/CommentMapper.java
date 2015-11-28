@@ -12,7 +12,7 @@ public class CommentMapper implements RowMapper<Comment> {
 		comment.setCommentId(rs.getInt("note_id"));
 		comment.setComment(rs.getString("note"));
 		comment.setOrderId(rs.getInt("request_id"));
-		comment.setCreationDate(rs.getDate("creation_date"));
+		comment.setCreationDate(rs.getTimestamp("creation_date"));
 		return comment;
 	}
 }

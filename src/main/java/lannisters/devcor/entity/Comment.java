@@ -1,19 +1,19 @@
 package lannisters.devcor.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Comment {
 
 	private int commentId;
 	private String comment;
 	private Order order;
-	private Date creationDate;
+	private Timestamp creationDate;
 
 	public Comment() {
 		order = new Order();
 	}
 
-	public Comment(int commentId, String comment, Order order, Date creationDate) {
+	public Comment(int commentId, String comment, Order order, Timestamp creationDate) {
 		this.commentId = commentId;
 		this.comment = comment;
 		this.order = order;
@@ -50,11 +50,11 @@ public class Comment {
 		this.order.setOrderId(orderId);
 	}
 
-	public Date getCreationDate() {
+	public Timestamp getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(Timestamp creationDate) {
 		this.creationDate = creationDate;
 	}
 

@@ -34,12 +34,13 @@ public class DevicesReport extends AbstractExcelView{
 			header.getCell(i).setCellStyle(stylerowHeading);
 		}
 		int rowNum = 1;
-		 for (int k = 0; k < getAllReport.size(); k++) {
+		 for (int i = 0; i < getAllReport.size(); i++) {
 			HSSFRow row = sheet.createRow(rowNum++);
-			row.createCell(0).setCellValue(getAllReport.get(k).getSerialNumber());
-			row.createCell(1).setCellValue(getAllReport.get(k).getDeviseType());
-			row.createCell(2).setCellValue(getAllReport.get(k).getRoomNumber());
-			row.createCell(3).setCellValue(getAllReport.get(k).getOrderQuantity());
+			Report report = getAllReport.get(i);
+			row.createCell(0).setCellValue(report.getSerialNumber());
+			row.createCell(1).setCellValue(report.getDeviseType());
+			row.createCell(2).setCellValue(report.getRoomNumber());
+			row.createCell(3).setCellValue(report.getOrderQuantity());
 		 }
 	}
 }

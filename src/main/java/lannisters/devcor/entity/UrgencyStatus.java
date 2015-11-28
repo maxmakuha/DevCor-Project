@@ -1,19 +1,24 @@
 package lannisters.devcor.entity;
 
-public class UrgencyStatus {
+import java.sql.Timestamp;
 
+public class UrgencyStatus {
 	private int urgencyStatusId;
 	private String urgencyStatus;
-	private String days = "7";
+	private int days;
 
 	public UrgencyStatus() {
+		
 	}
-
-	public UrgencyStatus(int urgencyStatusId, String urgencyStatus) {
+	
+	
+	public UrgencyStatus(int urgencyStatusId, String urgencyStatus,int days) {
 		this.urgencyStatusId = urgencyStatusId;
 		this.urgencyStatus = urgencyStatus;
+		this.days =days;
 	}
-
+	
+	
 	public int getUrgencyStatusId() {
 		return urgencyStatusId;
 	}
@@ -30,11 +35,11 @@ public class UrgencyStatus {
 		this.urgencyStatus = urgencyStatus;
 	}
 
-	public String getDays() {
+	public int getDays() {
 		return days;
 	}
 
-	public void setDays(String days) {
+	public void setDays(int days) {
 		this.days = days;
 	}
 

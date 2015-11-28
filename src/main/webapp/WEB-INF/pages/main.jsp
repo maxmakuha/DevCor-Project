@@ -4,7 +4,7 @@
 <div class="container">
 	<div class="wrapper">
 		<div class="jumbotron">
-			<h1>Device controller</h1>
+			<h1>Device correction </h1>
 			<p class="lead">Got a problem in the classroom? Report it just
 				now!!! Our system will help you to report a problem to our technicians
 				and fix it in the nearest time.</p>

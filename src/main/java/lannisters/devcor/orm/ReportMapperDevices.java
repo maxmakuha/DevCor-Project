@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import lannisters.devcor.entity.Report;
 import org.springframework.jdbc.core.RowMapper;
  
-public class ReportMapper3 implements RowMapper<Report> {
+public class ReportMapperDevices implements RowMapper<Report> {
 	
 	public Report mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Report report = new Report();

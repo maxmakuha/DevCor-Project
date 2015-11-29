@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import lannisters.devcor.entity.DeviceType;
-import lannisters.devcor.entity.ProblemType;
 
 public interface DeviceTypesDAO {
 

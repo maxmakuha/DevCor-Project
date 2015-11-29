@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import lannisters.devcor.entity.DeviceType;
 import lannisters.devcor.orm.DeviceTypeMapper;
-import lannisters.devcor.orm.ProblemTypeMapper;
 
 @Repository
 public class DeviceTypesDAOImpl implements DeviceTypesDAO {
@@ -24,14 +23,13 @@ public class DeviceTypesDAOImpl implements DeviceTypesDAO {
 	private static final String SQL_INSERT_DEVICE_TYPE = "INSERT INTO device_type( device_type) VALUES (?)";
 	private static final String SQL_DELETE_DEVICE_TYPE = "DELETE device_type WHERE device_type_id=?";
 
-	
+	@Override
 	public List<DeviceType> getAllDeviceTypes() {
 		return jdbcTemplate.query(SQL_SELECT_ALL_DEVICE_TYPES, new DeviceTypeMapper());
 	}
 
 	@Override
 	public DeviceType getDeviceTypeById(int deviceTypeId) {
-
 		return jdbcTemplate.queryForObject(SQL_SELECT_DEVICE_TYPE_BY_ID, new DeviceTypeMapper(), deviceTypeId);
 	}
 
@@ -42,7 +40,6 @@ public class DeviceTypesDAOImpl implements DeviceTypesDAO {
 			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_DEVICE_TYPE);
 			ps.setString(1, deviceType.getDeviceType());
 			ps.setInt(2, deviceType.getDeviceTypeId());
-			
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,5 +78,4 @@ public class DeviceTypesDAOImpl implements DeviceTypesDAO {
 				ps.close();
 		}
 	}
-
 }

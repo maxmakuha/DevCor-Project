@@ -24,8 +24,8 @@ public class ReportDAOImpl implements ReportDAO {
 			+ "INNER JOIN player author ON request.author_id = author.player_id) "
 			+ "INNER JOIN player technician ON request.technician_id = technician.player_id) "
 			+ "where request.creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss')";
-	
-	private static final String SQL_SELECT_TECHNICIANS_REPORT="select first_name as first_name,last_name as last_name,"
+
+	private static final String SQL_SELECT_TECHNICIANS_REPORT = "select first_name as first_name,last_name as last_name,"
 			+ "(select  count  (request_id) from request  where EXECUTION_STATUS_ID = 1 and technician_id = player.player_id and creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss')) as openn,"
 			+ "(select  count  (request_id) from request  where EXECUTION_STATUS_ID = 2 and technician_id = player.player_id and creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss')) as Inprogress, "
 			+ "(select  count  (request_id) from request  where EXECUTION_STATUS_ID = 5 and technician_id = player.player_id and creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss')) as Unsolvable, "
@@ -34,31 +34,31 @@ public class ReportDAOImpl implements ReportDAO {
 			+ "(select  count  (request_id) from request  where EXECUTION_STATUS_ID <> 3 and overdue = 'T' and technician_id = player.player_id and creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss')) as FinishedwithOverdue, "
 			+ "(select  count  (request_id) from request  where EXECUTION_STATUS_ID = 3 and overdue = 'F' and technician_id = player.player_id and creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss')) as notFinishedwithOverdue, "
 			+ "(select  count  (request_id) from request  where technician_id = player.player_id and creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss')) as total "
-			+ "from player "
-			+ "where player.role_id=2 order by last_name";
-	
+			+ "from player " + "where player.role_id=2 order by last_name";
+
 	private static final String SQL_SELECT_DEVICE_REPORT = "SELECT DISTINCT device.device_serial_id as serId, device_type.device_type as devType, room.room_number as roomNum,"
 			+ " (select count( request.request_id) from request  where request.device_id = device.device_id ) as quantity "
 			+ "FROM (((device INNER JOIN device_type ON device_type.device_type_id = device.device_type_id)"
 			+ "INNER JOIN room ON device.room_id=room.room_id)INNER JOIN request ON device.device_id = request.device_id)"
 			+ " where request.problem_type_id = 1 and request.creation_date between TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') and TO_DATE(?,'yyyy.mm.dd hh24:mi:ss') "
-			+ "order by device.device_serial_id " ;
+			+ "order by device.device_serial_id ";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
-	
-	public List<Report> getOrdersReport(String dayFrom,String dayTo) {
-		return jdbcTemplate.query(SQL_SELECT_ORDER_REPORT, new ReportMapperOrders(),dayFrom,dayTo);
+
+	@Override
+	public List<Report> getOrdersReport(String dayFrom, String dayTo) {
+		return jdbcTemplate.query(SQL_SELECT_ORDER_REPORT, new ReportMapperOrders(), dayFrom, dayTo);
 	}
-	
+
+	@Override
 	public List<Report> getTechniciansReport(String dayFrom, String dayTo) {
-		return jdbcTemplate.query(SQL_SELECT_TECHNICIANS_REPORT, new ReportMapperTechnicians(),dayFrom,dayTo,dayFrom,dayTo,dayFrom,dayTo,dayFrom,dayTo,dayFrom,dayTo,dayFrom,dayTo,dayFrom,dayTo,dayFrom,dayTo);
+		return jdbcTemplate.query(SQL_SELECT_TECHNICIANS_REPORT, new ReportMapperTechnicians(), dayFrom, dayTo, dayFrom,
+				dayTo, dayFrom, dayTo, dayFrom, dayTo, dayFrom, dayTo, dayFrom, dayTo, dayFrom, dayTo, dayFrom, dayTo);
 	}
-	
+
+	@Override
 	public List<Report> getDevicesReport(String dayFrom, String dayTo) {
-		return jdbcTemplate.query(SQL_SELECT_DEVICE_REPORT, new ReportMapperDevices(),dayFrom,dayTo);
+		return jdbcTemplate.query(SQL_SELECT_DEVICE_REPORT, new ReportMapperDevices(), dayFrom, dayTo);
 	}
-	
-		
 }

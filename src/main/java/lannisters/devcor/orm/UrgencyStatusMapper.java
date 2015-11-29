@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 public class UrgencyStatusMapper implements RowMapper<UrgencyStatus> {
 
 	public UrgencyStatus mapRow(ResultSet resSet, int arg1) throws SQLException {
-		return new UrgencyStatus(resSet.getInt("urgency_status_id"), resSet.getString("urgency_status"),resSet.getInt("days"));
+		return new UrgencyStatus(resSet.getInt("urgency_status_id"), resSet.getString("urgency_status"),resSet.getInt("minutes"));
 	}
 
 }

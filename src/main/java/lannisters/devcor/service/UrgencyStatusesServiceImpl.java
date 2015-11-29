@@ -10,11 +10,12 @@ import lannisters.devcor.dao.UrgencyStatusesDAO;
 import lannisters.devcor.entity.UrgencyStatus;
 
 @Service
-public class UrgencyStatusesServiceImpl implements UrgencyStatusesService{
+public class UrgencyStatusesServiceImpl implements UrgencyStatusesService {
 
 	@Autowired
 	private UrgencyStatusesDAO UrgencyStatusesDao;
-	
+
+	@Override
 	public List<UrgencyStatus> getAllUrgencyStatuses() {
 		return UrgencyStatusesDao.getAllUrgencyStatuses();
 	}
@@ -50,5 +51,4 @@ public class UrgencyStatusesServiceImpl implements UrgencyStatusesService{
 			e.printStackTrace();
 		}
 	}
-
 }

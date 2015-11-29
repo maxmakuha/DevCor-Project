@@ -1,7 +1,6 @@
 package lannisters.devcor.entity;
 
 import java.sql.Timestamp;
-import java.sql.Date;
 
 public class Order {
 

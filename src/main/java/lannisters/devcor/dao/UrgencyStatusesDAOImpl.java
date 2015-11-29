@@ -8,24 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import lannisters.devcor.entity.DeviceType;
 import lannisters.devcor.entity.UrgencyStatus;
-import lannisters.devcor.orm.DeviceTypeMapper;
 import lannisters.devcor.orm.UrgencyStatusMapper;
 
 @Repository
-public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO{
+public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+
 	private static final String SQL_SELECT_ALL_URGENCY_STATUS = "SELECT * FROM urgency_status";
-	private static final String SQL_SELECT_URGENCY_STATUS_BY_ID = "SELECT urgency_status_id, urgency_status,days FROM urgency_status WHERE urgency_status.urgency_status_id=?";
-	private static final String SQL_UPDATE_URGENCY_STATUS = "UPDATE urgency_status SET urgency_status = ?, days = ? WHERE urgency_status_id = ?";
-	private static final String SQL_INSERT_URGENCY_STATUS = "INSERT INTO urgency_status(  urgency_status, days) VALUES ( ?,?)";
+	private static final String SQL_SELECT_URGENCY_STATUS_BY_ID = "SELECT urgency_status_id, urgency_status,minutes FROM urgency_status WHERE urgency_status.urgency_status_id=?";
+	private static final String SQL_UPDATE_URGENCY_STATUS = "UPDATE urgency_status SET urgency_status = ?, minutes = ? WHERE urgency_status_id = ?";
+	private static final String SQL_INSERT_URGENCY_STATUS = "INSERT INTO urgency_status(urgency_status, minutes) VALUES (?,?)";
 	private static final String SQL_DELETE_URGENCY_STATUS = "DELETE urgency_status WHERE urgency_status_id=?";
 
-	
+	@Override
 	public List<UrgencyStatus> getAllUrgencyStatuses() {
 		return jdbcTemplate.query(SQL_SELECT_ALL_URGENCY_STATUS, new UrgencyStatusMapper());
 	}
@@ -40,7 +38,7 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO{
 		PreparedStatement ps = null;
 		try {
 			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_URGENCY_STATUS);
-			ps.setString(1, urgencyStatus.getUrgencyStatus());			
+			ps.setString(1, urgencyStatus.getUrgencyStatus());
 			ps.setInt(2, urgencyStatus.getDays());
 			ps.setInt(3, urgencyStatus.getUrgencyStatusId());
 			ps.executeUpdate();
@@ -57,7 +55,7 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO{
 		PreparedStatement ps = null;
 		try {
 			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_URGENCY_STATUS);
-			
+
 			ps.setString(1, urgencyStatus.getUrgencyStatus());
 			ps.setInt(2, urgencyStatus.getDays());
 			ps.executeUpdate();
@@ -83,5 +81,4 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO{
 				ps.close();
 		}
 	}
-
 }

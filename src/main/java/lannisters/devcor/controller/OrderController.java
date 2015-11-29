@@ -1,7 +1,6 @@
 package lannisters.devcor.controller;
 
 import java.security.Principal;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lannisters.devcor.entity.Comment;
 import lannisters.devcor.entity.Order;
-import lannisters.devcor.entity.Room;
 import lannisters.devcor.mail.MailService;
 import lannisters.devcor.service.CommentsService;
 import lannisters.devcor.service.DevicesService;

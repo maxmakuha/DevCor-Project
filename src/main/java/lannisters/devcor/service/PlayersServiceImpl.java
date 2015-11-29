@@ -16,14 +16,17 @@ public class PlayersServiceImpl implements PlayersService {
 	@Autowired
 	private PlayersDAO playersDao;
 
+	@Override
 	public List<Player> getAllPlayers() {
 		return playersDao.getAllPlayers();
 	}
 
+	@Override
 	public Player getPlayerById(int playerId) {
 		return playersDao.getPlayerById(playerId);
 	}
 
+	@Override
 	public void addPlayer(Player player) {
 		try {
 			playersDao.addPlayer(player);
@@ -32,6 +35,7 @@ public class PlayersServiceImpl implements PlayersService {
 		}
 	}
 
+	@Override
 	public void updatePlayer(Player player) {
 		try {
 			playersDao.updatePlayer(player);
@@ -40,6 +44,7 @@ public class PlayersServiceImpl implements PlayersService {
 		}
 	}
 
+	@Override
 	public void deletePlayer(int playerId) {
 		try {
 			playersDao.deletePlayer(playerId);
@@ -48,22 +53,27 @@ public class PlayersServiceImpl implements PlayersService {
 		}
 	}
 
+	@Override
 	public Player getPlayerByEmail(String email) {
 		return playersDao.getPlayerByEmail(email);
 	}
 
+	@Override
 	public int getPlayerIdByEmail(String email) {
 		return playersDao.getPlayerIdByEmail(email);
 	}
 
+	@Override
 	public List<Player> getAllUsers() {
 		return playersDao.getAllUsers();
 	}
 
+	@Override
 	public List<Player> getAllTechnicians() {
 		return playersDao.getAllTechnicians();
 	}
 
+	@Override
 	public boolean checkEmailExistence(Player player) {
 		boolean existence;
 		try {

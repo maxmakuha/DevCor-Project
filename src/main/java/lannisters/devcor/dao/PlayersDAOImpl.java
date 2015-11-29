@@ -27,14 +27,17 @@ public class PlayersDAOImpl implements PlayersDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	@Override
 	public List<Player> getAllPlayers() {
 		return jdbcTemplate.query(SQL_SELECT_ALL_PLAYERS, new PlayerMapper());
 	}
 
+	@Override
 	public Player getPlayerById(int playerId) {
 		return jdbcTemplate.queryForObject(SQL_SELECT_PLAYER_BY_ID, new PlayerMapper(), playerId);
 	}
 
+	@Override
 	public void addPlayer(Player player) throws SQLException {
 		PreparedStatement ps = null;
 		try {
@@ -54,6 +57,7 @@ public class PlayersDAOImpl implements PlayersDAO {
 		}
 	}
 
+	@Override
 	public void updatePlayer(Player player) throws SQLException {
 		PreparedStatement ps = null;
 		try {
@@ -74,6 +78,7 @@ public class PlayersDAOImpl implements PlayersDAO {
 		}
 	}
 
+	@Override
 	public void deletePlayer(int playerId) throws SQLException {
 		PreparedStatement ps = null;
 		try {
@@ -88,18 +93,22 @@ public class PlayersDAOImpl implements PlayersDAO {
 		}
 	}
 
+	@Override
 	public Player getPlayerByEmail(String email) {
 		return jdbcTemplate.queryForObject(SQL_GET_PLAYER_BY_EMAIL, new PlayerMapper(), email);
 	}
 
+	@Override
 	public int getPlayerIdByEmail(String email) {
 		return jdbcTemplate.queryForInt(SQL_GET_PLAYER_ID_BY_EMAIL, email);
 	}
 
+	@Override
 	public List<Player> getAllUsers() {
 		return jdbcTemplate.query(SQL_SELECT_ALL_USERS, new PlayerMapper());
 	}
 
+	@Override
 	public List<Player> getAllTechnicians() {
 		return jdbcTemplate.query(SQL_SELECT_ALL_TECHNICIANS, new PlayerMapper());
 	}

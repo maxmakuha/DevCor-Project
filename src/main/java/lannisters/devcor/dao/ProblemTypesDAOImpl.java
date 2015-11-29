@@ -22,6 +22,7 @@ public class ProblemTypesDAOImpl implements ProblemTypesDAO {
 	private static final String SQL_UPDATE_PROBLEM_TYPE = "UPDATE problem_type SET problem_type = ? WHERE problem_type_id = ?";
 	private static final String SQL_INSERT_PROBLEM_TYPE = "INSERT INTO problem_type(problem_type) VALUES (?)";
 	private static final String SQL_DELETE_PROBLEM_TYPE = "DELETE problem_type WHERE problem_type_id=?";
+	private static final String SQL_SELECT_PROBLEM_TYPE_BY_TITLE = "SELECT problem_type_id, problem_type FROM problem_type WHERE problem_type.problem_type=?";
 
 	@Override
 	public List<ProblemType> getAllProblemTypes() {
@@ -77,5 +78,10 @@ public class ProblemTypesDAOImpl implements ProblemTypesDAO {
 			if (ps != null)
 				ps.close();
 		}
+	}
+
+	@Override
+	public ProblemType getProblemTypeByTitle(String title) {
+		return jdbcTemplate.queryForObject(SQL_SELECT_PROBLEM_TYPE_BY_TITLE, new ProblemTypeMapper(), title);
 	}
 }

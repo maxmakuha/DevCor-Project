@@ -69,4 +69,36 @@ public class OrdersServiceImpl implements OrdersService {
 	public List<Order> getAllOrdersOfRoomWithDevice(int roomId) throws SQLException {
 		return ordersDao.getAllOrdersOfRoomWithDevice(roomId);
 	}
+
+	@Override
+	public List<Order> getOrdersByUrgency(int urgencyStatusId) {
+		return ordersDao.getOrdersByUrgency(urgencyStatusId);
+	}
+
+	@Override
+	public List<Order> getOrdersByProblem(int problemTypeId) {
+		return ordersDao.getOrdersByProblem(problemTypeId);
+	}
+
+	@Override
+	public boolean checkUrgencyStatusOrders(int urgencyStatusId) {
+		boolean existence;
+		List<Order> orders = ordersDao.getOrdersByUrgency(urgencyStatusId);
+		if (orders.isEmpty())
+			existence = false;
+		else
+			existence = true;
+		return existence;
+	}
+
+	@Override
+	public boolean checkProblemTypeOrders(int problemTypeId) {
+		boolean existence;
+		List<Order> orders = ordersDao.getOrdersByProblem(problemTypeId);
+		if (orders.isEmpty())
+			existence = false;
+		else
+			existence = true;
+		return existence;
+	}
 }

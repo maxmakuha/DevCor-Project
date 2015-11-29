@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import lannisters.devcor.dao.UrgencyStatusesDAO;
@@ -13,22 +14,22 @@ import lannisters.devcor.entity.UrgencyStatus;
 public class UrgencyStatusesServiceImpl implements UrgencyStatusesService {
 
 	@Autowired
-	private UrgencyStatusesDAO UrgencyStatusesDao;
+	private UrgencyStatusesDAO urgencyStatusesDao;
 
 	@Override
 	public List<UrgencyStatus> getAllUrgencyStatuses() {
-		return UrgencyStatusesDao.getAllUrgencyStatuses();
+		return urgencyStatusesDao.getAllUrgencyStatuses();
 	}
 
 	@Override
 	public UrgencyStatus getUrgencyStatusById(int urgencyStatus) {
-		return UrgencyStatusesDao.getUrgencyStatusById(urgencyStatus);
+		return urgencyStatusesDao.getUrgencyStatusById(urgencyStatus);
 	}
 
 	@Override
 	public void updateUrgencyStatus(UrgencyStatus urgencyStatus) {
 		try {
-			UrgencyStatusesDao.updateUrgencyStatus(urgencyStatus);
+			urgencyStatusesDao.updateUrgencyStatus(urgencyStatus);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -37,7 +38,7 @@ public class UrgencyStatusesServiceImpl implements UrgencyStatusesService {
 	@Override
 	public void addUrgencyStatus(UrgencyStatus urgencyStatus) {
 		try {
-			UrgencyStatusesDao.addUrgencyStatus(urgencyStatus);
+			urgencyStatusesDao.addUrgencyStatus(urgencyStatus);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +47,7 @@ public class UrgencyStatusesServiceImpl implements UrgencyStatusesService {
 	@Override
 	public void deleteUrgencyStatus(int urgencyStatus) {
 		try {
-			UrgencyStatusesDao.deleteUrgencyStatus(urgencyStatus);
+			urgencyStatusesDao.deleteUrgencyStatus(urgencyStatus);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -54,7 +55,23 @@ public class UrgencyStatusesServiceImpl implements UrgencyStatusesService {
 
 	@Override
 	public int getUrgencyStatusMinutes(int urgencyStatusId) {
-		return UrgencyStatusesDao.getUrgencyStatusMinutes(urgencyStatusId);
+		return urgencyStatusesDao.getUrgencyStatusMinutes(urgencyStatusId);
 	}
 
+	@Override
+	public UrgencyStatus getUrgencyStatusByTitle(String title) {
+		return urgencyStatusesDao.getUrgencyStatusByTitle(title);
+	}
+
+	@Override
+	public boolean checkUrgencyStatusExistence(UrgencyStatus status) {
+		boolean existence;
+		try {
+			urgencyStatusesDao.getUrgencyStatusByTitle(status.getUrgencyStatus());
+			existence = true;
+		} catch (EmptyResultDataAccessException e) {
+			existence = false;
+		}
+		return existence;
+	}
 }

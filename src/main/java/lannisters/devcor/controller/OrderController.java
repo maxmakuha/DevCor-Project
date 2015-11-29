@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lannisters.devcor.entity.Comment;
 import lannisters.devcor.entity.Order;
@@ -84,7 +85,8 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/dashboard/order/create", method = RequestMethod.POST)
-	public String createNewOrder(@ModelAttribute Order order, Model m, Principal principal) throws SQLException {
+	public String createNewOrder(@ModelAttribute Order order, Model m, Principal principal,
+			RedirectAttributes redirectAttributes) throws SQLException {
 		order.setExecutionStatusId(1);
 		order.setCreationDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 		order.setDueDate(new Timestamp(order.getCreationDate().getTime()
@@ -96,6 +98,7 @@ public class OrderController {
 			order.removeDevice();
 		}
 		ordersService.addOrder(order);
+		redirectAttributes.addFlashAttribute("message", "Order created successfully!");
 		mail.orderCreatEmail(order);
 		return "redirect:/dashboard";
 	}
@@ -112,14 +115,16 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/dashboard/order/id/{id}", method = RequestMethod.POST)
-	public String updateOrder(OrderAndComment orderAndComment) throws SQLException {
+	public String updateOrder(OrderAndComment orderAndComment, RedirectAttributes redirectAttributes)
+			throws SQLException {
 		Order order = ordersService.getOrderById(orderAndComment.getOrder().getOrderId());
 		int oldStatusId = order.getExecutionStatusId();
 
 		orderAndComment.getOrder()
 				.setTechnicianId(roomsService.getTechnicianIdByRoomId(orderAndComment.getOrder().getRoomId()));
 		orderAndComment.getOrder().setDueDate(new Timestamp(orderAndComment.getOrder().getCreationDate().getTime()
-				+ urgencyStatusesService.getUrgencyStatusMinutes(orderAndComment.getOrder().getUrgencyStatusId()) * 60 * 1000));
+				+ urgencyStatusesService.getUrgencyStatusMinutes(orderAndComment.getOrder().getUrgencyStatusId()) * 60
+						* 1000));
 
 		ordersService.updateOrder(orderAndComment.getOrder());
 
@@ -133,13 +138,15 @@ public class OrderController {
 			}
 			mail.commentEmail(orderAndComment);
 		}
-
+		redirectAttributes.addFlashAttribute("message", "Order edited successfully!");
 		return "redirect:/dashboard";
 	}
 
 	@RequestMapping(value = "/dashboard/order/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteOrder(@PathVariable("id") int orderId) throws SQLException {
+	public String deleteOrder(@PathVariable("id") int orderId, RedirectAttributes redirectAttributes)
+			throws SQLException {
 		ordersService.deleteOrder(orderId);
+		redirectAttributes.addFlashAttribute("message", "Order deleted successfully!");
 		return "redirect:/dashboard";
 	}
 

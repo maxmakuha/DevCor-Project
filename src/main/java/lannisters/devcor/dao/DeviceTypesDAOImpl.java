@@ -22,6 +22,7 @@ public class DeviceTypesDAOImpl implements DeviceTypesDAO {
 	private static final String SQL_UPDATE_DEVICE_TYPE = "UPDATE device_type SET device_type = ? WHERE device_type_id = ?";
 	private static final String SQL_INSERT_DEVICE_TYPE = "INSERT INTO device_type( device_type) VALUES (?)";
 	private static final String SQL_DELETE_DEVICE_TYPE = "DELETE device_type WHERE device_type_id=?";
+	private static final String SQL_SELECT_DEVICE_TYPE_BY_TITLE = "SELECT device_type_id, device_type FROM device_type WHERE device_type.device_type=?";
 
 	@Override
 	public List<DeviceType> getAllDeviceTypes() {
@@ -77,5 +78,10 @@ public class DeviceTypesDAOImpl implements DeviceTypesDAO {
 			if (ps != null)
 				ps.close();
 		}
+	}
+
+	@Override
+	public DeviceType getDeviceTypeByTitle(String title) {
+		return jdbcTemplate.queryForObject(SQL_SELECT_DEVICE_TYPE_BY_TITLE, new DeviceTypeMapper(), title);
 	}
 }

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import lannisters.devcor.dao.ProblemTypesDAO;
@@ -50,5 +51,22 @@ public class ProblemTypesServiceImpl implements ProblemTypesService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public ProblemType getProblemTypeByTitle(String title) {
+		return problemTypesDao.getProblemTypeByTitle(title);
+	}
+
+	@Override
+	public boolean checkProblemTypeExistence(ProblemType type) {
+		boolean existence;
+		try {
+			problemTypesDao.getProblemTypeByTitle(type.getProblemType());
+			existence = true;
+		} catch (EmptyResultDataAccessException e) {
+			existence = false;
+		}
+		return existence;
 	}
 }

@@ -28,4 +28,12 @@ public interface OrdersService {
 	List<Order> getAllOrdersOfRoomNoDevice(int roomId) throws SQLException;
 
 	List<Order> getAllOrdersOfRoomWithDevice(int roomId) throws SQLException;
+
+	public List<Order> getOrdersByUrgency(int urgencyStatusId);
+
+	public List<Order> getOrdersByProblem(int problemTypeId);
+	
+	public boolean checkUrgencyStatusOrders(int urgencyStatusId);
+	
+	public boolean checkProblemTypeOrders(int problemTypeId);
 }

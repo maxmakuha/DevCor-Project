@@ -3,17 +3,16 @@ package lannisters.devcor.entity;
 public class UrgencyStatus {
 	private int urgencyStatusId;
 	private String urgencyStatus;
-	private int days;
+	private int minutes;
 
 	public UrgencyStatus() {
 		
 	}
 	
-	
-	public UrgencyStatus(int urgencyStatusId, String urgencyStatus,int days) {
+	public UrgencyStatus(int urgencyStatusId, String urgencyStatus,int minutes) {
 		this.urgencyStatusId = urgencyStatusId;
 		this.urgencyStatus = urgencyStatus;
-		this.days =days;
+		this.minutes = minutes;
 	}
 	
 	
@@ -33,16 +32,16 @@ public class UrgencyStatus {
 		this.urgencyStatus = urgencyStatus;
 	}
 
-	public int getDays() {
-		return days;
+	public int getMinutes() {
+		return minutes;
 	}
 
-	public void setDays(int days) {
-		this.days = days;
+	public void setMinutes(int minutes) {
+		this.minutes = minutes;
 	}
 
 	@Override
 	public String toString() {
-		return "UrgencyStatus [urgencyStatusId=" + urgencyStatusId + ", urgencyStatus=" + urgencyStatus + "]";
+		return "UrgencyStatus [urgencyStatusId=" + urgencyStatusId + ", urgencyStatus=" + urgencyStatus +  ", minutes=" + minutes +"]";
 	}
 }

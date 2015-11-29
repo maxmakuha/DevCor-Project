@@ -3,11 +3,10 @@
 
 <%@include file="header.jsp"%>
 
-<c:set var="role" value="${pageContext.request.userPrincipal.authorities.iterator().next().authority}" />
 <c:set var="email" value="${pageContext.request.userPrincipal.name}"/>
-<c:set var="isUser" value="${role == 'ROLE_USER'}"/>
-<c:set var="isTech" value="${role == 'ROLE_TECHNICIAN'}"/>
-<c:set var="isAdmin" value="${role == 'ROLE_ADMIN'}"/>
+<security:authorize access="hasRole('ROLE_USER')" var="isUser"/>
+<security:authorize access="hasRole('ROLE_TECHNICIAN')" var="isTech"/>
+<security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
 <c:set var="isOrderAuthor" value="${isUser &&  orderAndComment.order.authorEmail == email}" />
 <c:set var="isOrderTech" value="${isTech && orderAndComment.order.technicianEmail == email}" />
 <c:set var="orderIsOpen" value="${orderAndComment.order.executionStatus == 'Open'}" />
@@ -16,9 +15,6 @@
 <c:set var="orderIsIncorrect" value="${orderAndComment.order.executionStatus == 'Incorrect'}" />
 <c:set var="orderIsUnsolvable" value="${orderAndComment.order.executionStatus == 'Unsolvable'}" />
 
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
-<script src="<c:url value="/resources/js/bootbox.min.js"/>"></script>
 <script>
 function getCurrentDateAndTime(){
 	var s = function(a,b){return(1e15+a+"").slice(-b)};
@@ -189,7 +185,7 @@ $(document).ready(function(){
 				</tr>
 			</c:if>
 				
-			<c:if test="${!((isOrderAthor || isOrderTech) && orderIsOpen)}">
+			<c:if test="${!((isOrderAuthor || isOrderTech) && orderIsOpen)}">
 				<tr>
 					<td><label>Urgency status:</label></td>
 					<td>${orderAndComment.order.urgencyStatus}</td>

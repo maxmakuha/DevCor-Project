@@ -51,4 +51,10 @@ public class UrgencyStatusesServiceImpl implements UrgencyStatusesService {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public int getUrgencyStatusMinutes(int urgencyStatusId) {
+		return UrgencyStatusesDao.getUrgencyStatusMinutes(urgencyStatusId);
+	}
+
 }

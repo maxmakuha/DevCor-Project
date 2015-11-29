@@ -14,4 +14,6 @@ public interface UrgencyStatusesDAO {
 	public void addUrgencyStatus(UrgencyStatus urgencyStatus) throws SQLException;
 	public void deleteUrgencyStatus(int urgencyStatus) throws SQLException;
 
+	int getUrgencyStatusMinutes(int urgencyStatusId);
+
 }

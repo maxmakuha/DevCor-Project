@@ -154,8 +154,12 @@ public class AdminController {
 
 	@RequestMapping(value = "/technicians/delete/id/{id}", method = RequestMethod.GET)
 	public String deleteTechnician(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
-		playersService.deletePlayer(id);
-		redirectAttributes.addFlashAttribute("tech", "Technician deleted successfully!");
+		if (roomsService.checkPlayerRooms(id))
+			redirectAttributes.addFlashAttribute("error", "Unable to delete. Technician attached to some room!");
+		else {
+			playersService.deletePlayer(id);
+			redirectAttributes.addFlashAttribute("tech", "Technician deleted successfully!");
+		}
 		return "redirect:/technicians";
 	}
 
@@ -181,9 +185,16 @@ public class AdminController {
 
 	@RequestMapping(value = "/rooms/add", method = RequestMethod.POST)
 	public String saveRoom(@ModelAttribute("room") Room room, RedirectAttributes redirectAttributes) {
-		roomsService.addRoom(room);
-		redirectAttributes.addFlashAttribute("room", "Room created successfully!");
-		return "redirect:/rooms";
+		String page = null;
+		if (roomsService.checkRoomNumberExistence(room)) {
+			redirectAttributes.addFlashAttribute("unique", "Room with this number exist!");
+			page = "redirect:/rooms/add";
+		} else {
+			roomsService.addRoom(room);
+			redirectAttributes.addFlashAttribute("room", "Room created successfully!");
+			page = "redirect:/rooms";
+		}
+		return page;
 	}
 
 	@RequestMapping(value = "/rooms/edit/id/{id}", method = RequestMethod.GET)
@@ -195,10 +206,18 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/rooms/edit/id/{id}", method = RequestMethod.POST)
-	public String saveEditedRoom(@ModelAttribute("room") Room room, RedirectAttributes redirectAttributes) {
-		roomsService.updateRoom(room);
-		redirectAttributes.addFlashAttribute("room", "Room edited successfully!");
-		return "redirect:/rooms";
+	public String saveEditedRoom(@ModelAttribute("room") Room room, @PathVariable("id") int id,
+			RedirectAttributes redirectAttributes) {
+		String page = null;
+		if (roomsService.checkRoomNumberExistence(room)) {
+			redirectAttributes.addFlashAttribute("unique", "Room with this number exist!");
+			page = "redirect:/rooms/edit/id/" + id;
+		} else {
+			roomsService.updateRoom(room);
+			redirectAttributes.addFlashAttribute("room", "Room edited successfully!");
+			page = "redirect:/rooms";
+		}
+		return page;
 	}
 
 	@RequestMapping(value = "/rooms/delete/id/{id}", method = RequestMethod.GET)
@@ -330,7 +349,7 @@ public class AdminController {
 	@RequestMapping(value = "/DevCorReport", method = RequestMethod.GET)
 	public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		
+
 		String output = ServletRequestUtils.getStringParameter(request, "exel");
 		System.out.println(output);
 		if ("OrdersReport".equals(output)) {

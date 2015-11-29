@@ -16,6 +16,14 @@ public interface RoomsService {
 	public void updateRoom(Room room);
 
 	public void deleteRoom(int roomId);
-	
+
 	public int getTechnicianIdByRoomId(int roomId) throws SQLException;
+
+	public List<Room> getPlayerRooms(int playerId);
+
+	public boolean checkPlayerRooms(int playerId);
+	
+	public Room getRoomByNumber(String roomNumber);
+	
+	public boolean checkRoomNumberExistence(Room room);
 }

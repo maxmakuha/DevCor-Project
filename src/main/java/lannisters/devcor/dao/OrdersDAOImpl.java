@@ -26,20 +26,25 @@ public class OrdersDAOImpl implements OrdersDAO {
 	private static final String SQL_SELECT_ALL_ORDERS_SORTED = SQL_SELECT_ALL_ORDERS
 			+ " ORDER BY CASE WHEN overdue='Y' AND execution_status_id < 3 THEN 1 WHEN execution_status_id < 3 THEN 2 WHEN execution_status_id = 3 THEN 4 ELSE 3 END, due_date";
 	private static final String SQL_SELECT_ALL_ORDERS_OF_ROOM = SQL_SELECT_ALL_ORDERS + " WHERE request.room_id = ?";
-	private static final String SQL_SELECT_ALL_ORDERS_OF_ROOM_NO_DEVICE = SQL_SELECT_ALL_ORDERS + "WHERE request.device_id IS NULL AND request.execution_status_id <3 AND request.room_id = ?";
-	private static final String SQL_SELECT_ALL_ORDERS_OF_ROOM_WITH_DEVICE = SQL_SELECT_ALL_ORDERS + "WHERE request.device_id IS NOT NULL AND request.execution_status_id <3 AND request.room_id = ?";
+	private static final String SQL_SELECT_ALL_ORDERS_OF_ROOM_NO_DEVICE = SQL_SELECT_ALL_ORDERS
+			+ "WHERE request.device_id IS NULL AND request.execution_status_id <3 AND request.room_id = ?";
+	private static final String SQL_SELECT_ALL_ORDERS_OF_ROOM_WITH_DEVICE = SQL_SELECT_ALL_ORDERS
+			+ "WHERE request.device_id IS NOT NULL AND request.execution_status_id <3 AND request.room_id = ?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	@Override
 	public List<Order> getAllOrders() {
 		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS, new OrderMapper());
 	}
 
+	@Override
 	public Order getOrderById(int orderId) {
 		return jdbcTemplate.queryForObject(SQL_SELECT_ORDER_BY_ID, new OrderMapper(), orderId);
 	}
 
+	@Override
 	public void addOrder(Order order) throws SQLException {
 		PreparedStatement ps = null;
 		try {
@@ -64,6 +69,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 		}
 	}
 
+	@Override
 	public void updateOrder(Order order) throws SQLException {
 		PreparedStatement ps = null;
 		try {
@@ -89,6 +95,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 		}
 	}
 
+	@Override
 	public void deleteOrder(int orderId) throws SQLException {
 		PreparedStatement ps = null;
 		try {
@@ -122,10 +129,12 @@ public class OrdersDAOImpl implements OrdersDAO {
 	public List<Order> getAllOrdersOfRoom(int roomId) {
 		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_OF_ROOM, new OrderMapper(), roomId);
 	}
+
 	@Override
 	public List<Order> getAllOrdersOfRoomNoDevice(int roomId) throws SQLException {
 		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_OF_ROOM_NO_DEVICE, new OrderMapper(), roomId);
 	}
+
 	@Override
 	public List<Order> getAllOrdersOfRoomWithDevice(int roomId) throws SQLException {
 		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_OF_ROOM_WITH_DEVICE, new OrderMapper(), roomId);

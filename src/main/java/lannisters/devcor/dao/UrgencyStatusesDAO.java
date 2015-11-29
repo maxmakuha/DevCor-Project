@@ -3,7 +3,6 @@ package lannisters.devcor.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import lannisters.devcor.entity.DeviceType;
 import lannisters.devcor.entity.UrgencyStatus;
 
 public interface UrgencyStatusesDAO {

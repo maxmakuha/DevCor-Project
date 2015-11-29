@@ -11,7 +11,7 @@ public class RoomMapper implements RowMapper<Room> {
 		Room room = new Room();
 		room.setRoomId(rs.getInt("room_id"));
 		room.setRoomNumber(rs.getString("room_number"));
-		// room.setPlayerId(rs.getInt("player_id"));
+		room.setPlayerId(rs.getInt("player_id"));
 		room.setPlayerName(rs.getString("first_name"));
 		room.setPlayerSurname(rs.getString("last_name"));
 		return room;

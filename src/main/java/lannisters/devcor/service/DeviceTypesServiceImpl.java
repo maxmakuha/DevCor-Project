@@ -15,6 +15,7 @@ public class DeviceTypesServiceImpl implements DeviceTypesService {
 	@Autowired
 	private DeviceTypesDAO deviceTypesDao;
 
+	@Override
 	public List<DeviceType> getAllDeviceTypes() {
 		return deviceTypesDao.getAllDeviceTypes();
 	}
@@ -25,7 +26,7 @@ public class DeviceTypesServiceImpl implements DeviceTypesService {
 	}
 
 	@Override
-	public void updateDeviceType(DeviceType deviceType)  {
+	public void updateDeviceType(DeviceType deviceType) {
 		try {
 			deviceTypesDao.updateDeviceType(deviceType);
 		} catch (SQLException e) {

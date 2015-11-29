@@ -18,4 +18,8 @@ public interface RoomsDAO {
 	public void deleteRoom(int roomId) throws SQLException;
 	
 	public int getTechnicianIdByRoomId(int roomId) throws SQLException;
+	
+	public List<Room> getPlayerRooms(int playerId);
+	
+	public Room getRoomByNumber(String roomNumber);
 }

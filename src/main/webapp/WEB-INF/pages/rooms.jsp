@@ -45,7 +45,6 @@
 	<table class="table table-striped table-bordered" id="pagination">
 		<thead bgcolor="#8FBC8F">
 			<tr>
-				<th>ID</th>
 				<th>Room Number</th>
 				<th>Technician</th>
 				<th>Edit</th>
@@ -54,7 +53,6 @@
 		</thead>
 		<c:forEach var="room" items="${rooms}">
 			<tr>
-				<td><c:out value="${room.roomId}" /></td>
 				<td><c:out value="${room.roomNumber}" /></td>
 				<td><c:out value="${room.getPlayerObj().getFullName()}" /></td>
 				<td><a href="rooms/edit/id/${room.roomId}"

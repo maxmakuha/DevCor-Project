@@ -3,9 +3,7 @@ package lannisters.devcor.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import lannisters.devcor.entity.Device;
 import lannisters.devcor.entity.ProblemType;
-import lannisters.devcor.entity.Room;
 
 public interface ProblemTypesDAO {
 	

@@ -24,14 +24,17 @@ public class DevicesDAOImpl implements DevicesDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	@Override
 	public List<Device> getAllDevices() {
 		return jdbcTemplate.query(SQL_SELECT_ALL_DEVICES, new DeviceMapper());
 	}
 
+	@Override
 	public Device getDeviceById(int deviceId) {
 		return jdbcTemplate.queryForObject(SQL_SELECT_DEVICE_BY_ID, new DeviceMapper(), deviceId);
 	}
 
+	@Override
 	public void addDevice(Device device) throws SQLException {
 		PreparedStatement ps = null;
 		try {
@@ -48,6 +51,7 @@ public class DevicesDAOImpl implements DevicesDAO {
 		}
 	}
 
+	@Override
 	public void updateDevice(Device device) throws SQLException {
 		PreparedStatement ps = null;
 		try {
@@ -65,6 +69,7 @@ public class DevicesDAOImpl implements DevicesDAO {
 		}
 	}
 
+	@Override
 	public void deleteDevice(int deviceId) throws SQLException {
 		PreparedStatement ps = null;
 		try {
@@ -79,10 +84,12 @@ public class DevicesDAOImpl implements DevicesDAO {
 		}
 	}
 
+	@Override
 	public List<Device> getAllDevicesOfRoom(int roomId) {
 		return jdbcTemplate.query(SQL_SELECT_ALL_DEVICES_OF_ROOM, new Integer[] { roomId }, new DeviceMapper());
 	}
 
+	@Override
 	public Device getDeviceBySerial(String deviceSerialId) {
 		return jdbcTemplate.queryForObject(SQL_GET_DEVICE_BY_SERIAL, new DeviceMapper(), deviceSerialId);
 	}

@@ -2,9 +2,7 @@ package lannisters.devcor.service;
 
 import java.util.List;
 
-import lannisters.devcor.entity.Device;
 import lannisters.devcor.entity.ProblemType;
-import lannisters.devcor.entity.Room;
 
 public interface ProblemTypesService {
 

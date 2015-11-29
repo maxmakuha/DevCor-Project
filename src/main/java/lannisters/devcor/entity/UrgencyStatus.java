@@ -1,7 +1,5 @@
 package lannisters.devcor.entity;
 
-import java.sql.Timestamp;
-
 public class UrgencyStatus {
 	private int urgencyStatusId;
 	private String urgencyStatus;

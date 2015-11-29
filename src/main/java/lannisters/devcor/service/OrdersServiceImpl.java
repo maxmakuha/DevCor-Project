@@ -15,22 +15,27 @@ public class OrdersServiceImpl implements OrdersService {
 	@Autowired
 	private OrdersDAO ordersDao;
 
+	@Override
 	public List<Order> getAllOrders() {
 		return ordersDao.getAllOrders();
 	}
 
+	@Override
 	public Order getOrderById(int orderId) {
 		return ordersDao.getOrderById(orderId);
 	}
 
+	@Override
 	public void addOrder(Order order) throws SQLException {
 		ordersDao.addOrder(order);
 	}
 
+	@Override
 	public void updateOrder(Order order) throws SQLException {
 		ordersDao.updateOrder(order);
 	}
 
+	@Override
 	public void deleteOrder(int orderId) throws SQLException {
 		ordersDao.deleteOrder(orderId);
 	}
@@ -54,11 +59,12 @@ public class OrdersServiceImpl implements OrdersService {
 	public List<Order> getAllOrdersOfRoom(int roomId) {
 		return ordersDao.getAllOrdersOfRoom(roomId);
 	}
-	
+
 	@Override
 	public List<Order> getAllOrdersOfRoomNoDevice(int roomId) throws SQLException {
 		return ordersDao.getAllOrdersOfRoomNoDevice(roomId);
 	}
+
 	@Override
 	public List<Order> getAllOrdersOfRoomWithDevice(int roomId) throws SQLException {
 		return ordersDao.getAllOrdersOfRoomWithDevice(roomId);

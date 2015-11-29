@@ -16,14 +16,17 @@ public class DevicesServiceImpl implements DevicesService {
 	@Autowired
 	private DevicesDAO devicesDao;
 
+	@Override
 	public List<Device> getAllDevices() {
 		return devicesDao.getAllDevices();
 	}
 
+	@Override
 	public Device getDeviceById(int deviceId) {
 		return devicesDao.getDeviceById(deviceId);
 	}
 
+	@Override
 	public void addDevice(Device device) {
 		try {
 			devicesDao.addDevice(device);
@@ -32,6 +35,7 @@ public class DevicesServiceImpl implements DevicesService {
 		}
 	}
 
+	@Override
 	public void updateDevice(Device device) {
 		try {
 			devicesDao.updateDevice(device);
@@ -40,6 +44,7 @@ public class DevicesServiceImpl implements DevicesService {
 		}
 	}
 
+	@Override
 	public void deleteDevice(int deviceId) {
 		try {
 			devicesDao.deleteDevice(deviceId);
@@ -48,14 +53,17 @@ public class DevicesServiceImpl implements DevicesService {
 		}
 	}
 
+	@Override
 	public List<Device> getAllDevicesOfRoom(int roomId) {
 		return devicesDao.getAllDevicesOfRoom(roomId);
 	}
 
+	@Override
 	public Device getDeviceBySerial(String deviceSerialId) {
 		return devicesDao.getDeviceBySerial(deviceSerialId);
 	}
 
+	@Override
 	public boolean checkSerialExistence(Device device) {
 		boolean existence;
 		try {

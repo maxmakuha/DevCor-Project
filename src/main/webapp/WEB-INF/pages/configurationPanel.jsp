@@ -195,7 +195,7 @@
 			</table>
 			<form action="configuration/problemType/add">
 				<input type="submit" class="btn btn-success"
-					value="Add new problem type" />
+					value="Add new problem type" required/>
 			</form>
 
 			<Hr>
@@ -230,7 +230,7 @@
 			</table>
 			<form action="configuration/deviceType/add">
 				<input type="submit" class="btn btn-success"
-					value="Add new device type" />
+					value="Add new device type" required/>
 			</form>
 
 			<Hr>
@@ -240,7 +240,7 @@
 					<tr>
 						<th>ID</th>
 						<th>Title</th>
-						<th>Days</th>
+						<th>Minutes</th>
 						<th>Edit</th>
 						<th>Delete</th>
 					</tr>
@@ -266,10 +266,9 @@
 			</table>
 			<form action="configuration/urgStatus/add">
 				<input type="submit" class="btn btn-success"
-					value="Add new urgency status" />
+					value="Add new urgency status" required/>
 			</form>
 		</c:if>
-
 	</div>
 </div>
 <%@include file="footer.jsp"%>

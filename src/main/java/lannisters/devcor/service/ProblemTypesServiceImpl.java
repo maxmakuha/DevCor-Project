@@ -10,11 +10,12 @@ import lannisters.devcor.dao.ProblemTypesDAO;
 import lannisters.devcor.entity.ProblemType;
 
 @Service
-public class ProblemTypesServiceImpl implements ProblemTypesService{
+public class ProblemTypesServiceImpl implements ProblemTypesService {
 
 	@Autowired
 	private ProblemTypesDAO problemTypesDao;
-	
+
+	@Override
 	public List<ProblemType> getAllProblemTypes() {
 		return problemTypesDao.getAllProblemTypes();
 	}
@@ -50,5 +51,4 @@ public class ProblemTypesServiceImpl implements ProblemTypesService{
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -49,7 +49,6 @@
 	<table class="table table-striped table-bordered" id="pagination">
 		<thead bgcolor="#8FBC8F">
 			<tr>
-				<th>ID</th>
 				<th>Name</th>
 				<th>Surname</th>
 				<th>Email</th>
@@ -61,7 +60,6 @@
 		</thead>
 		<c:forEach var="user" items="${users}">
 			<tr>
-				<td><c:out value="${user.playerId}" /></td>
 				<td><c:out value="${user.firstName}" /></td>
 				<td><c:out value="${user.lastName}" /></td>
 				<td><c:out value="${user.playerEmail}" /></td>

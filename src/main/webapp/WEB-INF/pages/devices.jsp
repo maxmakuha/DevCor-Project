@@ -17,12 +17,16 @@
 	<ul class="nav nav-tabs">
 		<li role="presentation"><a href="<c:url value="/technicians"/>"
 			style="color: GREEN">Technicians</a></li>
-		<li role="presentation"><a href="<c:url value="/users"/>" style="color: GREEN">Users</a></li>
-		<li role="presentation"><a href="<c:url value="/rooms"/>" style="color: GREEN">Rooms</a></li>
-		<li role="presentation" class="active"><a href="<c:url value="/devices"/>"
-			style="color: GREEN">Devices</a></li>
-		<li role="presentation"><a href="<c:url value="/reports"/>" style="color: GREEN">Reports</a></li>
-		<li role="presentation"><a href="<c:url value="/configuration"/>" style="color: GREEN">Configuration panel</a></li>
+		<li role="presentation"><a href="<c:url value="/users"/>"
+			style="color: GREEN">Users</a></li>
+		<li role="presentation"><a href="<c:url value="/rooms"/>"
+			style="color: GREEN">Rooms</a></li>
+		<li role="presentation" class="active"><a
+			href="<c:url value="/devices"/>" style="color: GREEN">Devices</a></li>
+		<li role="presentation"><a href="<c:url value="/reports"/>"
+			style="color: GREEN">Reports</a></li>
+		<li role="presentation"><a href="<c:url value="/configuration"/>"
+			style="color: GREEN">Configuration panel</a></li>
 	</ul>
 </div>
 
@@ -45,7 +49,6 @@
 	<table class="table table-striped table-bordered" id="pagination">
 		<thead bgcolor="#8FBC8F">
 			<tr>
-				<th>ID</th>
 				<th>Serial Number</th>
 				<th>Device Type</th>
 				<th>Room Number</th>
@@ -55,7 +58,6 @@
 		</thead>
 		<c:forEach var="device" items="${devices}">
 			<tr>
-				<td><c:out value="${device.deviceId}" /></td>
 				<td><c:out value="${device.deviceSerialId}" /></td>
 				<td><c:out value="${device.getDeviceTypeObj().deviceType}" /></td>
 				<td><c:out value="${device.getRoomObj().roomNumber}" /></td>

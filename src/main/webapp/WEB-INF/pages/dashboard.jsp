@@ -10,10 +10,9 @@ $(document).ready(function(){
 });
 </script>
 
-<c:set var="role" value="${pageContext.request.userPrincipal.authorities.iterator().next().authority}" />
-<c:set var="isUser" value="${role == 'ROLE_USER'}"/>
-<c:set var="isTech" value="${role == 'ROLE_TECHNICIAN'}"/>
-<c:set var="isAdmin" value="${role == 'ROLE_ADMIN'}"/>
+<security:authorize access="hasRole('ROLE_USER')" var="isUser"/>
+<security:authorize access="hasRole('ROLE_TECHNICIAN')" var="isTech"/>
+<security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
 
 <br>
 <br>

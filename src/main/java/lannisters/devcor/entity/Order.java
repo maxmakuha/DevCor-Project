@@ -305,24 +305,4 @@ public class Order {
 				+ creationDate + ", dueDate=" + dueDate + ", author=" + author
 				+ ", technician=" + technician + ", overdue=" + overdue + "]";
 	}
-	
-	public void calcDueDate(){
-		setDueDate(new Timestamp(this.getCreationDate().getTime() + getDueMilis(this.urgencyStatus)));
-	}
-	
-	private int getDueMilis(UrgencyStatus urgencyStatus){
-		
-		switch (urgencyStatus.getUrgencyStatusId()) {
-			case 1:
-				return 40*60*1000;
-			case 2:
-				return 1*24*60*60*1000;
-			case 3:
-				return 3*24*60*60*1000;
-			case 4:
-				return 7*24*60*60*1000;
-			default:
-				return -1;
-			}
-	}
 }

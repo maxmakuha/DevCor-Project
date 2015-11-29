@@ -11,4 +11,6 @@ public interface UrgencyStatusesService {
 	public void updateUrgencyStatus(UrgencyStatus urgencyStatus);
 	public void addUrgencyStatus(UrgencyStatus urgencyStatus) ;
 	public void deleteUrgencyStatus(int urgencyStatus);
+
+	public int getUrgencyStatusMinutes(int urgencyStatusId);
 }

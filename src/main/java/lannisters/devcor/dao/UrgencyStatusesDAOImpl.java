@@ -22,6 +22,7 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO {
 	private static final String SQL_UPDATE_URGENCY_STATUS = "UPDATE urgency_status SET urgency_status = ?, minutes = ? WHERE urgency_status_id = ?";
 	private static final String SQL_INSERT_URGENCY_STATUS = "INSERT INTO urgency_status(urgency_status, minutes) VALUES (?,?)";
 	private static final String SQL_DELETE_URGENCY_STATUS = "DELETE urgency_status WHERE urgency_status_id=?";
+	private static final String SQL_SELECT_MINUTES_BY_ID = "SELECT urgency_status.minutes FROM urgency_status WHERE urgency_status.urgency_status_id = ?";
 
 	@Override
 	public List<UrgencyStatus> getAllUrgencyStatuses() {
@@ -39,7 +40,7 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO {
 		try {
 			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_URGENCY_STATUS);
 			ps.setString(1, urgencyStatus.getUrgencyStatus());
-			ps.setInt(2, urgencyStatus.getDays());
+			ps.setInt(2, urgencyStatus.getMinutes());
 			ps.setInt(3, urgencyStatus.getUrgencyStatusId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -57,7 +58,7 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO {
 			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_URGENCY_STATUS);
 
 			ps.setString(1, urgencyStatus.getUrgencyStatus());
-			ps.setInt(2, urgencyStatus.getDays());
+			ps.setInt(2, urgencyStatus.getMinutes());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,4 +82,10 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO {
 				ps.close();
 		}
 	}
+
+	@Override
+	public int getUrgencyStatusMinutes(int urgencyStatusId) {
+		return jdbcTemplate.queryForInt(SQL_SELECT_MINUTES_BY_ID, urgencyStatusId);
+	}
+
 }

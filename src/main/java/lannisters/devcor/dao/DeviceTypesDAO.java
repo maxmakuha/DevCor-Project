@@ -8,10 +8,14 @@ import lannisters.devcor.entity.DeviceType;
 public interface DeviceTypesDAO {
 
 	List<DeviceType> getAllDeviceTypes();
-	
+
 	public DeviceType getDeviceTypeById(int deviceTypeId);
+
 	public void updateDeviceType(DeviceType deviceType) throws SQLException;
+
 	public void addDeviceType(DeviceType deviceType) throws SQLException;
+
 	public void deleteDeviceType(int deviceType) throws SQLException;
 
+	public DeviceType getDeviceTypeByTitle(String title);
 }

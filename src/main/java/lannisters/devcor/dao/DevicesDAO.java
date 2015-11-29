@@ -20,5 +20,6 @@ public interface DevicesDAO {
 	public List<Device> getAllDevicesOfRoom(int roomId);
 	
 	public Device getDeviceBySerial(String deviceSerialId);
-
+	
+	public List<Device> getDevicesByType(int deviceTypeId);
 }

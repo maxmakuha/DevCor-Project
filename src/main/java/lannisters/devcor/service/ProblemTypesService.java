@@ -7,8 +7,16 @@ import lannisters.devcor.entity.ProblemType;
 public interface ProblemTypesService {
 
 	public List<ProblemType> getAllProblemTypes();
+
 	public ProblemType getProblemTypeById(int problemTypeId);
+
 	public void updateProblemType(ProblemType problemType);
+
 	public void addProblemType(ProblemType problemType);
+
 	public void deleteProblemType(int problemType);
+
+	public ProblemType getProblemTypeByTitle(String title);
+
+	public boolean checkProblemTypeExistence(ProblemType type);
 }

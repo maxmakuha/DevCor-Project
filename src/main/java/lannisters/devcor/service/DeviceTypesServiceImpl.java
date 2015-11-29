@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import lannisters.devcor.dao.DeviceTypesDAO;
@@ -50,5 +51,22 @@ public class DeviceTypesServiceImpl implements DeviceTypesService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public DeviceType getDeviceTypeByTitle(String title) {
+		return deviceTypesDao.getDeviceTypeByTitle(title);
+	}
+
+	@Override
+	public boolean checkDeviceTypeExistence(DeviceType type) {
+		boolean existence;
+		try {
+			deviceTypesDao.getDeviceTypeByTitle(type.getDeviceType());
+			existence = true;
+		} catch (EmptyResultDataAccessException e) {
+			existence = false;
+		}
+		return existence;
 	}
 }

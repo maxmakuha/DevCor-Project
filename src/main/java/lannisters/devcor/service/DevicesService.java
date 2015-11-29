@@ -17,8 +17,12 @@ public interface DevicesService {
 	public void deleteDevice(int deviceId);
 
 	public List<Device> getAllDevicesOfRoom(int roomId);
-	
+
 	public Device getDeviceBySerial(String deviceSerialId);
-	
+
 	public boolean checkSerialExistence(Device device);
+
+	public List<Device> getDevicesByType(int deviceTypeId);
+
+	public boolean checkDeviceTypeDevices(int deviceTypeId);
 }

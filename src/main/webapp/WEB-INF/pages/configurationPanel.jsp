@@ -92,6 +92,15 @@ $(document).ready(function(){
 	</ul>
 
 	<Hr>
+	
+	<c:if test="${not empty message}">
+		<div class="msg">${message}</div>
+	</c:if>
+	
+	<c:if test="${not empty error}">
+		<div class="error">${error}</div>
+	</c:if>
+	
 	<div id="panel">
 
 		<c:if test="${action == 'editProblemType'}">
@@ -109,6 +118,9 @@ $(document).ready(function(){
 				<form:input type="hidden" class="form-control" path="problemTypeId"
 					required="true" />
 			</form:form>
+			<c:if test="${not empty unique}">
+				<div class="error">${unique}</div>
+			</c:if>
 		</c:if>
 
 
@@ -124,6 +136,9 @@ $(document).ready(function(){
 					</tr>
 				</table>
 			</form:form>
+			<c:if test="${not empty unique}">
+				<div class="error">${unique}</div>
+			</c:if>
 		</c:if>
 
 		<c:if test="${action == 'editDeviceType'}">
@@ -135,13 +150,16 @@ $(document).ready(function(){
 					<tr>
 						<td><form:label path="deviceType">Title:</form:label></td>
 						<td><form:input type="text" class="form-control"
-								path="deviceType" required="true" maxlength="20" /></td>
+								path="deviceType" required="true" maxlength="32" /></td>
 						<td><input type="submit" class="btn btn-success" value="Save" /></td>
 					</tr>
 				</table>
 				<form:input type="hidden" class="form-control" path="deviceTypeId"
 					required="true" />
 			</form:form>
+			<c:if test="${not empty unique}">
+				<div class="error">${unique}</div>
+			</c:if>
 		</c:if>
 
 		<c:if test="${action == 'addDeviceType'}">
@@ -152,11 +170,14 @@ $(document).ready(function(){
 					<tr>
 						<td><form:label path="deviceType">Title:</form:label></td>
 						<td><form:input type="text" class="form-control"
-								path="deviceType" required="true" maxlength="20" /></td>
+								path="deviceType" required="true" maxlength="32" /></td>
 						<td><input type="submit" class="btn btn-success" value="Add" /></td>
 					</tr>
 				</table>
 			</form:form>
+			<c:if test="${not empty unique}">
+				<div class="error">${unique}</div>
+			</c:if>
 		</c:if>
 
 		<c:if test="${action == 'editUrgStatus'}">
@@ -185,6 +206,9 @@ $(document).ready(function(){
 				<form:input type="hidden" class="form-control"
 					path="urgencyStatusId" required="true" />
 			</form:form>
+			<c:if test="${not empty unique}">
+				<div class="error">${unique}</div>
+			</c:if>
 		</c:if>
 
 		<c:if test="${action == 'addUrgStatus'}">
@@ -210,6 +234,9 @@ $(document).ready(function(){
 					</tr>
 				</table>
 			</form:form>
+			<c:if test="${not empty unique}">
+				<div class="error">${unique}</div>
+			</c:if>
 		</c:if>
 
 		<c:if test="${ empty action}">
@@ -217,7 +244,6 @@ $(document).ready(function(){
 				<caption>Problem Type</caption>
 				<thead bgcolor="#8FBC8F">
 					<tr>
-						<th>ID</th>
 						<th>Title</th>
 						<th>Edit</th>
 						<th>Delete</th>
@@ -226,7 +252,6 @@ $(document).ready(function(){
 				<tbody bgcolor="#fff">
 					<c:forEach var="problemType" items="${problemType}">
 						<tr>
-							<td><c:out value="${problemType.problemTypeId}" /></td>
 							<td><c:out value="${problemType.problemType}" /></td>
 
 							<td><a
@@ -244,7 +269,7 @@ $(document).ready(function(){
 			</table>
 			<form action="configuration/problemType/add">
 				<input type="submit" class="btn btn-success"
-					value="Add new problem type" required/>
+					value="Add new problem type"/>
 			</form>
 
 			<Hr>
@@ -252,7 +277,6 @@ $(document).ready(function(){
 				<caption>Device Type</caption>
 				<thead bgcolor="#8FBC8F">
 					<tr>
-						<th>ID</th>
 						<th>Title</th>
 						<th>Edit</th>
 						<th>Delete</th>
@@ -261,7 +285,6 @@ $(document).ready(function(){
 				<tbody bgcolor="#fff">
 					<c:forEach var="deviceType" items="${deviceType}">
 						<tr>
-							<td><c:out value="${deviceType.deviceTypeId}" /></td>
 							<td><c:out value="${deviceType.deviceType}" /></td>
 
 							<td><a
@@ -279,7 +302,7 @@ $(document).ready(function(){
 			</table>
 			<form action="configuration/deviceType/add">
 				<input type="submit" class="btn btn-success"
-					value="Add new device type" required/>
+					value="Add new device type"/>
 			</form>
 
 			<Hr>
@@ -287,7 +310,6 @@ $(document).ready(function(){
 				<caption>Urgency Status</caption>
 				<thead bgcolor="#8FBC8F">
 					<tr>
-						<th>ID</th>
 						<th>Title</th>
 						<th>Time interval</th>
 						<th>Edit</th>
@@ -297,7 +319,6 @@ $(document).ready(function(){
 				<tbody bgcolor="#fff">
 					<c:forEach var="urgStatus" items="${urgStatus}">
 						<tr>
-							<td><c:out value="${urgStatus.urgencyStatusId}" /></td>
 							<td><c:out value="${urgStatus.urgencyStatus}" /></td>
 							<td class="timeInterval"><c:out value="${urgStatus.minutes}" /></td>
 							<td><a
@@ -315,7 +336,7 @@ $(document).ready(function(){
 			</table>
 			<form action="configuration/urgStatus/add">
 				<input type="submit" class="btn btn-success"
-					value="Add new urgency status" required/>
+					value="Add new urgency status"/>
 			</form>
 		</c:if>
 	</div>

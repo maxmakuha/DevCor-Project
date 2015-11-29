@@ -23,6 +23,7 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO {
 	private static final String SQL_INSERT_URGENCY_STATUS = "INSERT INTO urgency_status(urgency_status, minutes) VALUES (?,?)";
 	private static final String SQL_DELETE_URGENCY_STATUS = "DELETE urgency_status WHERE urgency_status_id=?";
 	private static final String SQL_SELECT_MINUTES_BY_ID = "SELECT urgency_status.minutes FROM urgency_status WHERE urgency_status.urgency_status_id = ?";
+	private static final String SQL_SELECT_URGENCY_STATUS_BY_TITLE = "SELECT urgency_status_id, urgency_status,minutes FROM urgency_status WHERE urgency_status.urgency_status=?";
 
 	@Override
 	public List<UrgencyStatus> getAllUrgencyStatuses() {
@@ -88,4 +89,8 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO {
 		return jdbcTemplate.queryForInt(SQL_SELECT_MINUTES_BY_ID, urgencyStatusId);
 	}
 
+	@Override
+	public UrgencyStatus getUrgencyStatusByTitle(String title) {
+		return jdbcTemplate.queryForObject(SQL_SELECT_URGENCY_STATUS_BY_TITLE, new UrgencyStatusMapper(), title);
+	}
 }

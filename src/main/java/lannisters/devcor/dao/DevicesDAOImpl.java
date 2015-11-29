@@ -20,6 +20,7 @@ public class DevicesDAOImpl implements DevicesDAO {
 	private static final String SQL_DELETE_DEVICE = "DELETE device WHERE device_id=?";
 	private static final String SQL_SELECT_ALL_DEVICES_OF_ROOM = SQL_SELECT_ALL_DEVICES + " WHERE device.room_id = ?";
 	private static final String SQL_GET_DEVICE_BY_SERIAL = SQL_SELECT_ALL_DEVICES + " WHERE device_serial_id = ?";
+	private static final String SQL_SELECT_DEVICES_BY_TYPE = "SELECT device.device_id, device.device_serial_id, device_type.device_type, room.room_number FROM ((device INNER JOIN device_type ON device.device_type_id = device_type.device_type_id) INNER JOIN room ON device.room_id = room.room_id) WHERE device.device_type_id=?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -92,5 +93,10 @@ public class DevicesDAOImpl implements DevicesDAO {
 	@Override
 	public Device getDeviceBySerial(String deviceSerialId) {
 		return jdbcTemplate.queryForObject(SQL_GET_DEVICE_BY_SERIAL, new DeviceMapper(), deviceSerialId);
+	}
+
+	@Override
+	public List<Device> getDevicesByType(int deviceTypeId) {
+		return jdbcTemplate.query(SQL_SELECT_DEVICES_BY_TYPE, new DeviceMapper(), deviceTypeId);
 	}
 }

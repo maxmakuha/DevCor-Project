@@ -74,4 +74,20 @@ public class DevicesServiceImpl implements DevicesService {
 		}
 		return existence;
 	}
+
+	@Override
+	public List<Device> getDevicesByType(int deviceTypeId) {
+		return devicesDao.getDevicesByType(deviceTypeId);
+	}
+
+	@Override
+	public boolean checkDeviceTypeDevices(int deviceTypeId) {
+		boolean existence;
+		List<Device> devices = devicesDao.getDevicesByType(deviceTypeId);
+		if (devices.isEmpty())
+			existence = false;
+		else
+			existence = true;
+		return existence;
+	}
 }

@@ -2,6 +2,7 @@ package lannisters.devcor.controller;
 
 import java.security.Principal;
 import java.util.Locale;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,9 @@ public class MainController {
 
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public String profile(Model model, Principal principal) {
-		model.addAttribute("profile", playersService.getPlayerByEmail(principal.getName()));
+		Player user = playersService.getPlayerByEmail(principal.getName());
+		user.setPassword(null);
+		model.addAttribute("profile", user);
 		return "profile";
 	}
 
@@ -54,12 +57,33 @@ public class MainController {
 			page = "redirect:/profile";
 			redirectAttributes.addFlashAttribute("unique", "User with this email exist!");
 		} else {
-			playersService.updatePlayer(player);
-			if (principal.getName().equals(player.getPlayerEmail())) {
-				page = "redirect:/dashboard";
-				redirectAttributes.addFlashAttribute("profile", "Profile edited successfully!");
+			if (BCrypt.checkpw(player.getPassword(),
+					playersService.getPlayerByEmail(principal.getName()).getPassword())) {
+				if (player.getNewPassword().equals(player.getConfirmPassword()) && player.getNewPassword().equals("")) {
+					player.setPassword(playersService.encodePassword(player.getPassword()));
+					playersService.updatePlayer(player);
+					if (principal.getName().equals(player.getPlayerEmail())) {
+						page = "redirect:/dashboard";
+						redirectAttributes.addFlashAttribute("profile", "Profile edited successfully!");
+					} else {
+						page = "redirect:/logout";
+					}
+				} else if (player.getNewPassword().equals(player.getConfirmPassword())) {
+					player.setPassword(playersService.encodePassword(player.getNewPassword()));
+					playersService.updatePlayer(player);
+					if (principal.getName().equals(player.getPlayerEmail())) {
+						page = "redirect:/dashboard";
+						redirectAttributes.addFlashAttribute("profile", "Profile edited successfully!");
+					} else {
+						page = "redirect:/logout";
+					}
+				} else {
+					page = "redirect:/profile";
+					redirectAttributes.addFlashAttribute("unique", "Passwords don't match!");
+				}
 			} else {
-				page = "redirect:/logout";
+				page = "redirect:/profile";
+				redirectAttributes.addFlashAttribute("unique", "Wrong password!");
 			}
 		}
 		return page;

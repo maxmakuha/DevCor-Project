@@ -1,5 +1,12 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@include file="header.jsp"%>
+
+<script>
+	function goBack() {
+		window.history.back();
+	}
+</script>
+
 <br>
 <br>
 <br>
@@ -27,14 +34,14 @@
 				<tr>
 					<td><label>First Name:</label></td>
 					<td><label>${profile.firstName}</label></td>
-					<form:input type="hidden" class="form-control" path="firstName"
-						value="${profile.firstName}" required="true" />
+					<form:hidden path="firstName" value="${profile.firstName}"
+						required="true" />
 				</tr>
 				<tr>
 					<td><label>Surname:</label></td>
 					<td><label>${profile.lastName}</label></td>
-					<form:input type="hidden" class="form-control" path="lastName"
-						value="${profile.lastName}" required="true" />
+					<form:hidden path="lastName" value="${profile.lastName}"
+						required="true" />
 				</tr>
 			</security:authorize>
 			<tr>
@@ -43,9 +50,16 @@
 						path="playerEmail" required="true" /></td>
 			</tr>
 			<tr>
-				<td><form:label path="password">Password:</form:label></td>
-				<td><form:input type="text" class="form-control"
-						path="password" required="true" /></td>
+				<td><form:label path="password">Old Password:</form:label></td>
+				<td><form:password path="password" required="true" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="newPassword">New Password:</form:label></td>
+				<td><form:password path="newPassword" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="confirmPassword">Confirm Password:</form:label></td>
+				<td><form:password path="confirmPassword" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="phoneNumber">Phone number:</form:label></td>
@@ -53,12 +67,12 @@
 						path="phoneNumber" required="true" /></td>
 			</tr>
 		</table>
-		<form:input type="hidden" class="form-control" path="roleId"
-			required="true" />
-		<form:input type="hidden" class="form-control" path="playerId"
-			required="true" />
+		<form:hidden path="roleId" required="true" />
+		<form:hidden path="playerId" required="true" />
 		<p style="text-align: center">
-			<input type="submit" class="btn btn-success" value="Save" />
+			<input type="submit" class="btn btn-success" value="Save" /> <input
+				type="button" onclick="goBack()" class="btn btn-cancell"
+				value="Go back" />
 		</p>
 	</form:form>
 </div>

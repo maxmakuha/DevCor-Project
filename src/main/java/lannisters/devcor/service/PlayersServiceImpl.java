@@ -8,6 +8,7 @@ import lannisters.devcor.entity.Player;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -83,5 +84,12 @@ public class PlayersServiceImpl implements PlayersService {
 			existence = false;
 		}
 		return existence;
+	}
+
+	@Override
+	public String encodePassword(String password) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(password);
+		return hashedPassword;
 	}
 }

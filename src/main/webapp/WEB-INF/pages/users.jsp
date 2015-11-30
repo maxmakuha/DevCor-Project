@@ -52,7 +52,6 @@
 				<th>Name</th>
 				<th>Surname</th>
 				<th>Email</th>
-				<th>Password</th>
 				<th>Phone Number</th>
 				<th>Edit</th>
 				<th>Delete</th>
@@ -63,7 +62,6 @@
 				<td><c:out value="${user.firstName}" /></td>
 				<td><c:out value="${user.lastName}" /></td>
 				<td><c:out value="${user.playerEmail}" /></td>
-				<td><c:out value="${user.password}" /></td>
 				<td><c:out value="${user.phoneNumber}" /></td>
 				<td><a href="users/edit/id/${user.playerId}"
 					id="${user.playerId}"><span class="glyphicon glyphicon-edit"

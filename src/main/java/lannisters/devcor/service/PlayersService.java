@@ -23,6 +23,8 @@ public interface PlayersService {
 	public List<Player> getAllUsers();
 
 	public List<Player> getAllTechnicians();
-	
+
 	public boolean checkEmailExistence(Player player);
+
+	public String encodePassword(String password);
 }

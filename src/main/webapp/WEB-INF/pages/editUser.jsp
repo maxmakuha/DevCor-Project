@@ -1,5 +1,12 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@include file="header.jsp"%>
+
+<script>
+	function goBack() {
+		window.history.back();
+	}
+</script>
+
 <br>
 <br>
 <br>
@@ -31,9 +38,9 @@
 						path="playerEmail" required="true" maxlength="64" /></td>
 			</tr>
 			<tr>
-				<td><form:label path="password">Password:</form:label></td>
+				<td><form:label path="newPassword">New Password:</form:label></td>
 				<td><form:input type="text" class="form-control"
-						path="password" required="true" maxlength="64" /></td>
+						path="newPassword" maxlength="64" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="phoneNumber">Phone number:</form:label></td>
@@ -41,12 +48,12 @@
 						path="phoneNumber" required="true" maxlength="15" /></td>
 			</tr>
 		</table>
-		<form:input type="hidden" class="form-control" path="playerId"
-			required="true" />
-		<form:input type="hidden" class="form-control" path="roleId"
-			required="true" />
+		<form:hidden path="password" required="true" />
+		<form:hidden path="playerId" required="true" />
+		<form:hidden path="roleId" required="true" />
 		<p style="text-align: center">
 			<input type="submit" class="btn btn-success" value="Save" />
+			<input type="button" onclick="goBack()" class="btn btn-cancell" value="Go back" />
 		</p>
 	</form:form>
 </div>

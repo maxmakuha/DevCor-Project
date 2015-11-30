@@ -5,6 +5,7 @@ import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -82,14 +83,18 @@ public class AdminController {
 
 	@RequestMapping(value = "/technicians/add", method = RequestMethod.GET)
 	public String addTechnician(Model model) {
-		model.addAttribute("user", new Player());
+		Player tech = new Player();
+		tech.setPassword(RandomStringUtils.randomAlphanumeric(15));
+		model.addAttribute("user", tech);
 		model.addAttribute("role", 2);
 		return "addUser";
 	}
 
 	@RequestMapping(value = "/users/add", method = RequestMethod.GET)
 	public String addUser(Model model) {
-		model.addAttribute("user", new Player());
+		Player user = new Player();
+		user.setPassword(RandomStringUtils.randomAlphanumeric(15));
+		model.addAttribute("user", user);
 		model.addAttribute("role", 3);
 		return "addUser";
 	}
@@ -102,9 +107,10 @@ public class AdminController {
 			redirectAttributes.addFlashAttribute("unique", "User with this email exist!");
 		} else {
 			user.setRoleId(2);
+			mail.registrationEmail(user);
+			user.setPassword(playersService.encodePassword(user.getPassword()));
 			playersService.addPlayer(user);
 			page = "redirect:/technicians";
-			mail.registrationEmail(user);
 			redirectAttributes.addFlashAttribute("tech", "Technician created successfully!");
 		}
 		return page;
@@ -118,9 +124,10 @@ public class AdminController {
 			redirectAttributes.addFlashAttribute("unique", "User with this email exist!");
 		} else {
 			user.setRoleId(3);
+			mail.registrationEmail(user);
+			user.setPassword(playersService.encodePassword(user.getPassword()));
 			playersService.addPlayer(user);
 			page = "redirect:/users";
-			mail.registrationEmail(user);
 			redirectAttributes.addFlashAttribute("user", "User created successfully!");
 		}
 		return page;
@@ -144,6 +151,8 @@ public class AdminController {
 				page = "redirect:/users/edit/id/" + id;
 			redirectAttributes.addFlashAttribute("unique", "User with this email exist!");
 		} else {
+			if (!user.getNewPassword().equals(""))
+				user.setPassword(playersService.encodePassword(user.getNewPassword()));
 			playersService.updatePlayer(user);
 			if (user.getRoleId() == 2) {
 				page = "redirect:/technicians";

@@ -56,7 +56,6 @@
 				<th>Name</th>
 				<th>Surname</th>
 				<th>Email</th>
-				<th>Password</th>
 				<th>Phone Number</th>
 				<th>Edit</th>
 				<th>Delete</th>
@@ -67,7 +66,6 @@
 				<td><c:out value="${technician.firstName}" /></td>
 				<td><c:out value="${technician.lastName}" /></td>
 				<td><c:out value="${technician.playerEmail}" /></td>
-				<td><c:out value="${technician.password}" /></td>
 				<td><c:out value="${technician.phoneNumber}" /></td>
 				<td><a href="technicians/edit/id/${technician.playerId}"
 					id="${technician.playerId}"><span

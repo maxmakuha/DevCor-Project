@@ -1,5 +1,12 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@include file="header.jsp"%>
+
+<script>
+	function goBack() {
+		window.history.back();
+	}
+</script>
+
 <br>
 <br>
 <br>
@@ -27,6 +34,7 @@
 		</table>
 		<p style="text-align: center">
 			<input type="submit" class="btn btn-success" value="Add" />
+			<input type="button" onclick="goBack()" class="btn btn-cancell" value="Go back" />
 		</p>
 	</form:form>
 </div>

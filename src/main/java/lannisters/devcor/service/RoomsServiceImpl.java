@@ -27,30 +27,18 @@ public class RoomsServiceImpl implements RoomsService {
 	}
 
 	@Override
-	public void addRoom(Room room) {
-		try {
-			roomsDao.addRoom(room);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void addRoom(Room room) throws SQLException {
+		roomsDao.addRoom(room);
 	}
 
 	@Override
-	public void updateRoom(Room room) {
-		try {
-			roomsDao.updateRoom(room);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void updateRoom(Room room) throws SQLException {
+		roomsDao.updateRoom(room);
 	}
 
 	@Override
-	public void deleteRoom(int roomId) {
-		try {
-			roomsDao.deleteRoom(roomId);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void deleteRoom(int roomId) throws SQLException {
+		roomsDao.deleteRoom(roomId);
 	}
 
 	@Override

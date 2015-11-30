@@ -27,30 +27,18 @@ public class DeviceTypesServiceImpl implements DeviceTypesService {
 	}
 
 	@Override
-	public void updateDeviceType(DeviceType deviceType) {
-		try {
-			deviceTypesDao.updateDeviceType(deviceType);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void updateDeviceType(DeviceType deviceType) throws SQLException {
+		deviceTypesDao.updateDeviceType(deviceType);
 	}
 
 	@Override
-	public void addDeviceType(DeviceType deviceType) {
-		try {
-			deviceTypesDao.addDeviceType(deviceType);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void addDeviceType(DeviceType deviceType) throws SQLException {
+		deviceTypesDao.addDeviceType(deviceType);
 	}
 
 	@Override
-	public void deleteDeviceType(int deviceType) {
-		try {
-			deviceTypesDao.deleteDeviceType(deviceType);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void deleteDeviceType(int deviceType) throws SQLException {
+		deviceTypesDao.deleteDeviceType(deviceType);
 	}
 
 	@Override

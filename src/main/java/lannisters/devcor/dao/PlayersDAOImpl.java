@@ -40,57 +40,42 @@ public class PlayersDAOImpl implements PlayersDAO {
 	@Override
 	public void addPlayer(Player player) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_PLAYER);
-			ps.setString(1, player.getPlayerEmail());
-			ps.setString(2, player.getFirstName());
-			ps.setString(3, player.getLastName());
-			ps.setString(4, player.getPassword());
-			ps.setString(5, player.getPhoneNumber());
-			ps.setInt(6, player.getRoleId());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_PLAYER);
+		ps.setString(1, player.getPlayerEmail());
+		ps.setString(2, player.getFirstName());
+		ps.setString(3, player.getLastName());
+		ps.setString(4, player.getPassword());
+		ps.setString(5, player.getPhoneNumber());
+		ps.setInt(6, player.getRoleId());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void updatePlayer(Player player) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_PLAYER);
-			ps.setString(1, player.getPlayerEmail());
-			ps.setString(2, player.getFirstName());
-			ps.setString(3, player.getLastName());
-			ps.setString(4, player.getPassword());
-			ps.setString(5, player.getPhoneNumber());
-			ps.setInt(6, player.getRoleId());
-			ps.setInt(7, player.getPlayerId());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_PLAYER);
+		ps.setString(1, player.getPlayerEmail());
+		ps.setString(2, player.getFirstName());
+		ps.setString(3, player.getLastName());
+		ps.setString(4, player.getPassword());
+		ps.setString(5, player.getPhoneNumber());
+		ps.setInt(6, player.getRoleId());
+		ps.setInt(7, player.getPlayerId());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void deletePlayer(int playerId) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_PLAYER);
-			ps.setInt(1, playerId);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_PLAYER);
+		ps.setInt(1, playerId);
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override

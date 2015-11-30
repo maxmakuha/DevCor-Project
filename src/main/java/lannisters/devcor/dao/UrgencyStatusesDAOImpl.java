@@ -38,50 +38,35 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO {
 	@Override
 	public void updateUrgencyStatus(UrgencyStatus urgencyStatus) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_URGENCY_STATUS);
-			ps.setString(1, urgencyStatus.getUrgencyStatus());
-			ps.setInt(2, urgencyStatus.getMinutes());
-			ps.setInt(3, urgencyStatus.getUrgencyStatusId());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_URGENCY_STATUS);
+		ps.setString(1, urgencyStatus.getUrgencyStatus());
+		ps.setInt(2, urgencyStatus.getMinutes());
+		ps.setInt(3, urgencyStatus.getUrgencyStatusId());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void addUrgencyStatus(UrgencyStatus urgencyStatus) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_URGENCY_STATUS);
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_URGENCY_STATUS);
+		ps.setString(1, urgencyStatus.getUrgencyStatus());
+		ps.setInt(2, urgencyStatus.getMinutes());
+		ps.executeUpdate();
 
-			ps.setString(1, urgencyStatus.getUrgencyStatus());
-			ps.setInt(2, urgencyStatus.getMinutes());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void deleteUrgencyStatus(int urgencyStatus) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_URGENCY_STATUS);
-			ps.setInt(1, urgencyStatus);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_URGENCY_STATUS);
+		ps.setInt(1, urgencyStatus);
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override

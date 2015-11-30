@@ -49,67 +49,52 @@ public class OrdersDAOImpl implements OrdersDAO {
 	@Override
 	public void addOrder(Order order) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_ORDER);
-			ps.setInt(1, order.getProblemTypeId());
-			ps.setString(2, order.getDescription());
-			ps.setInt(3, order.getRoomId());
-			ps.setObject(4, order.getDeviceObj() == null ? null : order.getDeviceId());
-			ps.setInt(5, order.getExecutionStatusId());
-			ps.setInt(6, order.getUrgencyStatusId());
-			ps.setTimestamp(7, order.getCreationDate());
-			ps.setTimestamp(8, order.getDueDate());
-			ps.setInt(9, order.getAuthorId());
-			ps.setInt(10, order.getTechnicianId());
-			ps.setString(11, order.getOverdue());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_ORDER);
+		ps.setInt(1, order.getProblemTypeId());
+		ps.setString(2, order.getDescription());
+		ps.setInt(3, order.getRoomId());
+		ps.setObject(4, order.getDeviceObj() == null ? null : order.getDeviceId());
+		ps.setInt(5, order.getExecutionStatusId());
+		ps.setInt(6, order.getUrgencyStatusId());
+		ps.setTimestamp(7, order.getCreationDate());
+		ps.setTimestamp(8, order.getDueDate());
+		ps.setInt(9, order.getAuthorId());
+		ps.setInt(10, order.getTechnicianId());
+		ps.setString(11, order.getOverdue());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void updateOrder(Order order) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_ORDER);
-			ps.setInt(1, order.getProblemTypeId());
-			ps.setString(2, order.getDescription());
-			ps.setInt(3, order.getRoomId());
-			ps.setObject(4, order.getDeviceId() == -1 ? null : order.getDeviceId());
-			ps.setInt(5, order.getExecutionStatusId());
-			ps.setInt(6, order.getUrgencyStatusId());
-			ps.setTimestamp(7, order.getCreationDate());
-			ps.setTimestamp(8, order.getDueDate());
-			ps.setInt(9, order.getAuthorId());
-			ps.setInt(10, order.getTechnicianId());
-			ps.setString(11, order.getOverdue());
-			ps.setInt(12, order.getOrderId());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_ORDER);
+		ps.setInt(1, order.getProblemTypeId());
+		ps.setString(2, order.getDescription());
+		ps.setInt(3, order.getRoomId());
+		ps.setObject(4, order.getDeviceId() == -1 ? null : order.getDeviceId());
+		ps.setInt(5, order.getExecutionStatusId());
+		ps.setInt(6, order.getUrgencyStatusId());
+		ps.setTimestamp(7, order.getCreationDate());
+		ps.setTimestamp(8, order.getDueDate());
+		ps.setInt(9, order.getAuthorId());
+		ps.setInt(10, order.getTechnicianId());
+		ps.setString(11, order.getOverdue());
+		ps.setInt(12, order.getOrderId());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void deleteOrder(int orderId) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_ORDER);
-			ps.setInt(1, orderId);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_ORDER);
+		ps.setInt(1, orderId);
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override

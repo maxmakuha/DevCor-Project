@@ -1,5 +1,6 @@
 package lannisters.devcor.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import lannisters.devcor.entity.Device;
@@ -10,11 +11,11 @@ public interface DevicesService {
 
 	public Device getDeviceById(int deviceId);
 
-	public void addDevice(Device device);
+	public void addDevice(Device device) throws SQLException;
 
-	public void updateDevice(Device device);
+	public void updateDevice(Device device) throws SQLException;
 
-	public void deleteDevice(int deviceId);
+	public void deleteDevice(int deviceId) throws SQLException;
 
 	public List<Device> getAllDevicesOfRoom(int roomId);
 

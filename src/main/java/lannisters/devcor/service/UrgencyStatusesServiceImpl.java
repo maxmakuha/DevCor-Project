@@ -27,30 +27,18 @@ public class UrgencyStatusesServiceImpl implements UrgencyStatusesService {
 	}
 
 	@Override
-	public void updateUrgencyStatus(UrgencyStatus urgencyStatus) {
-		try {
-			urgencyStatusesDao.updateUrgencyStatus(urgencyStatus);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void updateUrgencyStatus(UrgencyStatus urgencyStatus) throws SQLException {
+		urgencyStatusesDao.updateUrgencyStatus(urgencyStatus);
 	}
 
 	@Override
-	public void addUrgencyStatus(UrgencyStatus urgencyStatus) {
-		try {
-			urgencyStatusesDao.addUrgencyStatus(urgencyStatus);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void addUrgencyStatus(UrgencyStatus urgencyStatus) throws SQLException {
+		urgencyStatusesDao.addUrgencyStatus(urgencyStatus);
 	}
 
 	@Override
-	public void deleteUrgencyStatus(int urgencyStatus) {
-		try {
-			urgencyStatusesDao.deleteUrgencyStatus(urgencyStatus);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void deleteUrgencyStatus(int urgencyStatus) throws SQLException {
+		urgencyStatusesDao.deleteUrgencyStatus(urgencyStatus);
 	}
 
 	@Override

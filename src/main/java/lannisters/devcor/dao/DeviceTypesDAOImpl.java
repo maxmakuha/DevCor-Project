@@ -37,47 +37,32 @@ public class DeviceTypesDAOImpl implements DeviceTypesDAO {
 	@Override
 	public void updateDeviceType(DeviceType deviceType) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_DEVICE_TYPE);
-			ps.setString(1, deviceType.getDeviceType());
-			ps.setInt(2, deviceType.getDeviceTypeId());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_DEVICE_TYPE);
+		ps.setString(1, deviceType.getDeviceType());
+		ps.setInt(2, deviceType.getDeviceTypeId());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void addDeviceType(DeviceType deviceType) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_DEVICE_TYPE);
-			ps.setString(1, deviceType.getDeviceType());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_DEVICE_TYPE);
+		ps.setString(1, deviceType.getDeviceType());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void deleteDeviceType(int deviceType) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_DEVICE_TYPE);
-			ps.setInt(1, deviceType);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_DEVICE_TYPE);
+		ps.setInt(1, deviceType);
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override

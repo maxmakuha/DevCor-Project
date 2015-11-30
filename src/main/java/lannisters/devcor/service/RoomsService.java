@@ -11,11 +11,11 @@ public interface RoomsService {
 
 	public Room getRoomById(int roomId);
 
-	public void addRoom(Room room);
+	public void addRoom(Room room) throws SQLException;
 
-	public void updateRoom(Room room);
+	public void updateRoom(Room room) throws SQLException;
 
-	public void deleteRoom(int roomId);
+	public void deleteRoom(int roomId) throws SQLException;
 
 	public int getTechnicianIdByRoomId(int roomId) throws SQLException;
 

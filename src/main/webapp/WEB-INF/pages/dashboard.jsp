@@ -49,13 +49,12 @@ $(document).ready(function(){
 		<div class='order-finished'></div> - Finished orders
 		<br>
 		<div class='order-incorrect-or-unsolvable'></div> - Incorrect or Unsolvable orders
-	">What does all this colors mean?</a>
+	">What does all these colors mean?</a>
 	<br>
 	<br>
 	<table class="table table-striped table-bordered" id="pagination">
 		<thead bgcolor="#8FBC8F">
 			<tr>
-				<th>ID</th>
 				<c:if test="${isTech}">
 					<th>Message</th>
 					<th>Due date</th>
@@ -101,10 +100,9 @@ $(document).ready(function(){
 				</c:otherwise>
 			</c:choose>
 			>
-				<td><c:out value="${order.orderId}" /></td>
 				<c:if test="${isTech}">
 					<td><c:out value="${order.description}" /></td>
-					<td><c:out value="${order.dueDate}" /></td>
+					<td><c:out value="${fn:substring(order.dueDate, 0, 16)}" /></td>
 					<td><c:out value="${order.problemType}" /></td>
 				</c:if>
 				<c:if test="${isUser}">

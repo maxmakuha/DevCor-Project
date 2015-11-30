@@ -138,7 +138,7 @@ public class OrderController {
 			int newStatusId = orderAndComment.getOrder().getExecutionStatusId();
 
 			if (newStatusId > 3 && oldStatusId != newStatusId) {
-				mail.statusEmail(orderAndComment.getOrder());
+				mail.statusEmail(ordersService.getOrderById(orderAndComment.getOrder().getOrderId()));
 			}
 			mail.commentEmail(orderAndComment);
 		}

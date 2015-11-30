@@ -23,6 +23,7 @@ public class PlayersDAOImpl implements PlayersDAO {
 	private static final String SQL_GET_PLAYER_ID_BY_EMAIL = "SELECT player.player_id FROM player WHERE player.player_email = ?";
 	private static final String SQL_SELECT_ALL_USERS = SQL_SELECT_ALL_PLAYERS + " WHERE player.role_id = 3";
 	private static final String SQL_SELECT_ALL_TECHNICIANS = SQL_SELECT_ALL_PLAYERS + " WHERE player.role_id = 2";
+	private static final String SQL_GET_ADMIN = SQL_SELECT_ALL_PLAYERS + " WHERE player.role_id = 1";
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -96,5 +97,10 @@ public class PlayersDAOImpl implements PlayersDAO {
 	@Override
 	public List<Player> getAllTechnicians() {
 		return jdbcTemplate.query(SQL_SELECT_ALL_TECHNICIANS, new PlayerMapper());
+	}
+	
+	@Override
+	public List<Player> getAdmin() {
+		return jdbcTemplate.query(SQL_GET_ADMIN, new PlayerMapper());
 	}
 }

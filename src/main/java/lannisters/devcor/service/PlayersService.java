@@ -28,4 +28,6 @@ public interface PlayersService {
 	public boolean checkEmailExistence(Player player);
 
 	public String encodePassword(String password);
+
+	Player getAdmin();
 }

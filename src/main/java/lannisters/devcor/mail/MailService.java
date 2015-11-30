@@ -69,7 +69,7 @@ public class MailService {
 	public void statusEmail(Order order) {
 		StringBuilder message = new StringBuilder();
 		message.append("Status on your order from ");
-		message.append(order.getCreationDate() +" has changed to ");
+		message.append(order.getCreationDate().toString().substring(0, 16) +" has changed to ");
 		message.append(order.getExecutionStatus());
 		message.append(". For more details connect with Administrator: \n");
 		message.append(ADMINISTRATOR);
@@ -77,6 +77,15 @@ public class MailService {
 		Player player = service.getPlayerById(playerId);
 		String receiver = player.getPlayerEmail();
 		sender.send(receiver, STATUS_CHANGE, message.toString());
+		player = service.getAdmin();
+		String admin = player.getPlayerEmail();
+		message.delete(0, message.capacity()+1);
+		message.append("Status on the order from ");
+		message.append(order.getCreationDate().toString().substring(0, 16) +" has changed to ");
+		message.append(order.getExecutionStatus());
+		message.append(". Technician responsible for it: \n");
+		message.append(order.getTechnicianName()+" "+order.getTechnicianSurname());
+		sender.send(admin, STATUS_CHANGE, message.toString());
 	}
 
 	public void commentEmail(OrderAndComment orderAndComment) {

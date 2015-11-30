@@ -37,47 +37,32 @@ public class ProblemTypesDAOImpl implements ProblemTypesDAO {
 	@Override
 	public void updateProblemType(ProblemType problemType) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_PROBLEM_TYPE);
-			ps.setString(1, problemType.getProblemType());
-			ps.setInt(2, problemType.getProblemTypeId());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_PROBLEM_TYPE);
+		ps.setString(1, problemType.getProblemType());
+		ps.setInt(2, problemType.getProblemTypeId());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void addProblemType(ProblemType problemType) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_PROBLEM_TYPE);
-			ps.setString(1, problemType.getProblemType());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_PROBLEM_TYPE);
+		ps.setString(1, problemType.getProblemType());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void deleteProblemType(int problemType) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_PROBLEM_TYPE);
-			ps.setInt(1, problemType);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_PROBLEM_TYPE);
+		ps.setInt(1, problemType);
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package lannisters.devcor.controller;
 
 import java.security.Principal;
+import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -100,7 +101,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/technicians/add", method = RequestMethod.POST)
-	public String saveTechnician(@ModelAttribute("user") Player user, RedirectAttributes redirectAttributes) {
+	public String saveTechnician(@ModelAttribute("user") Player user, RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (playersService.checkEmailExistence(user)) {
 			page = "redirect:/technicians/add";
@@ -117,7 +118,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/users/add", method = RequestMethod.POST)
-	public String saveUser(@ModelAttribute("user") Player user, RedirectAttributes redirectAttributes) {
+	public String saveUser(@ModelAttribute("user") Player user, RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (playersService.checkEmailExistence(user)) {
 			page = "redirect:/users/add";
@@ -141,7 +142,7 @@ public class AdminController {
 
 	@RequestMapping(value = { "/technicians/edit/id/{id}", "/users/edit/id/{id}" }, method = RequestMethod.POST)
 	public String saveEditedUser(@ModelAttribute("user") Player user, @PathVariable("id") int id,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (playersService.checkEmailExistence(user)
 				&& playersService.getPlayerIdByEmail(user.getPlayerEmail()) != user.getPlayerId()) {
@@ -166,7 +167,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/technicians/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteTechnician(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+	public String deleteTechnician(@PathVariable("id") int id, RedirectAttributes redirectAttributes) throws SQLException {
 		if (roomsService.checkPlayerRooms(id))
 			redirectAttributes.addFlashAttribute("error", "Unable to delete. Technician attached to some room!");
 		else {
@@ -177,7 +178,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/users/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteUser(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+	public String deleteUser(@PathVariable("id") int id, RedirectAttributes redirectAttributes) throws SQLException {
 		playersService.deletePlayer(id);
 		redirectAttributes.addFlashAttribute("user", "User deleted successfully!");
 		return "redirect:/users";
@@ -197,7 +198,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/rooms/add", method = RequestMethod.POST)
-	public String saveRoom(@ModelAttribute("room") Room room, RedirectAttributes redirectAttributes) {
+	public String saveRoom(@ModelAttribute("room") Room room, RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (roomsService.checkRoomNumberExistence(room)) {
 			redirectAttributes.addFlashAttribute("unique", "Room with this number exist!");
@@ -220,7 +221,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/rooms/edit/id/{id}", method = RequestMethod.POST)
 	public String saveEditedRoom(@ModelAttribute("room") Room room, @PathVariable("id") int id,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (roomsService.checkRoomNumberExistence(room)) {
 			redirectAttributes.addFlashAttribute("unique", "Room with this number exist!");
@@ -234,7 +235,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/rooms/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteRoom(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+	public String deleteRoom(@PathVariable("id") int id, RedirectAttributes redirectAttributes) throws SQLException {
 		roomsService.deleteRoom(id);
 		redirectAttributes.addFlashAttribute("room", "Room deleted successfully!");
 		return "redirect:/rooms";
@@ -250,7 +251,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/rooms/edit/id/{room_id}/device/add", method = RequestMethod.POST)
 	public String processDeviceOfRoom(@ModelAttribute("deviceOfRoom") Device device, @PathVariable("room_id") int id,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (devicesService.checkSerialExistence(device)) {
 			page = "redirect:/rooms/edit/id/" + id + "/device/add";
@@ -278,7 +279,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/devices/add", method = RequestMethod.POST)
-	public String saveDevice(@ModelAttribute("device") Device device, RedirectAttributes redirectAttributes) {
+	public String saveDevice(@ModelAttribute("device") Device device, RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (devicesService.checkSerialExistence(device)) {
 			page = "redirect:/devices/add";
@@ -303,7 +304,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/devices/edit/id/{id}", method = RequestMethod.POST)
 	public String saveEditedDevice(@ModelAttribute("device") Device device, @PathVariable("id") int id,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (devicesService.checkSerialExistence(device) && !devicesService.getDeviceById(device.getDeviceId())
 				.getDeviceSerialId().equals(device.getDeviceSerialId())) {
@@ -319,7 +320,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/rooms/edit/id/{room_id}/devices/edit/id/{device_id}", method = RequestMethod.POST)
 	public String saveEditedRoomDevice(@ModelAttribute("device") Device device, @PathVariable("room_id") int rid,
-			@PathVariable("device_id") int did, RedirectAttributes redirectAttributes) {
+			@PathVariable("device_id") int did, RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (devicesService.checkSerialExistence(device) && !devicesService.getDeviceById(device.getDeviceId())
 				.getDeviceSerialId().equals(device.getDeviceSerialId())) {
@@ -336,7 +337,7 @@ public class AdminController {
 	@RequestMapping(value = { "/devices/delete/id/{device_id}",
 			"/rooms/edit/id/{room_id}/devices/delete/id/{device_id}" }, method = RequestMethod.GET)
 	public String deleteDevice(@PathVariable("device_id") int id, HttpServletRequest request,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws SQLException {
 		devicesService.deleteDevice(id);
 		String referer = request.getHeader("Referer");
 		redirectAttributes.addFlashAttribute("device", "Device deleted successfully!");
@@ -396,7 +397,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/configuration/problemType/edit/id/{id}", method = RequestMethod.POST)
 	public String saveEditedProblemType(@ModelAttribute("problem") ProblemType problemType, @PathVariable("id") int id,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (problemTypesService.checkProblemTypeExistence(problemType)
 				&& problemTypesService.getProblemTypeByTitle(problemType.getProblemType())
@@ -420,7 +421,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/configuration/problemType/add", method = RequestMethod.POST)
 	public String saveProblemType(@ModelAttribute("problem") ProblemType problemType,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (problemTypesService.checkProblemTypeExistence(problemType)) {
 			redirectAttributes.addFlashAttribute("unique", "Problem type with this title exist!");
@@ -434,7 +435,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/configuration/problemType/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteProblemType(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+	public String deleteProblemType(@PathVariable("id") int id, RedirectAttributes redirectAttributes) throws SQLException {
 		if (ordersService.checkProblemTypeOrders(id))
 			redirectAttributes.addFlashAttribute("error", "Unable to delete. Orders with this problem type exist!");
 		else {
@@ -453,7 +454,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/configuration/deviceType/edit/id/{id}", method = RequestMethod.POST)
 	public String saveEditedDeviceType(@ModelAttribute("deviceType") DeviceType deviceType, @PathVariable("id") int id,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (deviceTypesService.checkDeviceTypeExistence(deviceType) && deviceTypesService
 				.getDeviceTypeByTitle(deviceType.getDeviceType()).getDeviceTypeId() != deviceType.getDeviceTypeId()) {
@@ -476,7 +477,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/configuration/deviceType/add", method = RequestMethod.POST)
 	public String saveDeviceType(@ModelAttribute("deviceType") DeviceType deviceType,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (deviceTypesService.checkDeviceTypeExistence(deviceType)) {
 			redirectAttributes.addFlashAttribute("unique", "Device type with this title exist!");
@@ -490,7 +491,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/configuration/deviceType/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteDeviceType(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+	public String deleteDeviceType(@PathVariable("id") int id, RedirectAttributes redirectAttributes) throws SQLException {
 		if (devicesService.checkDeviceTypeDevices(id))
 			redirectAttributes.addFlashAttribute("error", "Unable to delete. Devices with this device type exist!");
 		else {
@@ -509,7 +510,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/configuration/urgStatus/edit/id/{id}", method = RequestMethod.POST)
 	public String saveEditedUrgStatus(@ModelAttribute("urgStatus") UrgencyStatus urgencyStatus,
-			@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+			@PathVariable("id") int id, RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (urgencyStatusesService.checkUrgencyStatusExistence(urgencyStatus)
 				&& urgencyStatusesService.getUrgencyStatusByTitle(urgencyStatus.getUrgencyStatus())
@@ -533,7 +534,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/configuration/urgStatus/add", method = RequestMethod.POST)
 	public String saveUrgStatus(@ModelAttribute("urgStatus") UrgencyStatus urgencyStatus,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (urgencyStatusesService.checkUrgencyStatusExistence(urgencyStatus)) {
 			redirectAttributes.addFlashAttribute("unique", "Urgency status with this title exist!");
@@ -547,7 +548,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/configuration/urgStatus/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteUrgStatus(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+	public String deleteUrgStatus(@PathVariable("id") int id, RedirectAttributes redirectAttributes) throws SQLException {
 		if (ordersService.checkUrgencyStatusOrders(id))
 			redirectAttributes.addFlashAttribute("error", "Unable to delete. Orders with this urgency status exist!");
 		else {

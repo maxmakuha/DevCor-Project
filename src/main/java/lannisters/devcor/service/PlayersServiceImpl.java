@@ -28,30 +28,18 @@ public class PlayersServiceImpl implements PlayersService {
 	}
 
 	@Override
-	public void addPlayer(Player player) {
-		try {
-			playersDao.addPlayer(player);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void addPlayer(Player player) throws SQLException {
+		playersDao.addPlayer(player);
 	}
 
 	@Override
-	public void updatePlayer(Player player) {
-		try {
-			playersDao.updatePlayer(player);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void updatePlayer(Player player) throws SQLException {
+		playersDao.updatePlayer(player);
 	}
 
 	@Override
-	public void deletePlayer(int playerId) {
-		try {
-			playersDao.deletePlayer(playerId);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void deletePlayer(int playerId) throws SQLException {
+		playersDao.deletePlayer(playerId);
 	}
 
 	@Override

@@ -27,30 +27,19 @@ public class ProblemTypesServiceImpl implements ProblemTypesService {
 	}
 
 	@Override
-	public void updateProblemType(ProblemType problemType) {
-		try {
-			problemTypesDao.updateProblemType(problemType);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void updateProblemType(ProblemType problemType) throws SQLException {
+		problemTypesDao.updateProblemType(problemType);
 	}
 
 	@Override
-	public void addProblemType(ProblemType problemType) {
-		try {
-			problemTypesDao.addProblemType(problemType);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void addProblemType(ProblemType problemType) throws SQLException {
+		problemTypesDao.addProblemType(problemType);
 	}
 
 	@Override
-	public void deleteProblemType(int problemType) {
-		try {
-			problemTypesDao.deleteProblemType(problemType);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void deleteProblemType(int problemType) throws SQLException {
+		problemTypesDao.deleteProblemType(problemType);
+
 	}
 
 	@Override

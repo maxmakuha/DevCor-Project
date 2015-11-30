@@ -1,5 +1,6 @@
 package lannisters.devcor.service;
 
+import java.sql.SQLException;
 import java.util.List;
 import lannisters.devcor.entity.UrgencyStatus;
 
@@ -9,11 +10,11 @@ public interface UrgencyStatusesService {
 
 	public UrgencyStatus getUrgencyStatusById(int urgencyStatus);
 
-	public void updateUrgencyStatus(UrgencyStatus urgencyStatus);
+	public void updateUrgencyStatus(UrgencyStatus urgencyStatus) throws SQLException;
 
-	public void addUrgencyStatus(UrgencyStatus urgencyStatus);
+	public void addUrgencyStatus(UrgencyStatus urgencyStatus) throws SQLException;
 
-	public void deleteUrgencyStatus(int urgencyStatus);
+	public void deleteUrgencyStatus(int urgencyStatus) throws SQLException;
 
 	public int getUrgencyStatusMinutes(int urgencyStatusId);
 

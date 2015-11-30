@@ -15,6 +15,8 @@
 <c:set var="orderIsIncorrect" value="${orderAndComment.order.executionStatus == 'Incorrect'}" />
 <c:set var="orderIsUnsolvable" value="${orderAndComment.order.executionStatus == 'Unsolvable'}" />
 
+<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/resources/js/bootbox.min.js"/>"></script>
 <script>
 function getCurrentDateAndTime(){
 	var s = function(a,b){return(1e15+a+"").slice(-b)};

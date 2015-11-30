@@ -117,24 +117,28 @@ public class OrderController {
 	@RequestMapping(value = "/dashboard/order/id/{id}", method = RequestMethod.POST)
 	public String updateOrder(OrderAndComment orderAndComment, RedirectAttributes redirectAttributes)
 			throws SQLException {
-		Order order = ordersService.getOrderById(orderAndComment.getOrder().getOrderId());
-		int oldStatusId = order.getExecutionStatusId();
+		Order oldOrder = ordersService.getOrderById(orderAndComment.getOrder().getOrderId());
+		int oldStatusId = oldOrder.getExecutionStatusId();
 
-		orderAndComment.getOrder()
-				.setTechnicianId(roomsService.getTechnicianIdByRoomId(orderAndComment.getOrder().getRoomId()));
-		orderAndComment.getOrder().setDueDate(new Timestamp(orderAndComment.getOrder().getCreationDate().getTime()
-				+ urgencyStatusesService.getUrgencyStatusMinutes(orderAndComment.getOrder().getUrgencyStatusId()) * 60
-						* 1000));
-
+		if(oldOrder.getRoomId() != orderAndComment.getOrder().getRoomId()){
+			orderAndComment.getOrder().setTechnicianId(
+					roomsService.getTechnicianIdByRoomId(orderAndComment.getOrder().getRoomId()));
+		}
+		if(oldOrder.getExecutionStatusId() != orderAndComment.getOrder().getExecutionStatusId()){
+			orderAndComment.getOrder().setDueDate(new Timestamp(
+					orderAndComment.getOrder().getCreationDate().getTime() + 
+					urgencyStatusesService.getUrgencyStatusMinutes(
+							orderAndComment.getOrder().getUrgencyStatusId())*60*1000));
+		}
+		
 		ordersService.updateOrder(orderAndComment.getOrder());
 
-		if (orderAndComment.getComment() != null && orderAndComment.getComment().getComment() != null) {
+		if (orderAndComment.getComment() != null && !orderAndComment.getComment().getComment().isEmpty()) {
 			commentsService.addComment(orderAndComment.getComment());
 			int newStatusId = orderAndComment.getOrder().getExecutionStatusId();
 
 			if (newStatusId > 3 && oldStatusId != newStatusId) {
-				order = ordersService.getOrderById(orderAndComment.getOrder().getOrderId());
-				mail.statusEmail(order);
+				mail.statusEmail(orderAndComment.getOrder());
 			}
 			mail.commentEmail(orderAndComment);
 		}

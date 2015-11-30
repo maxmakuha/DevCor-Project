@@ -23,6 +23,7 @@
             /WEB-INF/spring-security.xml,
             /WEB-INF/data-source-config.xml
             /WEB-INF/mail-service.xml
+            /WEB-INF/exception-config.xml
         </param-value>
     </context-param>
  

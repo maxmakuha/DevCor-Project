@@ -37,51 +37,36 @@ public class CommentsDAOImpl implements CommentsDAO {
 	@Override
 	public void addComment(Comment comment) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_COMMENT);
-			ps.setString(1, comment.getComment());
-			ps.setInt(2, comment.getOrderId());
-			ps.setTimestamp(3, comment.getCreationDate());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_COMMENT);
+		ps.setString(1, comment.getComment());
+		ps.setInt(2, comment.getOrderId());
+		ps.setTimestamp(3, comment.getCreationDate());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void updateComment(Comment comment) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_COMMENT);
-			ps.setString(1, comment.getComment());
-			ps.setInt(2, comment.getOrderId());
-			ps.setTimestamp(3, comment.getCreationDate());
-			ps.setInt(4, comment.getCommentId());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_COMMENT);
+		ps.setString(1, comment.getComment());
+		ps.setInt(2, comment.getOrderId());
+		ps.setTimestamp(3, comment.getCreationDate());
+		ps.setInt(4, comment.getCommentId());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void deleteComment(int commentId) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_COMMENT);
-			ps.setInt(1, commentId);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_COMMENT);
+		ps.setInt(1, commentId);
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override

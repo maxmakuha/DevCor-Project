@@ -1,5 +1,6 @@
 package lannisters.devcor.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import lannisters.devcor.entity.DeviceType;
@@ -10,11 +11,11 @@ public interface DeviceTypesService {
 
 	public DeviceType getDeviceTypeById(int deviceTypeId);
 
-	public void updateDeviceType(DeviceType deviceType);
+	public void updateDeviceType(DeviceType deviceType) throws SQLException;
 
-	public void addDeviceType(DeviceType deviceType);
+	public void addDeviceType(DeviceType deviceType) throws SQLException;
 
-	public void deleteDeviceType(int deviceType);
+	public void deleteDeviceType(int deviceType) throws SQLException;
 
 	public DeviceType getDeviceTypeByTitle(String title);
 	

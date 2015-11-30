@@ -1,6 +1,7 @@
 package lannisters.devcor.controller;
 
 import java.security.Principal;
+import java.sql.SQLException;
 import java.util.Locale;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -50,7 +51,7 @@ public class MainController {
 
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
 	public String saveProfile(@ModelAttribute("profile") Player player, Principal principal, Model model,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (playersService.checkEmailExistence(player)
 				&& playersService.getPlayerIdByEmail(player.getPlayerEmail()) != player.getPlayerId()) {

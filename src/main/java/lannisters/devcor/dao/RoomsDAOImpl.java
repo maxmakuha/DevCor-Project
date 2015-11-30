@@ -39,49 +39,34 @@ public class RoomsDAOImpl implements RoomsDAO {
 	@Override
 	public void addRoom(Room room) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_ROOM);
-			ps.setString(1, room.getRoomNumber());
-			ps.setInt(2, room.getPlayerId());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_ROOM);
+		ps.setString(1, room.getRoomNumber());
+		ps.setInt(2, room.getPlayerId());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void updateRoom(Room room) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_ROOM);
-			ps.setString(1, room.getRoomNumber());
-			ps.setInt(2, room.getPlayerId());
-			ps.setInt(3, room.getRoomId());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_ROOM);
+		ps.setString(1, room.getRoomNumber());
+		ps.setInt(2, room.getPlayerId());
+		ps.setInt(3, room.getRoomId());
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override
 	public void deleteRoom(int roomId) throws SQLException {
 		PreparedStatement ps = null;
-		try {
-			ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_ROOM);
-			ps.setInt(1, roomId);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (ps != null)
+		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_ROOM);
+		ps.setInt(1, roomId);
+		ps.executeUpdate();
+		if (ps != null)
 				ps.close();
-		}
 	}
 
 	@Override

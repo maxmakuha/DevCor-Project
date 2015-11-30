@@ -4,121 +4,72 @@
 <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 <script src="<c:url value="/resources/js/bootbox.min.js"/>"></script>
 <script>
-	function wordForm(singular, amount) {
-		switch (amount) {
+function wordForm(singular, amount){
+	switch(amount){
 		case 0:
 			return "";
 		case 1:
 			return amount + ' ' + singular + ' ';
 		default:
 			return amount + ' ' + singular + 's ';
-		}
 	}
-
-	function formatTimeInterval(m) {
-		var minutes = m % 60;
-		var hours = Math.floor(m / 60) % 24;
-		var days = Math.floor(m / (60 * 24));
-		return wordForm("day", days) + wordForm("hour", hours)
-				+ wordForm("minute", minutes);
-	}
-
-	$(document)
-			.ready(
-					function() {
-
-						$(".timeInterval").html(function(i, minutes) {
-							return formatTimeInterval(minutes);
-						});
-
-						$(".days-hours-minutes div:nth-child(1) input")
-								.val(
-										Math
-												.floor($(
-														".days-hours-minutes input[type='hidden']")
-														.val()
-														/ (60 * 24)));
-
-						$(".days-hours-minutes div:nth-child(2) input")
-								.val(
-										Math
-												.floor(($(
-														".days-hours-minutes input[type='hidden']")
-														.val() / 60) % 24));
-
-						$(".days-hours-minutes div:nth-child(3) input")
-								.val(
-										Math
-												.floor($(
-														".days-hours-minutes input[type='hidden']")
-														.val() % 60));
-
-						$(document).on(
-								"click",
-								".problemTypeConfirm",
-								function(e) {
-									e.preventDefault();
-									var location = $(this).attr('href');
-									bootbox.confirm(
-											"Delete this problem type?",
-											function(result) {
-												if (result) {
-													window.location
-															.replace(location);
-												}
-											});
-								});
-						$(document).on(
-								"click",
-								".deviceTypeconfirm",
-								function(e) {
-									e.preventDefault();
-									var location = $(this).attr('href');
-									bootbox.confirm("Delete this device type?",
-											function(result) {
-												if (result) {
-													window.location
-															.replace(location);
-												}
-											});
-								});
-						$(document).on(
-								"click",
-								".urgStatusConfirm",
-								function(e) {
-									e.preventDefault();
-									var location = $(this).attr('href');
-									bootbox.confirm(
-											"Delete this urgency status?",
-											function(result) {
-												if (result) {
-													window.location
-															.replace(location);
-												}
-											});
-								});
-
-						$("#urgStatus input[type='submit']")
-								.click(
-										function() {
-											$(
-													".days-hours-minutes input[type='hidden']")
-													.val(
-															$(
-																	".days-hours-minutes div:nth-child(1) input")
-																	.val()
-																	* 60
-																	* 24
-																	+ $(
-																			".days-hours-minutes div:nth-child(2) input")
-																			.val()
-																	* 60
-																	+ $(
-																			".days-hours-minutes div:nth-child(3) input")
-																			.val()
-																	* 1);
-										});
-					});
+}
+function formatTimeInterval(m) {
+	var minutes = m % 60;
+	var hours = Math.floor(m / 60) % 24;
+	var days  = Math.floor(m / (60 * 24));
+	return wordForm("day", days) + wordForm("hour", hours) + wordForm("minute", minutes);
+}
+$(document).ready(function(){
+	
+	$(".timeInterval").html(function(i, minutes){
+		return formatTimeInterval(minutes);
+	});
+	
+	$(".days-hours-minutes div:nth-child(1) input").val(
+			Math.floor($(".days-hours-minutes input[type='hidden']").val() / (60 * 24)));
+	
+	$(".days-hours-minutes div:nth-child(2) input").val(
+			Math.floor(($(".days-hours-minutes input[type='hidden']").val() / 60) % 24));
+	
+	$(".days-hours-minutes div:nth-child(3) input").val(
+			Math.floor($(".days-hours-minutes input[type='hidden']").val() % 60));
+	
+	$(document).on("click", ".problemTypeConfirm", function(e) {
+		e.preventDefault();
+		var location = $(this).attr('href');
+		bootbox.confirm("Delete this problem type?", function(result) {
+			if (result) {
+				window.location.replace(location);
+			}
+		});
+	});
+	$(document).on("click", ".deviceTypeconfirm", function(e) {
+		e.preventDefault();
+		var location = $(this).attr('href');
+		bootbox.confirm("Delete this device type?", function(result) {
+			if (result) {
+				window.location.replace(location);
+			}
+		});
+	});
+	$(document).on("click", ".urgStatusConfirm", function(e) {
+		e.preventDefault();
+		var location = $(this).attr('href');
+		bootbox.confirm("Delete this urgency status?", function(result) {
+			if (result) {
+				window.location.replace(location);
+			}
+		});
+	});
+	
+	$("#urgStatus input[type='submit']").click(function(){
+		$(".days-hours-minutes input[type='hidden']").val(
+				$(".days-hours-minutes div:nth-child(1) input").val() * 60 * 24 +
+				$(".days-hours-minutes div:nth-child(2) input").val() * 60 +
+				$(".days-hours-minutes div:nth-child(3) input").val() * 1);
+	});
+});
 </script>
 
 <script>

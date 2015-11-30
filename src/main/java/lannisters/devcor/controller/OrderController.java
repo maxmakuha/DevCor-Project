@@ -179,4 +179,14 @@ public class OrderController {
 			return "getDuplicateOrdersDevice";
 		}
 	}
+	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
+	public String calendar(Model m, Principal principal) throws SQLException {
+		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
+		return "calendar";
+	}
+	@RequestMapping(value = "/calendar2", method = RequestMethod.GET)
+	public String calendar2(Model m, Principal principal) throws SQLException {
+		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
+		return "calendar2";
+	}
 }

@@ -96,7 +96,6 @@ footer {
 	position: relative;
 	font-size: 16px;
 	height: auto;
-	padding: 10px;
 }
 
 input[type="text"] {
@@ -455,4 +454,106 @@ td {
 	width: 100%;
 	display: block;
 	text-align: center;
+}
+
+
+#calendar2 {
+  width: 15%;
+  font: monospace;
+  font-size: 15px;
+  line-height: 1.1 em;
+  text-align: center;
+}
+#calendar2 thead tr:last-child {
+  font-size: medium;
+  color: rgb(85, 85, 85);
+}
+#calendar2 thead tr:nth-child(1) td:nth-child(2) {
+  color: rgb(50, 50, 50);
+}
+#calendar2 thead tr:nth-child(1) td:nth-child(1):hover, #calendar2 thead tr:nth-child(1) td:nth-child(3):hover {
+  cursor: pointer;
+}
+#calendar2 tbody td {
+  color: rgb(44, 86, 122);
+}
+#calendar2 tbody td:nth-child(n+6), #calendar2 .holiday {
+  color: rgb(231, 140, 92);
+}
+#calendar2 tbody td.today {
+  background: rgb(220, 0, 0);
+  color: #fff;
+}
+
+#calendar2 tbody td[title] {
+outline:3px solid green;
+background: yellow;
+cursor: help;
+}
+#calendar2 tbody td[title] a {
+display: block;
+}
+
+#calendarBig { 
+  width: 50%;
+  height: 20%;
+  max-width: 700px;
+  margin: 0 auto;
+  border-spacing: 0 1.2 em;
+}
+#calendarBig td {
+  vertical-align: top;
+}
+#calendarBig > thead td:not(:nth-child(2)) {
+  text-decoration: underline;
+  color: rgb(0, 119, 204);
+  cursor: pointer;
+}
+#calendarBig > thead td:not(:nth-child(2)):hover { 
+  color: #ff3200;
+}
+#calendarBig > thead td:nth-child(2) { 
+  font-size: 150%;
+  font-weight: 700;
+  color: rgb(140, 61, 2);
+}
+#calendarBig, #calendarBig table {
+  font: monospace;
+  line-height: 1.2em;
+  font-size: 15px;
+  text-align: center;
+}
+#calendarBig table {  
+  display: inline-table;
+}
+#calendarBig table thead tr:nth-child(1) {
+  font-size: 110%;
+  font-weight: 700;
+}
+#calendarBig table thead tr:last-child {
+  font-size: small;
+  font-weight: 700;
+  color: rgb(103, 103, 103);
+}
+#calendarBig table tbody td { 
+  color: rgb(44, 86, 122);
+}
+#calendarBig table tbody td:nth-child(n+6), #calendarBig .holiday { 
+  color: rgb(231, 140, 92);
+}
+#calendarBig table tbody td.today {  
+  outline: 3px solid red;
+}
+#calendarBig table tbody td[title] { 
+  outline: 3px solid green;
+  background: yellow;
+  cursor: help;
+}
+#calendarBig table tbody td[title] a {
+  display: block;
+  text-decoration: none;
+}
+#calendarBig table tbody td[title] a:hover { 
+  background: #fde910;
+  color: red;
 }

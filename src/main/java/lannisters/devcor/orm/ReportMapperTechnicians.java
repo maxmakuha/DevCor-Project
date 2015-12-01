@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 public class ReportMapperTechnicians implements RowMapper<Report> {
 	public Report mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Report report = new Report();
+		report.setTechnicianId(rs.getInt("player_id"));
 		report.setTechnician(rs.getString("last_name")+" "+rs.getString("first_name"));
 		report.setCoutOfopenOrders(rs.getString("openn"));
 		report.setCountOfinprogressOrders(rs.getString("Inprogress"));

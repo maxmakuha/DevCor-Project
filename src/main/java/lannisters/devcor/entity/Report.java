@@ -21,7 +21,7 @@ public class Report {
 	private String deviseType;
 	private String orderQuantity;
 	
-	
+	private int technicianId;
 	private String coutOfopenOrders;
 	private String countOfinprogressOrders;
 	private String countOfunsolvableOrders;
@@ -191,4 +191,12 @@ public class Report {
 	public String getTechnician() {
 		return technician;
 	}
+	
+	public void setTechnicianId(int technicianId) {
+		this.technicianId = technicianId;
+	}
+	public int getTechnicianId() {
+		return technicianId;
+	}
+	
 }

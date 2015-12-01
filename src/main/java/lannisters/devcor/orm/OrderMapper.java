@@ -38,7 +38,7 @@ public class OrderMapper implements RowMapper<Order> {
 		order.setTechnicianEmail(rs.getString("technician_email"));
 		order.setTechnicianName(rs.getString("technician_name"));
 		order.setTechnicianSurname(rs.getString("technician_surname"));
-		order.setOverdue(rs.getString("overdue"));
+		order.setOverdue(rs.getString("overdue").equals("-"));
 		return order;
 	}
 }

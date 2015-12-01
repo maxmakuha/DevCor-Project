@@ -93,7 +93,7 @@ $(document).ready(function(){
 		<c:forEach var="order" items="${orders}">
 			<tr class=
 			<c:choose>
-				<c:when test="${order.overdue == 'Y' && order.executionStatusId < 3}">
+				<c:when test="${order.overdue && order.executionStatusId < 3}">
 					"order-overdue"
 				</c:when>
 				<c:when test="${order.executionStatus == 'Open'}">
@@ -102,7 +102,7 @@ $(document).ready(function(){
 				<c:when test="${order.executionStatus == 'In progress'}">
 					"order-in-progress-not-overdue"
 				</c:when>
-				<c:when test="${order.executionStatus != 'Finished'}">
+				<c:when test="${order.executionStatus == 'Finished'}">
 					"order-finished"
 				</c:when>
 				<c:otherwise>

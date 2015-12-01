@@ -15,7 +15,7 @@ public class Order {
 	private Timestamp dueDate;
 	private Player author;
 	private Player technician;
-	private String overdue;
+	private boolean overdue;
 
 	public Order() {
 		problemType = new ProblemType();
@@ -29,7 +29,7 @@ public class Order {
 	public Order(int orderId, ProblemType problemType, String description,
 			Room room, Device device, ExecutionStatus executionStatus,
 			UrgencyStatus urgencyStatus, Timestamp creationDate, Timestamp dueDate,
-			Player author, Player technician, String overdue) {
+			Player author, Player technician, boolean overdue) {
 		this.orderId = orderId;
 		this.problemType = problemType;
 		this.description = description;
@@ -288,11 +288,11 @@ public class Order {
 		this.technician.setLastName(technicianSurname);
 	}
 
-	public String getOverdue() {
+	public boolean getOverdue() {
 		return overdue;
 	}
 
-	public void setOverdue(String overdue) {
+	public void setOverdue(boolean overdue) {
 		this.overdue = overdue;
 	}
 

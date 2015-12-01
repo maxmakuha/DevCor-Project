@@ -93,7 +93,6 @@ public class OrderController {
 				+ urgencyStatusesService.getUrgencyStatusMinutes(order.getUrgencyStatusId()) * 60 * 1000));
 		order.setAuthorId(playersService.getPlayerIdByEmail(principal.getName()));
 		order.setTechnicianId(roomsService.getTechnicianIdByRoomId(order.getRoomId()));
-		order.setOverdue("N");
 		if (order.getDeviceId() == -1) {
 			order.removeDevice();
 		}

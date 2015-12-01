@@ -39,6 +39,11 @@ $(document).ready(function(){
 		<h3 class="panel-title">Orders</h3>
 	</div>
 	<br>
+	<div>
+	<div style="float: left; width: 85%">
+	<br>
+	<br>
+	<br>
 	<a href="#" data-toggle="popover" data-html="true" title="Order colors" data-content="
 		<div class='order-overdue'></div> - Overdued orders
 		<br>
@@ -50,8 +55,13 @@ $(document).ready(function(){
 		<br>
 		<div class='order-incorrect-or-unsolvable'></div> - Incorrect or Unsolvable orders
 	">What does all these colors mean?</a>
-	<br>
-	<br>
+	</div>
+	<div>
+	<c:if test="${isTech}">
+	<%@include file="calendar2.jsp"%>
+	</c:if>
+	</div>
+	</div>
 	<table class="table table-striped table-bordered" id="pagination">
 		<thead bgcolor="#8FBC8F">
 			<tr>

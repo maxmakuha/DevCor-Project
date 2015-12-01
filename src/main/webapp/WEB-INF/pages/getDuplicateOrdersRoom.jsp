@@ -9,12 +9,10 @@
 
 		<thead bgcolor="#8FBC8F">
 			<tr>
-				    <th>ID</th>
+					<th>Problem Description</th>
 					<th>Creation date</th>
 					<th>Problem type</th>
 					<th>Device serial id</th>
-					<th>Problem Description</th>
-					<th>Execution status</th>
 			</tr>
 		</thead>	
 			
@@ -33,12 +31,10 @@
 				</c:when>
 			</c:choose>
 			>
-				    <td><c:out value="${order.orderId}" /></td>
+					<td><c:out value="${order.description}" /></td>
 					<td><c:out value="${fn:substring(order.creationDate, 0, 16)}" /></td>
 					<td><c:out value="${order.problemType}" /></td>
 					<td><c:out value="${order.deviceSerialId}" /></td>
-					<td><c:out value="${order.description}" /></td>
-					<td><c:out value="${order.executionStatus}" /></td>
 			</tr>
 			</c:if>
 		</c:forEach>

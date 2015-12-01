@@ -138,7 +138,7 @@ public class OrderController {
 			int newStatusId = orderAndComment.getOrder().getExecutionStatusId();
 
 			if (newStatusId > 3 && oldStatusId != newStatusId) {
-				mail.statusEmail(orderAndComment.getOrder());
+				mail.statusEmail(ordersService.getOrderById(orderAndComment.getOrder().getOrderId()));
 			}
 			mail.commentEmail(orderAndComment);
 		}
@@ -178,5 +178,15 @@ public class OrderController {
 			m.addAttribute("device", devicesService.getDeviceById(deviceId));
 			return "getDuplicateOrdersDevice";
 		}
+	}
+	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
+	public String calendar(Model m, Principal principal) throws SQLException {
+		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
+		return "calendar";
+	}
+	@RequestMapping(value = "/calendar2", method = RequestMethod.GET)
+	public String calendar2(Model m, Principal principal) throws SQLException {
+		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
+		return "calendar2";
 	}
 }

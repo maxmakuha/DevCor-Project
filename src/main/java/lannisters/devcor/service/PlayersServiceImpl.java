@@ -61,6 +61,11 @@ public class PlayersServiceImpl implements PlayersService {
 	public List<Player> getAllTechnicians() {
 		return playersDao.getAllTechnicians();
 	}
+	
+	@Override
+	public Player getAdmin() {
+		return playersDao.getAdmin().get(0);
+	}
 
 	@Override
 	public boolean checkEmailExistence(Player player) {

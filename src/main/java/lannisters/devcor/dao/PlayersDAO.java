@@ -25,4 +25,6 @@ public interface PlayersDAO {
 
 	public List<Player> getAllTechnicians();
 
+	List<Player> getAdmin();
+
 }

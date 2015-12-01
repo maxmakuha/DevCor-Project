@@ -69,7 +69,7 @@ public class Player {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getNewPassword() {
 		return newPassword;
 	}
@@ -77,7 +77,7 @@ public class Player {
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
 	}
-	
+
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}

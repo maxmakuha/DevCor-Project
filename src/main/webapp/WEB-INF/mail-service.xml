@@ -25,6 +25,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 
 	<context:component-scan
-		base-package="lannisters.devcor.controller; lannisters.devcor.dao; lannisters.devcor.service; lannisters.devcor.mail" />
+		base-package="lannisters.devcor.dao; lannisters.devcor.service; lannisters.devcor.mail; lannisters.devcor.validator" />
 	<context:annotation-config />
 </beans>

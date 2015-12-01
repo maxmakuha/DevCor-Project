@@ -12,7 +12,6 @@
 		</property>
 		<property name="defaultErrorView" value="500Page" />
 		<property name="exceptionAttribute" value="ex" />
-
 	</bean>
 
 </beans>

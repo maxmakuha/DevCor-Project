@@ -267,10 +267,9 @@ $(document).ready(function(){
 			
 			<tr>
 				<td><label>Is overdue?</label></td>
-				<td>${orderAndComment.order.overdue}</td>
+				<td>${orderAndComment.order.overdue ? 'Yes' : 'No'}</td>
 			</tr>
 			
-			<form:hidden path="order.overdue"/>
 		</table>
 	
 		<p style="text-align: center">

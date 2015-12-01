@@ -2,6 +2,8 @@ package lannisters.devcor.orm;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+
 import lannisters.devcor.entity.Report;
 
 import org.springframework.jdbc.core.RowMapper;
@@ -19,7 +21,11 @@ public class ReportMapperOrders implements RowMapper<Report> {
 		report.setExecutionStatus(rs.getString("execution_status"));
 		report.setUrgencyStatus(rs.getString("urgency_status"));
 		report.setAuthor(rs.getString("author_name") + " " + rs.getString("author_surname"));
-		report.setOverdue(rs.getString("overdue"));
+		java.util.Date date = new java.util.Date();
+		Timestamp time = new Timestamp(date.getTime());
+		if(rs.getTimestamp("due_date").after(time)){
+			report.setOverdue("-");
+		}else report.setOverdue("+");
 		report.setTechnician(rs.getString("technician_name") + " " + rs.getString("technician_surname"));
 		return report;
 	}

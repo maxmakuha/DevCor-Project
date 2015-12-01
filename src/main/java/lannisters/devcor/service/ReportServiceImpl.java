@@ -21,6 +21,9 @@ public class ReportServiceImpl implements ReportService {
 	public List<Report> getTechniciansReport(String d1, String d2) {
 		return reportDao.getTechniciansReport(d1, d2);
 	}
+	public Report getTechniciansReportById(String d1, String d2, int id) {
+		return reportDao.getTechniciansReportById(d1, d2, id);
+	}
 
 	@Override
 	public List<Report> getDevicesReport(String d1, String d2) {

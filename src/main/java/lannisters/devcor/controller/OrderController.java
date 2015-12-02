@@ -34,7 +34,7 @@ import lannisters.devcor.util.SimpleOrder;
 
 @Controller
 public class OrderController {
-
+	
 	@Autowired
 	private DevicesService devicesService;
 

@@ -23,9 +23,18 @@
             /WEB-INF/spring-security.xml,
             /WEB-INF/data-source-config.xml
             /WEB-INF/mail-service.xml
-            /WEB-INF/exception-config.xml 
+            /WEB-INF/exception-config.xml
         </param-value>
     </context-param>
+    
+    <context-param>
+		<param-name>log4jConfigLocation</param-name>
+	    <param-value>/WEB-INF/properties/log4j.properties</param-value>
+	</context-param>
+	
+	<listener>
+	    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
  
     <!-- Spring MVC -->
     <servlet>

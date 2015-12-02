@@ -20,7 +20,7 @@
 		
 			<tr class=
 			<c:choose>
-				<c:when test="${order.overdue == 'Y' && order.executionStatusId < 3}">
+				<c:when test="${order.overdue  && order.executionStatusId < 3}">
 					"order-overdue"
 				</c:when>
 				<c:when test="${order.executionStatus == 'Open'}">

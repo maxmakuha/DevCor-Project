@@ -48,10 +48,11 @@ public class PlayerFormValidator implements Validator {
 			errors.rejectValue("password", "Size.playerForm.password");
 		}
 
-		if (user.getNewPassword() != ""
+/*		if (!user.getNewPassword().isEmpty()
 				&& (user.getNewPassword().length() < 6 || user.getNewPassword().length() > 64)) {
 			errors.rejectValue("newPassword", "Size.playerForm.newPassword");
-		}
+		} 
+*/	
 
 		if (playersService.checkEmailExistence(user)
 				&& playersService.getPlayerIdByEmail(user.getPlayerEmail()) != user.getPlayerId()) {

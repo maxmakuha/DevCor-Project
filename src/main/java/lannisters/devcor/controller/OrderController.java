@@ -3,7 +3,9 @@ package lannisters.devcor.controller;
 import java.security.Principal;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lannisters.devcor.entity.Comment;
@@ -27,6 +30,7 @@ import lannisters.devcor.service.ProblemTypesService;
 import lannisters.devcor.service.RoomsService;
 import lannisters.devcor.service.UrgencyStatusesService;
 import lannisters.devcor.util.OrderAndComment;
+import lannisters.devcor.util.SimpleOrder;
 
 @Controller
 public class OrderController {
@@ -119,17 +123,16 @@ public class OrderController {
 		Order oldOrder = ordersService.getOrderById(orderAndComment.getOrder().getOrderId());
 		int oldStatusId = oldOrder.getExecutionStatusId();
 
-		if(oldOrder.getRoomId() != orderAndComment.getOrder().getRoomId()){
-			orderAndComment.getOrder().setTechnicianId(
-					roomsService.getTechnicianIdByRoomId(orderAndComment.getOrder().getRoomId()));
+		if (oldOrder.getRoomId() != orderAndComment.getOrder().getRoomId()) {
+			orderAndComment.getOrder()
+					.setTechnicianId(roomsService.getTechnicianIdByRoomId(orderAndComment.getOrder().getRoomId()));
 		}
-		if(oldOrder.getUrgencyStatusId() != orderAndComment.getOrder().getUrgencyStatusId()){
-			orderAndComment.getOrder().setDueDate(new Timestamp(
-					orderAndComment.getOrder().getCreationDate().getTime() + 
-					urgencyStatusesService.getUrgencyStatusMinutes(
-							orderAndComment.getOrder().getUrgencyStatusId())*60*1000));
+		if (oldOrder.getExecutionStatusId() != orderAndComment.getOrder().getExecutionStatusId()) {
+			orderAndComment.getOrder().setDueDate(new Timestamp(orderAndComment.getOrder().getCreationDate().getTime()
+					+ urgencyStatusesService.getUrgencyStatusMinutes(orderAndComment.getOrder().getUrgencyStatusId())
+							* 60 * 1000));
 		}
-		
+
 		ordersService.updateOrder(orderAndComment.getOrder());
 
 		if (orderAndComment.getComment() != null && !orderAndComment.getComment().getComment().isEmpty()) {
@@ -178,22 +181,39 @@ public class OrderController {
 			return "getDuplicateOrdersDevice";
 		}
 	}
-	
+
 	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
 	public String calendar(Model m, Principal principal) throws SQLException {
 		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
 		return "calendar";
 	}
-	
+
 	@RequestMapping(value = "/calendar2", method = RequestMethod.GET)
 	public String calendar2(Model m, Principal principal) throws SQLException {
 		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
 		return "calendar2";
 	}
-	
+
 	@RequestMapping(value = "/calendar3", method = RequestMethod.GET)
 	public String calendar3(Model m, Principal principal) throws SQLException {
 		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
 		return "calendar3";
+	}
+
+
+	@SuppressWarnings("deprecation")
+	@RequestMapping("/simple")
+	public @ResponseBody List<SimpleOrder> getDay(Principal principal) throws SQLException {
+		List<SimpleOrder> orders = new ArrayList<SimpleOrder>();
+		for (Order order : ordersService.getAllOrdersOfTechnician(principal.getName())) {
+			if (order.getExecutionStatusId() < 3) {
+				int orderId = order.getOrderId();
+				String description = order.getDescription();
+				Timestamp dueDate = order.getDueDate();
+				orders.add(new SimpleOrder(orderId, description, dueDate.getDate(), dueDate.getMonth(),
+						dueDate.getYear() + 1900, dueDate.getHours(), dueDate.getMinutes()));
+			}
+		}
+		return orders;
 	}
 }

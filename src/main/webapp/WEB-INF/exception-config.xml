@@ -11,7 +11,7 @@
 			</map>
 		</property>
 		<property name="defaultErrorView" value="500Page" />
-		<property name="exceptionAttribute" value="ex" />
+		<property name="warnLogCategory" value="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"/>
 	</bean>
 
 </beans>

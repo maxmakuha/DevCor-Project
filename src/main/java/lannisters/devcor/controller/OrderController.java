@@ -30,7 +30,7 @@ import lannisters.devcor.util.OrderAndComment;
 
 @Controller
 public class OrderController {
-
+	
 	@Autowired
 	private DevicesService devicesService;
 
@@ -123,7 +123,7 @@ public class OrderController {
 			orderAndComment.getOrder().setTechnicianId(
 					roomsService.getTechnicianIdByRoomId(orderAndComment.getOrder().getRoomId()));
 		}
-		if(oldOrder.getExecutionStatusId() != orderAndComment.getOrder().getExecutionStatusId()){
+		if(oldOrder.getUrgencyStatusId() != orderAndComment.getOrder().getUrgencyStatusId()){
 			orderAndComment.getOrder().setDueDate(new Timestamp(
 					orderAndComment.getOrder().getCreationDate().getTime() + 
 					urgencyStatusesService.getUrgencyStatusMinutes(
@@ -178,11 +178,13 @@ public class OrderController {
 			return "getDuplicateOrdersDevice";
 		}
 	}
+	
 	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
 	public String calendar(Model m, Principal principal) throws SQLException {
 		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
 		return "calendar";
 	}
+	
 	@RequestMapping(value = "/calendar2", method = RequestMethod.GET)
 	public String calendar2(Model m, Principal principal) throws SQLException {
 		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));

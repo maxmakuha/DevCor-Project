@@ -468,7 +468,7 @@ td {
   text-align: center;
 }
 #calendar2 thead tr:last-child {
-  font-size: medium;
+  font-size: x-small;
   color: rgb(85, 85, 85);
 }
 #calendar2 thead tr:nth-child(1) td:nth-child(2) {

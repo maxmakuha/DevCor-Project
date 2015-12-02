@@ -16,6 +16,5 @@
 		<img src="<c:url value="/resources/img/500.png"/>" /> <br> <a
 			class="btn btn-large btn-success" href="welcome">Home</a>
 	</p>
-	<!--  ${ex.message} -->
 </body>
 </html>

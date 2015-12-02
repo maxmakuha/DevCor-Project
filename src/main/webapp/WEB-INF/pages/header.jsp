@@ -11,8 +11,6 @@
 	href="<c:url value="/resources/style/bootstrap.min.css"/>">
 <link rel="stylesheet"
 	href="<c:url value="/resources/style/bootstrap-theme.min.css"/>">
-<link rel="stylesheet"
-	href="<c:url value="/resources/style/jquery.dialogbox.css"/>">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 <script src="<c:url value="/resources/js/javascript.js"/>"></script>
@@ -64,6 +62,15 @@
 						<button type="submit" class="btn btn-success btn-sm">
 							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 							Management
+						</button>
+					</form>
+				</security:authorize>
+				<security:authorize access="hasRole('ROLE_TECHNICIAN')">
+					<form class="navbar-form navbar-right"
+						action="<c:url value="/calendar3"/>">
+						<button type="submit" class="btn btn-success btn-sm">
+							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+							Calendar
 						</button>
 					</form>
 				</security:authorize>

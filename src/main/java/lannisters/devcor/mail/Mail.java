@@ -21,7 +21,7 @@ public class Mail{
         message.setFrom(from);  
         message.setTo(to);  
         message.setSubject(subject);  
-        message.setText(msg);   
+        message.setText(msg);
         mailSender.send(message);     
-    }  
-}  
+      
+        }}   

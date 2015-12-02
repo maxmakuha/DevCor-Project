@@ -188,4 +188,10 @@ public class OrderController {
 		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
 		return "calendar2";
 	}
+	
+	@RequestMapping(value = "/calendar3", method = RequestMethod.GET)
+	public String calendar3(Model m, Principal principal) throws SQLException {
+		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
+		return "calendar3";
+	}
 }

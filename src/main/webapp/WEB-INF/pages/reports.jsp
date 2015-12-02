@@ -2,6 +2,44 @@
 <%@include file="header.jsp"%>
 <%String date= new  java.text.SimpleDateFormat("yyyy-MM-dd").format( System.currentTimeMillis()); %>
 <%String reportNum=request.getParameter("reportNum");%>
+<script src="https://www.google.com/jsapi"></script>
+  <script>
+   google.load("visualization", "1", {packages:["corechart"]});
+   google.setOnLoadCallback(drawChart);
+   function drawChart() {
+	   var table=document.getElementById("table");
+	  
+	   var rows=table.rows.length;
+	   var cells=table.rows[0].cells.length;
+	   
+	   var myarray=new Array(rows-1)
+	   for (i=0; i <rows; i++)
+	       myarray[i]=new Array(8)
+	   myarray[0][0]="name"
+	   myarray[0][1]='open'
+	   myarray[0][2]="in Progress"
+	   myarray[0][3]="unsolvable"
+	   myarray[0][4]="incorrect"
+	   myarray[0][5]='finished'
+	   myarray[0][6]='finished with overdue '
+	   myarray[0][7]='not finished with overdue '
+		  
+	   for (var n=1; n<rows; n++){
+		   for (var i=1,j=0; i<cells-1; i++,j++){
+			   myarray[n][j]=parseInt(table.rows[n].cells[i].innerHTML)
+			  
+		   }
+	   }
+	   
+	   for(var i=1;i<rows;i++){
+			  myarray[i][0]=table.rows[i].cells[1].innerHTML
+		}
+	  
+    var data = google.visualization.arrayToDataTable(myarray);
+    var chart = new google.visualization.ColumnChart(document.getElementById('diagram'));
+    chart.draw(data);
+   }
+  </script>
 
 <div class="wrapper">
 	<ul class="nav nav-tabs">
@@ -85,7 +123,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			<c:forEach var="report" items="${report}">
+			<c:forEach var="report" items="${OrdersReport}">
 				<tr>
 					<td>${report.creatingDate}</td>
 					<td>${report.dueDate}</td>
@@ -103,7 +141,6 @@
 			</tbody>
 		</table>
 	</div>
-	
 		
 	<!-- Table Report2 -->
 	<%}else if(reportNum.equals("TechniciansReport")){ %>
@@ -116,9 +153,10 @@
 		<div class="panel-heading">
 			<h3 class="panel-title">TechniciansReport</h3>
 		</div>
-		<table class="table table-striped table-bordered" id="report">
+		<table class="table table-striped table-bordered" id="table">
 			<thead>
 				<tr>
+					<th>Diagram</th>
 					<th>Technician</th>
 					<th>Open</th>
 					<th>In progress</th>
@@ -131,8 +169,9 @@
 				</tr>
 			</thead>
 			<tbody>
-			<c:forEach var="report" items="${report2}">
+			<c:forEach var="report" items="${TechniciansReport}">
 				<tr>
+					<td><a href="reports/diagrams/${report.technicianId}" id="${report.technicianId}"><span	class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></td>
 					<td>${report.technician}</td>
 					<td>${report.coutOfopenOrders}</td>
 					<td>${report.countOfinprogressOrders}</td>
@@ -147,7 +186,13 @@
 			</tbody>
 		</table>
 	</div>
-	
+	<hr>
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h3 class="panel-title">Technicians diagram</h3>
+		</div>
+	<div id="diagram"></div>
+	</div>
 	<!-- Table Report3 -->
 	<%} else{%>
 	<hr>
@@ -169,7 +214,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			<c:forEach var="report" items="${report3}">
+			<c:forEach var="report" items="${DevicesReport}">
 				<tr>
 					<td>${report.serialNumber}</td>
 					<td>${report.deviseType}</td>

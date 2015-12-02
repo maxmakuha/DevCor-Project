@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,13 +35,20 @@ public class ReportController {
 		String reportNum = request.getParameter("reportNum");
 		if (reportNum != null) {
 			if (reportNum.equals("OrdersReport"))
-				model.addAttribute("report", reportService.getOrdersReport(dateFromForReport, dateToForReport));
+				model.addAttribute("OrdersReport", reportService.getOrdersReport(dateFromForReport, dateToForReport));
 			if (reportNum.equals("TechniciansReport"))
-				model.addAttribute("report2", reportService.getTechniciansReport(dateFromForReport, dateToForReport));
+				model.addAttribute("TechniciansReport", reportService.getTechniciansReport(dateFromForReport, dateToForReport));
 			if (reportNum.equals("DevicesReport"))
-				model.addAttribute("report3", reportService.getDevicesReport(dateFromForReport, dateToForReport));
+				model.addAttribute("DevicesReport", reportService.getDevicesReport(dateFromForReport, dateToForReport));
 		}
 		return "reports";
+	}
+	@RequestMapping(value = { "/reports/diagrams/{id}"}, method = RequestMethod.GET)
+	public String showDiagram(@PathVariable("id") int id, Model model, HttpServletRequest request) {
+		
+		
+		model.addAttribute("report", reportService.getTechniciansReportById(dateFromForReport, dateToForReport,id));
+		return "diagrams";
 	}
 
 	@RequestMapping(value = "/DevCorReport", method = RequestMethod.GET)

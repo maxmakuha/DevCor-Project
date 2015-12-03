@@ -22,6 +22,8 @@ public class Mail{
         message.setTo(to);  
         message.setSubject(subject);  
         message.setText(msg);
+        try{
         mailSender.send(message);     
-      
-        }}   
+        }
+        catch(Exception e){}
+    }}   

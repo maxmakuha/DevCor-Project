@@ -61,9 +61,10 @@ $(document).ready(function(){
 	
 	$('#executionStatusOptions, #urgencyStatusOptions').change(function(){
 		if( $(this).find(":selected").text() == 'Incorrect' ||
-			$(this).find(":selected").text() == 'Unsolvable'){
-			$(".comment-button").click();
-			$(".newComment1 textarea").prop("required", "true");
+			$(this).find(":selected").text() == 'Unsolvable' || 
+			$(this).attr('id') == "urgencyStatusOptions"){
+				$(".comment-button").click();
+				$(".newComment1 textarea").prop("required", "true");
 		} else {
 			$(".newComment1 textarea").removeAttr("required");
 		}
@@ -297,6 +298,7 @@ $(document).ready(function(){
 			<c:if test="${isOrderTech}">
 				<tr class="newComment1">
 					<td>${orderAndComment.order.technicianName} ${orderAndComment.order.technicianSurname}</td>
+					<form:hidden path="comment.authorId" value="${orderAndComment.order.technicianId}"/>
 					<td rowspan="2"><form:textarea path="comment.comment" placeholder="Your new comment"/></td>
 				</tr>
 				<tr class="newComment2"><td></td></tr>
@@ -304,9 +306,10 @@ $(document).ready(function(){
 				<form:hidden id="comment-creation-date" path="comment.creationDate"/>
 			</c:if>
 			<c:if test="${comments.size() != 0}">
+			
 				<c:forEach var="comment" items="${comments}">
 					<tr>
-						<td>${orderAndComment.order.technicianName} ${orderAndComment.order.technicianSurname}</td>
+						<td>${comment.authorFullName}</td>
 						<td rowspan="2">${comment.comment}</td>
 					</tr>
 					<tr>

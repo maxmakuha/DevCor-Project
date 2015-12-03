@@ -98,13 +98,10 @@
 	<!-- Table Report1 -->
 	<%}else if(reportNum.equals("OrdersReport")){ %>
 	<hr>
-	<form action="DevCorReport">
-	<input type="text" hidden="true" name="exel" value="OrdersReport">
-	<button type="submit"  class="btn btn-xs btn-default">to xls</button>
-	</form>
 	<div class="panel panel-success">
 		<div class="panel-heading">
 			<h3 class="panel-title">OrdersReport</h3>
+			<center><br><a href="DevCorReport?exel=OrdersReport" class="label label-success" >download</a>	</center>
 		</div>
 		<table class="table table-striped table-bordered" id="report">
 			<thead>
@@ -145,13 +142,11 @@
 	<!-- Table Report2 -->
 	<%}else if(reportNum.equals("TechniciansReport")){ %>
 	<hr>
-	<form action="DevCorReport">
-	<input type="text" hidden="true" name="exel" value="TechniciansReport">
-	<button type="submit"  class="btn btn-xs btn-default">to xls</button>
-	</form>
+	
 	<div class="panel panel-success">
 		<div class="panel-heading">
 			<h3 class="panel-title">TechniciansReport</h3>
+			<center><br><a href="DevCorReport?exel=TechniciansReport" class="label label-success" >download</a>	</center>
 		</div>
 		<table class="table table-striped table-bordered" id="table">
 			<thead>
@@ -196,13 +191,11 @@
 	<!-- Table Report3 -->
 	<%} else{%>
 	<hr>
-	<form action="DevCorReport">
-	<input type="text" hidden="true" name="exel" value="DevicesReport">
-	<button type="submit"  class="btn btn-xs btn-default">to xls</button>
-	</form>
+
 	<div class="panel panel-success">
 		<div class="panel-heading">
 			<h3 class="panel-title">DevicesReport</h3>
+			<center><br><a href="DevCorReport?exel=DevicesReport" class="label label-success" >download</a>	</center>
 		</div>
 		<table class="table table-striped table-bordered" id="report">
 			<thead>

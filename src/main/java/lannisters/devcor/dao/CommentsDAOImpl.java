@@ -14,7 +14,7 @@ import lannisters.devcor.orm.CommentMapper;
 @Repository
 public class CommentsDAOImpl implements CommentsDAO {
 
-	private static final String SQL_SELECT_ALL_COMMENTS = "SELECT note.note_id, note.note, note.request_Id, note.creation_date, note.player_id, player.first_name AS player_first_name, player.last_name AS player_last_name FROM note INNER JOIN player ON player_id";
+	private static final String SQL_SELECT_ALL_COMMENTS = "SELECT note.note_id, note.note, note.request_Id, note.creation_date, note.player_id, player.first_name AS player_first_name, player.last_name AS player_last_name FROM (note INNER JOIN player ON note.player_id = player.player_id)";
 	private static final String SQL_SELECT_COMMENT_BY_ID = "SELECT note.note_id, note.note, note.request_Id, note.creation_date, note.player_id FROM note WHERE note.note_id=?";
 	private static final String SQL_INSERT_COMMENT = "INSERT INTO note(note, request_id, creation_date, note.player_id) VALUES (?, ?, ?, ?)";
 	private static final String SQL_UPDATE_COMMENT = "UPDATE note SET note = ?, request_id = ?, creation_date = ?, player_id = ? WHERE note_id=?";

@@ -41,7 +41,7 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public List<Order> getALlOrdersOfUser(String email) throws SQLException {
+	public List<Order> getAllOrdersOfUser(String email) throws SQLException {
 		return ordersDao.getAllOrdersOfUser(email);
 	}
 

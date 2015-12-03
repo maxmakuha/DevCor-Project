@@ -34,29 +34,41 @@ function getCurrentDateAndTime(){
 }
 
 $(document).ready(function(){
-	$.get('/DevCor/getRoomDevices', {
-		roomId: $('#roomNumberOptions').val()
-	}, function(responseHTML){
-		$('#serialPortOptions').html(responseHTML);
-		$('#serialPortOptions option[value="${ orderAndComment.order.getDeviceId()}"]').attr('selected', 'selected');
-	});
+	if('${orderAndComment.order.room != null}'){
+		$.get('/DevCor/getRoomDevices', {
+			roomId: $('#roomNumberOptions').val()
+		}, function(responseHTML){
+			$('#serialPortOptions').html(responseHTML);
+			$('#serialPortOptions option[value="${ orderAndComment.order.getDeviceId()}"]').attr('selected', 'selected');
+		});
+	}
 	
 	$(
 		'#problemTypeOptions option[value="${ orderAndComment.order.problemTypeId}"],' + 
-		'#roomNumberOptions option[value="${ orderAndComment.order.roomId}"], ' +
-		'#urgencyStatusOptions option[value="${ orderAndComment.order.urgencyStatusId}"], ' + 
-		'#technicianOptions option[value="${ orderAndComment.order.technicianId}"]'
+		'#urgencyStatusOptions option[value="${ orderAndComment.order.urgencyStatusId}"], '
 		).attr('selected', 'selected');
+
+	if('${orderAndComment.order.room == null}'){
+		$('#roomNumberOptions').prepend("<option value=\"-1\">Deleted</option>");
+		$('#roomNumberOptions option[value="-1"]').attr('selected', 'selected');
+	}
+	
+	if('${orderAndComment.order.technician == null}'){
+		$('#technicianOptions').prepend("<option value=\"-1\">Deleted</option>");
+		$('#technicianOptions option[value="-1"]').attr('selected', 'selected');
+	}
 	
 	$('#executionStatusOptions')
 		.prepend('<option value="${orderAndComment.order.executionStatusId}" selected="selected">${orderAndComment.order.executionStatus}</value>');
 	
 	$('#roomNumberOptions').change(function(){
-		$.get('/DevCor/getRoomDevices', {
-			roomId: $(this).val()
-		}, function(responseHTML){
-			$('#serialPortOptions').html(responseHTML);
-		});
+		if('${orderAndComment.order.room != null}'){
+			$.get('/DevCor/getRoomDevices', {
+				roomId: $(this).val()
+			}, function(responseHTML){
+				$('#serialPortOptions').html(responseHTML);
+			});
+		}
 	});
 	
 	$('#executionStatusOptions, #urgencyStatusOptions').change(function(){
@@ -167,7 +179,7 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td><label>Room number: </label></td>
-					<td>${orderAndComment.order.roomNumber}</td>
+					<td>${orderAndComment.order.room == null? 'Deleted' : orderAndComment.order.roomNumber}</td>
 				</tr>
 				<form:hidden path="order.roomId"/>
 				<tr>
@@ -242,7 +254,7 @@ $(document).ready(function(){
 			
 			<tr>
 				<td><label>Author:</label></td>
-				<td>${orderAndComment.order.authorName} ${orderAndComment.order.authorSurname}</td>
+				<td>${orderAndComment.order.author == null ? 'Deleted' : orderAndComment.order.authorName + ' ' + orderAndComment.order.authorSurname}</td>
 			</tr>
 			
 			<form:hidden path="order.authorId"/>
@@ -250,7 +262,7 @@ $(document).ready(function(){
 			<c:if test="${isUser || isTech}">
 				<tr>
 					<td><label>Technician:</label></td>
-					<td>${orderAndComment.order.technicianName} ${orderAndComment.order.technicianSurname}</td>
+					<td>${orderAndComment.order.technician == null ? 'Deleted' : orderAndComment.order.technicianName + ' ' + orderAndComment.order.technicianSurname}</td>
 				</tr>
 				
 				<form:hidden path="order.technicianId"/>

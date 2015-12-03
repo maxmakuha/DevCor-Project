@@ -64,7 +64,7 @@ public class OrderController {
 		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()
 				.getAuthority()) {
 		case "ROLE_USER":
-			model.addAttribute("orders", ordersService.getALlOrdersOfUser(principal.getName()));
+			model.addAttribute("orders", ordersService.getAllOrdersOfUser(principal.getName()));
 			break;
 		case "ROLE_TECHNICIAN":
 			model.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
@@ -79,7 +79,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/dashboard/order/create", method = RequestMethod.GET)
-	public String showOrderAddingForm(Model m) {
+	public String showOrderAddingPage(Model m) {
 		Order order = new Order();
 		m.addAttribute("order", order);
 		m.addAttribute("problemTypes", problemTypesService.getAllProblemTypes());
@@ -89,7 +89,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/dashboard/order/create", method = RequestMethod.POST)
-	public String createNewOrder(@ModelAttribute Order order, Model m, Principal principal,
+	public String addNewOrder(@ModelAttribute Order order, Principal principal,
 			RedirectAttributes redirectAttributes) throws SQLException {
 		order.setExecutionStatusId(1);
 		order.setCreationDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
@@ -101,8 +101,8 @@ public class OrderController {
 			order.removeDevice();
 		}
 		ordersService.addOrder(order);
-		redirectAttributes.addFlashAttribute("message", "Order created successfully!");
 		mail.orderCreatEmail(order);
+		redirectAttributes.addFlashAttribute("message", "Order created successfully!");
 		return "redirect:/dashboard";
 	}
 
@@ -120,8 +120,8 @@ public class OrderController {
 	@RequestMapping(value = "/dashboard/order/id/{id}", method = RequestMethod.POST)
 	public String updateOrder(OrderAndComment orderAndComment, RedirectAttributes redirectAttributes)
 			throws SQLException {
+		
 		Order oldOrder = ordersService.getOrderById(orderAndComment.getOrder().getOrderId());
-		int oldStatusId = oldOrder.getExecutionStatusId();
 
 		if (oldOrder.getRoomId() != orderAndComment.getOrder().getRoomId()) {
 			orderAndComment.getOrder()
@@ -132,6 +132,9 @@ public class OrderController {
 					+ urgencyStatusesService.getUrgencyStatusMinutes(orderAndComment.getOrder().getUrgencyStatusId())
 							* 60 * 1000));
 		}
+		if (orderAndComment.getOrder().getDeviceId() == -1) {
+			orderAndComment.getOrder().removeDevice();
+		}
 
 		ordersService.updateOrder(orderAndComment.getOrder());
 
@@ -139,8 +142,8 @@ public class OrderController {
 			commentsService.addComment(orderAndComment.getComment());
 			int newStatusId = orderAndComment.getOrder().getExecutionStatusId();
 
-			if (newStatusId > 3 && oldStatusId != newStatusId) {
-				mail.statusEmail(ordersService.getOrderById(orderAndComment.getOrder().getOrderId()));
+			if (newStatusId > 3 && oldOrder.getExecutionStatusId() != newStatusId) {
+				mail.statusEmail(orderAndComment.getOrder());
 			}
 			mail.commentEmail(orderAndComment);
 		}
@@ -149,7 +152,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/dashboard/order/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteOrder(@PathVariable("id") int orderId, RedirectAttributes redirectAttributes)
+	public String cancellOrder(@PathVariable("id") int orderId, RedirectAttributes redirectAttributes)
 			throws SQLException {
 		ordersService.deleteOrder(orderId);
 		redirectAttributes.addFlashAttribute("message", "Order deleted successfully!");

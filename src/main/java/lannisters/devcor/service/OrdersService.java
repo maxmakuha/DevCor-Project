@@ -17,7 +17,7 @@ public interface OrdersService {
 
 	public void deleteOrder(int orderId) throws SQLException;
 
-	public List<Order> getALlOrdersOfUser(String email) throws SQLException;
+	public List<Order> getAllOrdersOfUser(String email) throws SQLException;
 
 	public List<Order> getAllOrdersOfTechnician(String email) throws SQLException;
 

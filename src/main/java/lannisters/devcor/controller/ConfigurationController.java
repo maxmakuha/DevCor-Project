@@ -69,7 +69,7 @@ public class ConfigurationController {
 	}
 
 	@RequestMapping(value = "/configuration", method = RequestMethod.GET)
-	public String extra(Model model) {
+	public String configurationPanel(Model model) {
 		model.addAttribute("problemType", problemTypesService.getAllProblemTypes());
 		model.addAttribute("deviceType", deviceTypesService.getAllDeviceTypes());
 		model.addAttribute("urgStatus", urgencyStatusesService.getAllUrgencyStatuses());

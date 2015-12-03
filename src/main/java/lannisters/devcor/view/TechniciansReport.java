@@ -1,5 +1,4 @@
 package lannisters.devcor.view;
-
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,7 @@ import org.apache.poi.ss.usermodel.Font;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 import lannisters.devcor.entity.Report;
 
-public class TechniciansReport extends AbstractExcelView{
+public class TechniciansReport extends AbstractExcelView{ 
 	
 	@Override
 	protected void buildExcelDocument(Map model, HSSFWorkbook workbook,	HttpServletRequest request, HttpServletResponse response)throws Exception {
@@ -34,8 +33,6 @@ public class TechniciansReport extends AbstractExcelView{
 			Font font = workbook.createFont();
 			font.setBold(true);
 			stylerowHeading.setFont(font);
-			stylerowHeading.setVerticalAlignment(CellStyle.ALIGN_CENTER);
-			stylerowHeading.setWrapText(true);
 			header.getCell(i).setCellStyle(stylerowHeading);
 		}
 		int rowNum = 1;

@@ -36,8 +36,6 @@ public class OrdersReport extends AbstractExcelView{
 			Font font = workbook.createFont();
 			font.setBold(true);
 			stylerowHeading.setFont(font);
-			stylerowHeading.setVerticalAlignment(CellStyle.ALIGN_CENTER);
-			stylerowHeading.setWrapText(true);
 			header.getCell(i).setCellStyle(stylerowHeading);
 		}
 		int rowNum = 1;

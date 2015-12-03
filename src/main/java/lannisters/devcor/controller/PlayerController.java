@@ -1,5 +1,6 @@
 package lannisters.devcor.controller;
 
+import java.security.Principal;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import lannisters.devcor.entity.Player;
 import lannisters.devcor.mail.MailService;
@@ -131,5 +133,42 @@ public class PlayerController {
 		playersService.deletePlayer(id);
 		redirectAttributes.addFlashAttribute("user", "User deleted successfully!");
 		return "redirect:/users";
+	}
+
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
+	public String profile(Model model, Principal principal) {
+		Player user = playersService.getPlayerByEmail(principal.getName());
+		user.setPassword(null);
+		model.addAttribute("playerForm", user);
+		return "profile";
+	}
+
+	@RequestMapping(value = "/profile", method = RequestMethod.POST)
+	public String saveProfile(@ModelAttribute("playerForm") @Validated Player player, BindingResult result,
+			Principal principal, Model model, RedirectAttributes redirectAttributes) throws SQLException {
+		String page = null;
+		if (result.hasErrors()) {
+			return "profile";
+		} else {
+			if (BCrypt.checkpw(player.getPassword(),
+					playersService.getPlayerByEmail(principal.getName()).getPassword())) {
+				if (!player.getNewPassword().isEmpty()) {
+					player.setPassword(playersService.encodePassword(player.getNewPassword()));
+				} else {
+					player.setPassword(playersService.encodePassword(player.getPassword()));
+				}
+				playersService.updatePlayer(player);
+				if (principal.getName().equals(player.getPlayerEmail())) {
+					page = "redirect:/dashboard";
+					redirectAttributes.addFlashAttribute("profile", "Profile edited successfully!");
+				} else {
+					page = "redirect:/logout";
+				}
+			} else {
+				page = "redirect:/profile";
+				redirectAttributes.addFlashAttribute("match", "Wrong password!");
+			}
+		}
+		return page;
 	}
 }

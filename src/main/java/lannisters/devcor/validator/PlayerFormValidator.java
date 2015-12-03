@@ -29,6 +29,7 @@ public class PlayerFormValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 
 		Player user = (Player) target;
+		user.setPlayerEmail(user.getPlayerEmail().replaceAll(" ", ""));
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "NotEmpty.playerForm.firstName");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "NotEmpty.playerForm.lastName");
@@ -40,19 +41,40 @@ public class PlayerFormValidator implements Validator {
 			errors.rejectValue("playerEmail", "Pattern.playerForm.playerEmail");
 		}
 
-		if (user.getConfirmPassword() != null && !user.getNewPassword().equals(user.getConfirmPassword())) {
+		if (user.getNewPassword() != null && user.getConfirmPassword() != null
+				&& !user.getNewPassword().equals(user.getConfirmPassword())) {
 			errors.rejectValue("confirmPassword", "Diff.playerForm.confirmPassword");
+		}
+
+		if (user.getNewPassword() != null && !user.getNewPassword().isEmpty()
+				&& (user.getNewPassword().length() < 6 || user.getNewPassword().length() > 64)) {
+			errors.rejectValue("newPassword", "Size.playerForm.newPassword");
+		}
+
+		if (user.getConfirmPassword() != null && !user.getConfirmPassword().isEmpty()
+				&& (user.getConfirmPassword().length() < 6 || user.getConfirmPassword().length() > 64)) {
+			errors.rejectValue("confirmPassword", "Size.playerForm.confirmPassword");
 		}
 
 		if (user.getPassword().length() < 6 || user.getPassword().length() > 64) {
 			errors.rejectValue("password", "Size.playerForm.password");
 		}
 
-/*		if (!user.getNewPassword().isEmpty()
-				&& (user.getNewPassword().length() < 6 || user.getNewPassword().length() > 64)) {
-			errors.rejectValue("newPassword", "Size.playerForm.newPassword");
-		} 
-*/	
+		if (user.getFirstName().length() > 32) {
+			errors.rejectValue("firstName", "Size.playerForm.firstName");
+		}
+
+		if (user.getLastName().length() > 32) {
+			errors.rejectValue("lastName", "Size.playerForm.lastName");
+		}
+
+		if (user.getPhoneNumber().length() > 15) {
+			errors.rejectValue("phoneNumber", "Size.playerForm.phoneNumber");
+		}
+
+		if (user.getPlayerEmail().length() > 64) {
+			errors.rejectValue("playerEmail", "Size.playerForm.playerEmail");
+		}
 
 		if (playersService.checkEmailExistence(user)
 				&& playersService.getPlayerIdByEmail(user.getPlayerEmail()) != user.getPlayerId()) {

@@ -14,7 +14,7 @@
 <body>
 	<p style="text-align: center">
 		<img src="<c:url value="/resources/img/500.png"/>" /> <br> <a
-			class="btn btn-large btn-success" href="/DevCor/welcome">Home</a>
+			class="btn btn-large btn-success" href="<c:url value="/welcome"/>">Home</a>
 	</p>
 </body>
 </html>

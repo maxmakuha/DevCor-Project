@@ -132,22 +132,23 @@ public class OrderController {
 	@RequestMapping(value = "/dashboard/order/id/{id}", method = RequestMethod.POST)
 	public String updateOrder(OrderAndComment orderAndComment, RedirectAttributes redirectAttributes, Principal principal)
 			throws SQLException {
+		Order oldOrder = ordersService.getOrderById(orderAndComment.getOrder().getOrderId());
+		
 		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()
 				.getAuthority()) {
 		case "ROLE_USER":
-			if(!orderAndComment.getOrder().getAuthorEmail().equals(principal.getName())){
+			if(!oldOrder.getAuthorEmail().equals(principal.getName())){
 				return "403Page";
 			}
 			break;
 		case "ROLE_TECHNICIAN":
-			if(!orderAndComment.getOrder().getTechnicianEmail().equals(principal.getName())){
+			if(!oldOrder.getTechnicianEmail().equals(principal.getName())){
 				return "403Page";
 			}
 			break;
 		default:
 			break;
 		}
-		Order oldOrder = ordersService.getOrderById(orderAndComment.getOrder().getOrderId());
 
 		if (oldOrder.getRoomId() != orderAndComment.getOrder().getRoomId()) {
 			orderAndComment.getOrder()

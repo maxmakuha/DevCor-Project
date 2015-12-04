@@ -20,6 +20,11 @@
 		<intercept-url pattern="/calendar/**" access="hasRole('ROLE_TECHNICIAN')" />
 		<intercept-url pattern="/calendar2/**" access="hasRole('ROLE_TECHNICIAN')" />
 		<intercept-url pattern="/calendar3/**" access="hasRole('ROLE_TECHNICIAN')" />
+		<intercept-url pattern="/simple" access="hasRole('ROLE_TECHNICIAN')" />
+		<intercept-url pattern="/getRoomDevices" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/getDuplicateOrdersRoom" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/getDuplicateOrdersDevice" access="hasRole('ROLE_USER')" />
+		
 
 		<access-denied-handler error-page="/403" />
 

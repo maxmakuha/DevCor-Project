@@ -17,13 +17,27 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private static final String SQL_SELECT_ALL_URGENCY_STATUS = "SELECT * FROM urgency_status";
-	private static final String SQL_SELECT_URGENCY_STATUS_BY_ID = "SELECT urgency_status_id, urgency_status,minutes FROM urgency_status WHERE urgency_status.urgency_status_id=?";
-	private static final String SQL_UPDATE_URGENCY_STATUS = "UPDATE urgency_status SET urgency_status = ?, minutes = ? WHERE urgency_status_id = ?";
-	private static final String SQL_INSERT_URGENCY_STATUS = "INSERT INTO urgency_status(urgency_status, minutes) VALUES (?,?)";
-	private static final String SQL_DELETE_URGENCY_STATUS = "DELETE urgency_status WHERE urgency_status_id=?";
-	private static final String SQL_SELECT_MINUTES_BY_ID = "SELECT urgency_status.minutes FROM urgency_status WHERE urgency_status.urgency_status_id = ?";
-	private static final String SQL_SELECT_URGENCY_STATUS_BY_TITLE = "SELECT urgency_status_id, urgency_status,minutes FROM urgency_status WHERE urgency_status.urgency_status=?";
+	private static final String SQL_SELECT_ALL_URGENCY_STATUS = "SELECT "
+			+ "urgency_status_id, "
+			+ "urgency_status, "
+			+ "minutes "
+			+ "FROM urgency_status";
+	private static final String SQL_SELECT_URGENCY_STATUS_BY_ID = SQL_SELECT_ALL_URGENCY_STATUS 
+			+ " WHERE urgency_status.urgency_status_id = ?";
+	private static final String SQL_UPDATE_URGENCY_STATUS = "UPDATE urgency_status SET "
+			+ "urgency_status = ?, "
+			+ "minutes = ? "
+			+ "WHERE urgency_status_id = ?";
+	private static final String SQL_INSERT_URGENCY_STATUS = "INSERT INTO urgency_status "
+			+ "(urgency_status, minutes) "
+			+ "VALUES (?,?)";
+	private static final String SQL_DELETE_URGENCY_STATUS = "DELETE urgency_status "
+			+ "WHERE urgency_status.urgency_status_id= ? ";
+	private static final String SQL_SELECT_MINUTES_BY_ID = "SELECT urgency_status.minutes "
+			+ "FROM urgency_status "
+			+ "WHERE urgency_status.urgency_status_id = ?";
+	private static final String SQL_SELECT_URGENCY_STATUS_BY_TITLE = SQL_SELECT_ALL_URGENCY_STATUS
+			+ " WHERE urgency_status.urgency_status = ?";
 
 	@Override
 	public List<UrgencyStatus> getAllUrgencyStatuses() {
@@ -62,6 +76,7 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO {
 		ps.close();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public int getUrgencyStatusMinutes(int urgencyStatusId) {
 		return jdbcTemplate.queryForInt(SQL_SELECT_MINUTES_BY_ID, urgencyStatusId);

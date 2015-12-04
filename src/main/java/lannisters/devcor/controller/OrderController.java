@@ -80,8 +80,7 @@ public class OrderController {
 
 	@RequestMapping(value = "/dashboard/order/create", method = RequestMethod.GET)
 	public String showOrderAddingPage(Model m) {
-		Order order = new Order();
-		m.addAttribute("order", order);
+		m.addAttribute("order", new Order());
 		m.addAttribute("problemTypes", problemTypesService.getAllProblemTypes());
 		m.addAttribute("rooms", roomsService.getAllRooms());
 		m.addAttribute("urgencyStatuses", urgencyStatusesService.getAllUrgencyStatuses());
@@ -104,8 +103,24 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "dashboard/order/id/{id}", method = RequestMethod.GET)
-	public String viewOrder(@PathVariable("id") int orderId, Model m) {
-		m.addAttribute("orderAndComment", new OrderAndComment(ordersService.getOrderById(orderId), new Comment()));
+	public String viewOrder(@PathVariable("id") int orderId, Model m, Principal principal) {
+		Order order = ordersService.getOrderById(orderId);
+		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()
+				.getAuthority()) {
+		case "ROLE_USER":
+			if(!order.getAuthorEmail().equals(principal.getName())){
+				return "403Page";
+			}
+			break;
+		case "ROLE_TECHNICIAN":
+			if(!order.getTechnicianEmail().equals(principal.getName())){
+				return "403Page";
+			}
+			break;
+		default:
+			break;
+		}
+		m.addAttribute("orderAndComment", new OrderAndComment(order, new Comment()));
 		m.addAttribute("problemTypes", problemTypesService.getAllProblemTypes());
 		m.addAttribute("rooms", roomsService.getAllRooms());
 		m.addAttribute("urgencyStatuses", urgencyStatusesService.getAllUrgencyStatuses());
@@ -115,9 +130,23 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/dashboard/order/id/{id}", method = RequestMethod.POST)
-	public String updateOrder(OrderAndComment orderAndComment, RedirectAttributes redirectAttributes)
+	public String updateOrder(OrderAndComment orderAndComment, RedirectAttributes redirectAttributes, Principal principal)
 			throws SQLException {
-		
+		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()
+				.getAuthority()) {
+		case "ROLE_USER":
+			if(!orderAndComment.getOrder().getAuthorEmail().equals(principal.getName())){
+				return "403Page";
+			}
+			break;
+		case "ROLE_TECHNICIAN":
+			if(!orderAndComment.getOrder().getTechnicianEmail().equals(principal.getName())){
+				return "403Page";
+			}
+			break;
+		default:
+			break;
+		}
 		Order oldOrder = ordersService.getOrderById(orderAndComment.getOrder().getOrderId());
 
 		if (oldOrder.getRoomId() != orderAndComment.getOrder().getRoomId()) {

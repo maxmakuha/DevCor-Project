@@ -17,12 +17,19 @@ public class ProblemTypesDAOImpl implements ProblemTypesDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private static final String SQL_SELECT_ALL_PROBLEM_TYPES = "SELECT * FROM problem_type";
-	private static final String SQL_SELECT_PROBLEM_TYPE_BY_ID = "SELECT problem_type_id, problem_type FROM problem_type WHERE problem_type.problem_type_id=?";
-	private static final String SQL_UPDATE_PROBLEM_TYPE = "UPDATE problem_type SET problem_type = ? WHERE problem_type_id = ?";
+	private static final String SQL_SELECT_ALL_PROBLEM_TYPES = "SELECT "
+			+ "problem_type_id, "
+			+ "problem_type "
+			+ "FROM problem_type";
+	private static final String SQL_SELECT_PROBLEM_TYPE_BY_ID = SQL_SELECT_ALL_PROBLEM_TYPES
+			+ " WHERE problem_type.problem_type_id=?";
+	private static final String SQL_UPDATE_PROBLEM_TYPE = "UPDATE problem_type SET "
+			+ "problem_type = ? "
+			+ "WHERE problem_type_id = ?";
 	private static final String SQL_INSERT_PROBLEM_TYPE = "INSERT INTO problem_type(problem_type) VALUES (?)";
-	private static final String SQL_DELETE_PROBLEM_TYPE = "DELETE problem_type WHERE problem_type_id=?";
-	private static final String SQL_SELECT_PROBLEM_TYPE_BY_TITLE = "SELECT problem_type_id, problem_type FROM problem_type WHERE problem_type.problem_type=?";
+	private static final String SQL_DELETE_PROBLEM_TYPE = "DELETE problem_type WHERE problem_type_id = ?";
+	private static final String SQL_SELECT_PROBLEM_TYPE_BY_TITLE = SQL_SELECT_ALL_PROBLEM_TYPES
+			+ " WHERE problem_type.problem_type = ?";
 
 	@Override
 	public List<ProblemType> getAllProblemTypes() {

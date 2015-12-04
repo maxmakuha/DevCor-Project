@@ -8,6 +8,7 @@
 		<property name="exceptionMappings">
 			<map>
 				<entry key="java.sql.SQLException" value="500Page" />
+				<entry key="org.springframework.dao.EmptyResultDataAccessException" value="404Page" />
 			</map>
 		</property>
 		<property name="defaultErrorView" value="500Page" />

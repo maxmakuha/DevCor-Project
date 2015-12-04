@@ -17,17 +17,17 @@ public interface OrdersDAO {
 
 	public void deleteOrder(int orderId) throws SQLException;
 
-	public List<Order> getAllOrdersOfUser(String email) throws SQLException;
+	public List<Order> getAllOrdersOfUser(String email);
 
-	public List<Order> getAllOrdersOfTechnician(String email) throws SQLException;
+	public List<Order> getAllOrdersOfTechnician(String email);
 
-	public List<Order> getAllOrdersSorted() throws SQLException;
+	public List<Order> getAllOrdersSorted();
 	
 	public List<Order> getAllOrdersOfRoom(int roomId);
 
-	public List<Order> getAllOrdersOfRoomNoDevice(int roomId) throws SQLException;
+	public List<Order> getAllOrdersOfRoomNoDevice(int roomId);
 
-	public List<Order> getAllOrdersOfRoomWithDevice(int roomId) throws SQLException;
+	public List<Order> getAllOrdersOfRoomWithDevice(int roomId);
 	
 	public List<Order> getOrdersByUrgency(int urgencyStatusId);
 	

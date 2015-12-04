@@ -34,7 +34,7 @@ function getCurrentDateAndTime(){
 }
 
 $(document).ready(function(){
-	if('${orderAndComment.order.room != null}'){
+	if('${orderAndComment.order.roomId != -1}'){
 		$.get('/DevCor/getRoomDevices', {
 			roomId: $('#roomNumberOptions').val()
 		}, function(responseHTML){
@@ -45,15 +45,15 @@ $(document).ready(function(){
 	
 	$(
 		'#problemTypeOptions option[value="${ orderAndComment.order.problemTypeId}"],' + 
-		'#urgencyStatusOptions option[value="${ orderAndComment.order.urgencyStatusId}"], '
+		'#urgencyStatusOptions option[value="${ orderAndComment.order.urgencyStatusId}"]'
 		).attr('selected', 'selected');
 
-	if('${orderAndComment.order.room == null}'){
+	if('${orderAndComment.order.roomId == -1}'){
 		$('#roomNumberOptions').prepend("<option value=\"-1\">Deleted</option>");
 		$('#roomNumberOptions option[value="-1"]').attr('selected', 'selected');
 	}
 	
-	if('${orderAndComment.order.technician == null}'){
+	if('${orderAndComment.order.technicianId == -1}'){
 		$('#technicianOptions').prepend("<option value=\"-1\">Deleted</option>");
 		$('#technicianOptions option[value="-1"]').attr('selected', 'selected');
 	}
@@ -62,7 +62,7 @@ $(document).ready(function(){
 		.prepend('<option value="${orderAndComment.order.executionStatusId}" selected="selected">${orderAndComment.order.executionStatus}</value>');
 	
 	$('#roomNumberOptions').change(function(){
-		if('${orderAndComment.order.room != null}'){
+		if('${orderAndComment.order.roomId != -1}'){
 			$.get('/DevCor/getRoomDevices', {
 				roomId: $(this).val()
 			}, function(responseHTML){
@@ -179,7 +179,7 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td><label>Room number: </label></td>
-					<td>${orderAndComment.order.room == null? 'Deleted' : orderAndComment.order.roomNumber}</td>
+					<td>${orderAndComment.order.roomNumber}</td>
 				</tr>
 				<form:hidden path="order.roomId"/>
 				<tr>
@@ -254,7 +254,7 @@ $(document).ready(function(){
 			
 			<tr>
 				<td><label>Author:</label></td>
-				<td>${orderAndComment.order.author == null ? 'Deleted' : orderAndComment.order.authorName + ' ' + orderAndComment.order.authorSurname}</td>
+				<td>${orderAndComment.order.authorName} ${orderAndComment.order.authorSurname}</td>
 			</tr>
 			
 			<form:hidden path="order.authorId"/>
@@ -262,7 +262,7 @@ $(document).ready(function(){
 			<c:if test="${isUser || isTech}">
 				<tr>
 					<td><label>Technician:</label></td>
-					<td>${orderAndComment.order.technician == null ? 'Deleted' : orderAndComment.order.technicianName + ' ' + orderAndComment.order.technicianSurname}</td>
+					<td>${orderAndComment.order.technicianName} ${orderAndComment.order.technicianSurname}</td>
 				</tr>
 				
 				<form:hidden path="order.technicianId"/>

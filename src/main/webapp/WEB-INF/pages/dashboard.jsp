@@ -109,16 +109,16 @@ $(document).ready(function(){
 					<td><c:out value="${fn:substring(order.creationDate, 0, 16)}" /></td>
 					<td><c:out value="${fn:substring(order.dueDate, 0, 16)}" /></td>
 					<td><c:out value="${order.problemType}" /></td>
-					<td><c:out value="${order.roomObj == null ? 'Deleted' :order.roomNumber}" /></td>
-					<td><c:out value="${order.technician == null ? 'Deleted' : order.technicianName} ${order.technicianSurname}" /></td>
+					<td><c:out value="${order.roomNumber}" /></td>
+					<td><c:out value="${order.technicianName} ${order.technicianSurname}" /></td>
 				</c:if>
 				<c:if test="${isAdmin}">
-					<td><c:out value="${order.authorObj == null ? 'Deleted' : order.authorName} ${order.authorSurname}" /></td>
-					<td><c:out value="${order.technicianObj == null ? 'Deleted' : order.technicianName} ${order.technicianSurname}" /></td>
+					<td><c:out value="${order.authorName} ${order.authorSurname}" /></td>
+					<td><c:out value="${order.technicianName} ${order.technicianSurname}" /></td>
 					<td><c:out value="${fn:substring(order.creationDate, 0, 16)}" /></td>
 					<td><c:out value="${fn:substring(order.dueDate, 0, 16)}" /></td>
 					<td><c:out value="${order.problemType}" /></td>
-					<td><c:out value="${order.roomObj == null ? 'Deleted' : order.roomNumber}" /></td>
+					<td><c:out value="${order.roomNumber}" /></td>
 					<td><c:out value="${order.deviceSerialId}" /></td>
 					<td><c:out value="${order.executionStatus}" /></td>
 				</c:if>

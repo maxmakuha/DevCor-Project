@@ -41,7 +41,7 @@ public class CommentsServiceImpl implements CommentsService {
 	}
 
 	@Override
-	public List<Comment> getAllCommentsOfOrder(int orderId) throws SQLException {
+	public List<Comment> getAllCommentsOfOrder(int orderId) {
 		return commentsDao.getAllCommentsOfOrder(orderId);
 	}
 }

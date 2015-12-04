@@ -38,39 +38,33 @@ public class RoomsDAOImpl implements RoomsDAO {
 
 	@Override
 	public void addRoom(Room room) throws SQLException {
-		PreparedStatement ps = null;
-		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_ROOM);
+		PreparedStatement ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_ROOM);
 		ps.setString(1, room.getRoomNumber());
 		ps.setInt(2, room.getPlayerId());
 		ps.executeUpdate();
-		if (ps != null)
-				ps.close();
+		ps.close();
 	}
 
 	@Override
 	public void updateRoom(Room room) throws SQLException {
-		PreparedStatement ps = null;
-		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_ROOM);
+		PreparedStatement ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_ROOM);
 		ps.setString(1, room.getRoomNumber());
 		ps.setInt(2, room.getPlayerId());
 		ps.setInt(3, room.getRoomId());
 		ps.executeUpdate();
-		if (ps != null)
-				ps.close();
+		ps.close();
 	}
 
 	@Override
 	public void deleteRoom(int roomId) throws SQLException {
-		PreparedStatement ps = null;
-		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_ROOM);
+		PreparedStatement ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_ROOM);
 		ps.setInt(1, roomId);
 		ps.executeUpdate();
-		if (ps != null)
-				ps.close();
+		ps.close();
 	}
 
 	@Override
-	public int getTechnicianIdByRoomId(int roomId) throws SQLException {
+	public int getTechnicianIdByRoomId(int roomId) {
 		return jdbcTemplate.queryForInt(SQL_GET_PLAYER_ID_BY_ROOM_ID, roomId);
 	}
 

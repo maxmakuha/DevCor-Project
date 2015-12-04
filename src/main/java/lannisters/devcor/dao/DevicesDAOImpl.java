@@ -37,37 +37,31 @@ public class DevicesDAOImpl implements DevicesDAO {
 
 	@Override
 	public void addDevice(Device device) throws SQLException {
-		PreparedStatement ps = null;
-		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_DEVICE);
+		PreparedStatement ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_DEVICE);
 		ps.setString(1, device.getDeviceSerialId());
 		ps.setInt(2, device.getDeviceTypeId());
 		ps.setInt(3, device.getRoomId());
 		ps.executeUpdate();
-		if (ps != null)
-				ps.close();
+		ps.close();
 	}
 
 	@Override
 	public void updateDevice(Device device) throws SQLException {
-		PreparedStatement ps = null;
-		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_DEVICE);
+		PreparedStatement ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_DEVICE);
 		ps.setString(1, device.getDeviceSerialId());
 		ps.setInt(2, device.getDeviceTypeId());
 		ps.setInt(3, device.getRoomId());
 		ps.setInt(4, device.getDeviceId());
 		ps.executeUpdate();
-		if (ps != null)
-				ps.close();
+		ps.close();
 	}
 
 	@Override
 	public void deleteDevice(int deviceId) throws SQLException {
-		PreparedStatement ps = null;
-		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_DEVICE);
+		PreparedStatement ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_DEVICE);
 		ps.setInt(1, deviceId);
 		ps.executeUpdate();
-		if (ps != null)
-				ps.close();
+		ps.close();
 	}
 
 	@Override

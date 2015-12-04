@@ -42,7 +42,7 @@ public class RoomsServiceImpl implements RoomsService {
 	}
 
 	@Override
-	public int getTechnicianIdByRoomId(int roomId) throws SQLException {
+	public int getTechnicianIdByRoomId(int roomId) {
 		return roomsDao.getTechnicianIdByRoomId(roomId);
 	}
 

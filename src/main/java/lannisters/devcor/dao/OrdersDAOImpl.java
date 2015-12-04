@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class OrdersDAOImpl implements OrdersDAO {
 
-	private static final String SQL_SELECT_ALL_ORDERS = "SELECT request.request_id, request.problem_type_id, problem_type.problem_type, request.description, room.room_id, room.room_number, device.device_id, device.device_serial_id, execution_status.execution_status_id, execution_status.execution_status, urgency_status.urgency_status_id, urgency_status.urgency_status, request.creation_date, request.due_date, author_id, author.player_email as author_email, author.first_name as author_name, author.last_name as author_surname, technician.player_id as technician_id, technician.player_email as technician_email, technician.first_name as technician_name, technician.last_name as technician_surname, SUBSTR(TO_CHAR((due_date - current_timestamp)), 1, 1) AS overdue FROM (((((((request INNER JOIN problem_type ON request.problem_type_id = problem_type.problem_type_id) INNER JOIN room ON request.room_id = room.room_id) LEFT JOIN device ON request.device_id = device.device_id) INNER JOIN execution_status ON request.execution_status_id = execution_status.execution_status_id) INNER JOIN urgency_status ON request.urgency_status_id = urgency_status.urgency_status_id) INNER JOIN player author ON request.author_id = author.player_id) INNER JOIN player technician ON request.technician_id = technician.player_id)";
+	private static final String SQL_SELECT_ALL_ORDERS = "SELECT request.request_id, request.problem_type_id, problem_type.problem_type, request.description, room.room_id, room.room_number, device.device_id, device.device_serial_id, execution_status.execution_status_id, execution_status.execution_status, urgency_status.urgency_status_id, urgency_status.urgency_status, request.creation_date, request.due_date, author_id, author.player_email as author_email, author.first_name as author_name, author.last_name as author_surname, technician.player_id as technician_id, technician.player_email as technician_email, technician.first_name as technician_name, technician.last_name as technician_surname, SUBSTR(TO_CHAR((due_date - current_timestamp)), 1, 1) AS overdue FROM (((((((request LEFT JOIN problem_type ON request.problem_type_id = problem_type.problem_type_id) LEFT JOIN room ON request.room_id = room.room_id) LEFT JOIN device ON request.device_id = device.device_id) LEFT JOIN execution_status ON request.execution_status_id = execution_status.execution_status_id) LEFT JOIN urgency_status ON request.urgency_status_id = urgency_status.urgency_status_id) LEFT JOIN player author ON request.author_id = author.player_id) LEFT JOIN player technician ON request.technician_id = technician.player_id)";
 	private static final String SQL_SELECT_ORDER_BY_ID = SQL_SELECT_ALL_ORDERS 
 			+ " WHERE request.request_id = ?";
 	private static final String SQL_INSERT_ORDER = "INSERT INTO request(problem_type_id, description, room_id, device_id, execution_status_id, urgency_status_id, creation_date, due_date, author_id, technician_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -53,7 +53,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 		ps.setInt(1, order.getProblemTypeId());
 		ps.setString(2, order.getDescription());
 		ps.setInt(3, order.getRoomId());
-		ps.setObject(4, order.getDeviceObj());
+		ps.setObject(4, order.getDeviceId() == -1 ? null : order.getDeviceId());
 		ps.setInt(5, order.getExecutionStatusId());
 		ps.setInt(6, order.getUrgencyStatusId());
 		ps.setTimestamp(7, order.getCreationDate());
@@ -69,14 +69,14 @@ public class OrdersDAOImpl implements OrdersDAO {
 		PreparedStatement ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_ORDER);
 		ps.setInt(1, order.getProblemTypeId());
 		ps.setString(2, order.getDescription());
-		ps.setInt(3, order.getRoomId());
+		ps.setObject(3, order.getRoomId() == -1 ? null : order.getRoomId());
 		ps.setObject(4, order.getDeviceId() == -1 ? null : order.getDeviceId());
 		ps.setInt(5, order.getExecutionStatusId());
 		ps.setInt(6, order.getUrgencyStatusId());
 		ps.setTimestamp(7, order.getCreationDate());
 		ps.setTimestamp(8, order.getDueDate());
-		ps.setInt(9, order.getAuthorId());
-		ps.setInt(10, order.getTechnicianId());
+		ps.setObject(9, order.getAuthorId() == -1 ? null : order.getAuthorId());
+		ps.setObject(10, order.getTechnicianId() == -1 ? null : order.getTechnicianId());
 		ps.setInt(11, order.getOrderId());
 		ps.executeUpdate();
 		ps.close();
@@ -91,17 +91,17 @@ public class OrdersDAOImpl implements OrdersDAO {
 	}
 
 	@Override
-	public List<Order> getAllOrdersOfUser(String email) throws SQLException {
+	public List<Order> getAllOrdersOfUser(String email) {
 		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_OF_USER, new OrderMapper(), email);
 	}
 
 	@Override
-	public List<Order> getAllOrdersOfTechnician(String email) throws SQLException {
+	public List<Order> getAllOrdersOfTechnician(String email) {
 		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_OF_TECHNICIAN, new OrderMapper(), email);
 	}
 
 	@Override
-	public List<Order> getAllOrdersSorted() throws SQLException {
+	public List<Order> getAllOrdersSorted(){
 		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_SORTED, new OrderMapper());
 	}
 
@@ -111,12 +111,12 @@ public class OrdersDAOImpl implements OrdersDAO {
 	}
 
 	@Override
-	public List<Order> getAllOrdersOfRoomNoDevice(int roomId) throws SQLException {
+	public List<Order> getAllOrdersOfRoomNoDevice(int roomId) {
 		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_OF_ROOM_NO_DEVICE, new OrderMapper(), roomId);
 	}
 
 	@Override
-	public List<Order> getAllOrdersOfRoomWithDevice(int roomId) throws SQLException {
+	public List<Order> getAllOrdersOfRoomWithDevice(int roomId){
 		return jdbcTemplate.query(SQL_SELECT_ALL_ORDERS_OF_ROOM_WITH_DEVICE, new OrderMapper(), roomId);
 	}
 

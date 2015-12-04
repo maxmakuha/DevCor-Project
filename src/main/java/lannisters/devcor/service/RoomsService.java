@@ -17,7 +17,7 @@ public interface RoomsService {
 
 	public void deleteRoom(int roomId) throws SQLException;
 
-	public int getTechnicianIdByRoomId(int roomId) throws SQLException;
+	public int getTechnicianIdByRoomId(int roomId);
 
 	public List<Room> getPlayerRooms(int playerId);
 

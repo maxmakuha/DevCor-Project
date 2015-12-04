@@ -295,6 +295,10 @@ public class Order {
 	public void setOverdue(boolean overdue) {
 		this.overdue = overdue;
 	}
+	
+	public void deleteRoom() {
+		this.room = null;
+	}
 
 	@Override
 	public String toString() {

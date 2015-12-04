@@ -17,17 +17,17 @@ public interface OrdersService {
 
 	public void deleteOrder(int orderId) throws SQLException;
 
-	public List<Order> getAllOrdersOfUser(String email) throws SQLException;
+	public List<Order> getAllOrdersOfUser(String email);
 
-	public List<Order> getAllOrdersOfTechnician(String email) throws SQLException;
+	public List<Order> getAllOrdersOfTechnician(String email);
 
-	public List<Order> getAllOrdersSorted() throws SQLException;
+	public List<Order> getAllOrdersSorted();
 
 	public List<Order> getAllOrdersOfRoom(int roomId);
 
-	List<Order> getAllOrdersOfRoomNoDevice(int roomId) throws SQLException;
+	List<Order> getAllOrdersOfRoomNoDevice(int roomId);
 
-	List<Order> getAllOrdersOfRoomWithDevice(int roomId) throws SQLException;
+	List<Order> getAllOrdersOfRoomWithDevice(int roomId);
 
 	public List<Order> getOrdersByUrgency(int urgencyStatusId);
 

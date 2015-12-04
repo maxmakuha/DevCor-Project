@@ -41,17 +41,17 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public List<Order> getAllOrdersOfUser(String email) throws SQLException {
+	public List<Order> getAllOrdersOfUser(String email) {
 		return ordersDao.getAllOrdersOfUser(email);
 	}
 
 	@Override
-	public List<Order> getAllOrdersOfTechnician(String email) throws SQLException {
+	public List<Order> getAllOrdersOfTechnician(String email) {
 		return ordersDao.getAllOrdersOfTechnician(email);
 	}
 
 	@Override
-	public List<Order> getAllOrdersSorted() throws SQLException {
+	public List<Order> getAllOrdersSorted() {
 		return ordersDao.getAllOrdersSorted();
 	}
 
@@ -61,12 +61,12 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public List<Order> getAllOrdersOfRoomNoDevice(int roomId) throws SQLException {
+	public List<Order> getAllOrdersOfRoomNoDevice(int roomId){
 		return ordersDao.getAllOrdersOfRoomNoDevice(roomId);
 	}
 
 	@Override
-	public List<Order> getAllOrdersOfRoomWithDevice(int roomId) throws SQLException {
+	public List<Order> getAllOrdersOfRoomWithDevice(int roomId) {
 		return ordersDao.getAllOrdersOfRoomWithDevice(roomId);
 	}
 

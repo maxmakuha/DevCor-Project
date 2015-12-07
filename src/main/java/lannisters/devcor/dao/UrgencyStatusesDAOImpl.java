@@ -17,13 +17,27 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private static final String SQL_SELECT_ALL_URGENCY_STATUS = "SELECT * FROM urgency_status";
-	private static final String SQL_SELECT_URGENCY_STATUS_BY_ID = "SELECT urgency_status_id, urgency_status,minutes FROM urgency_status WHERE urgency_status.urgency_status_id=?";
-	private static final String SQL_UPDATE_URGENCY_STATUS = "UPDATE urgency_status SET urgency_status = ?, minutes = ? WHERE urgency_status_id = ?";
-	private static final String SQL_INSERT_URGENCY_STATUS = "INSERT INTO urgency_status(urgency_status, minutes) VALUES (?,?)";
-	private static final String SQL_DELETE_URGENCY_STATUS = "DELETE urgency_status WHERE urgency_status_id=?";
-	private static final String SQL_SELECT_MINUTES_BY_ID = "SELECT urgency_status.minutes FROM urgency_status WHERE urgency_status.urgency_status_id = ?";
-	private static final String SQL_SELECT_URGENCY_STATUS_BY_TITLE = "SELECT urgency_status_id, urgency_status,minutes FROM urgency_status WHERE urgency_status.urgency_status=?";
+	private static final String SQL_SELECT_ALL_URGENCY_STATUS = "SELECT "
+			+ "urgency_status_id, "
+			+ "urgency_status, "
+			+ "minutes "
+			+ "FROM urgency_status";
+	private static final String SQL_SELECT_URGENCY_STATUS_BY_ID = SQL_SELECT_ALL_URGENCY_STATUS 
+			+ " WHERE urgency_status.urgency_status_id = ?";
+	private static final String SQL_UPDATE_URGENCY_STATUS = "UPDATE urgency_status SET "
+			+ "urgency_status = ?, "
+			+ "minutes = ? "
+			+ "WHERE urgency_status_id = ?";
+	private static final String SQL_INSERT_URGENCY_STATUS = "INSERT INTO urgency_status "
+			+ "(urgency_status, minutes) "
+			+ "VALUES (?,?)";
+	private static final String SQL_DELETE_URGENCY_STATUS = "DELETE urgency_status "
+			+ "WHERE urgency_status.urgency_status_id= ? ";
+	private static final String SQL_SELECT_MINUTES_BY_ID = "SELECT urgency_status.minutes "
+			+ "FROM urgency_status "
+			+ "WHERE urgency_status.urgency_status_id = ?";
+	private static final String SQL_SELECT_URGENCY_STATUS_BY_TITLE = SQL_SELECT_ALL_URGENCY_STATUS
+			+ " WHERE urgency_status.urgency_status = ?";
 
 	@Override
 	public List<UrgencyStatus> getAllUrgencyStatuses() {
@@ -37,38 +51,32 @@ public class UrgencyStatusesDAOImpl implements UrgencyStatusesDAO {
 
 	@Override
 	public void updateUrgencyStatus(UrgencyStatus urgencyStatus) throws SQLException {
-		PreparedStatement ps = null;
-		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_URGENCY_STATUS);
+		PreparedStatement ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_UPDATE_URGENCY_STATUS);
 		ps.setString(1, urgencyStatus.getUrgencyStatus());
 		ps.setInt(2, urgencyStatus.getMinutes());
 		ps.setInt(3, urgencyStatus.getUrgencyStatusId());
 		ps.executeUpdate();
-		if (ps != null)
-				ps.close();
+		ps.close();
 	}
 
 	@Override
 	public void addUrgencyStatus(UrgencyStatus urgencyStatus) throws SQLException {
-		PreparedStatement ps = null;
-		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_URGENCY_STATUS);
+		PreparedStatement ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_INSERT_URGENCY_STATUS);
 		ps.setString(1, urgencyStatus.getUrgencyStatus());
 		ps.setInt(2, urgencyStatus.getMinutes());
 		ps.executeUpdate();
-
-		if (ps != null)
-				ps.close();
+		ps.close();
 	}
 
 	@Override
 	public void deleteUrgencyStatus(int urgencyStatus) throws SQLException {
-		PreparedStatement ps = null;
-		ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_URGENCY_STATUS);
+		PreparedStatement ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(SQL_DELETE_URGENCY_STATUS);
 		ps.setInt(1, urgencyStatus);
 		ps.executeUpdate();
-		if (ps != null)
-				ps.close();
+		ps.close();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public int getUrgencyStatusMinutes(int urgencyStatusId) {
 		return jdbcTemplate.queryForInt(SQL_SELECT_MINUTES_BY_ID, urgencyStatusId);

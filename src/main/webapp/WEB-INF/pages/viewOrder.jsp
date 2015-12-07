@@ -15,6 +15,7 @@
 <c:set var="orderIsIncorrect" value="${orderAndComment.order.executionStatus == 'Incorrect'}" />
 <c:set var="orderIsUnsolvable" value="${orderAndComment.order.executionStatus == 'Unsolvable'}" />
 
+
 <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 <script src="<c:url value="/resources/js/bootbox.min.js"/>"></script>
 <script>
@@ -34,36 +35,49 @@ function getCurrentDateAndTime(){
 }
 
 $(document).ready(function(){
-	$.get('/DevCor/getRoomDevices', {
-		roomId: $('#roomNumberOptions').val()
-	}, function(responseHTML){
-		$('#serialPortOptions').html(responseHTML);
-		$('#serialPortOptions option[value="${ orderAndComment.order.getDeviceId()}"]').attr('selected', 'selected');
-	});
+	if('${orderAndComment.order.roomId != -1}'){
+		$.get('/DevCor/getRoomDevices', {
+			roomId: $('#roomNumberOptions').val()
+		}, function(responseHTML){
+			$('#serialPortOptions').html(responseHTML);
+			$('#serialPortOptions option[value="${ orderAndComment.order.getDeviceId()}"]').attr('selected', 'selected');
+		});
+	}
 	
 	$(
 		'#problemTypeOptions option[value="${ orderAndComment.order.problemTypeId}"],' + 
-		'#roomNumberOptions option[value="${ orderAndComment.order.roomId}"], ' +
-		'#urgencyStatusOptions option[value="${ orderAndComment.order.urgencyStatusId}"], ' + 
-		'#technicianOptions option[value="${ orderAndComment.order.technicianId}"]'
+		'#urgencyStatusOptions option[value="${ orderAndComment.order.urgencyStatusId}"]'
 		).attr('selected', 'selected');
+
+	if('${orderAndComment.order.roomId == -1}'){
+		$('#roomNumberOptions').prepend("<option value=\"-1\">Deleted</option>");
+		$('#roomNumberOptions option[value="-1"]').attr('selected', 'selected');
+	}
+	
+	if('${orderAndComment.order.technicianId == -1}'){
+		$('#technicianOptions').prepend("<option value=\"-1\">Deleted</option>");
+		$('#technicianOptions option[value="-1"]').attr('selected', 'selected');
+	}
 	
 	$('#executionStatusOptions')
 		.prepend('<option value="${orderAndComment.order.executionStatusId}" selected="selected">${orderAndComment.order.executionStatus}</value>');
 	
 	$('#roomNumberOptions').change(function(){
-		$.get('/DevCor/getRoomDevices', {
-			roomId: $(this).val()
-		}, function(responseHTML){
-			$('#serialPortOptions').html(responseHTML);
-		});
+		if('${orderAndComment.order.roomId != -1}'){
+			$.get('/DevCor/getRoomDevices', {
+				roomId: $(this).val()
+			}, function(responseHTML){
+				$('#serialPortOptions').html(responseHTML);
+			});
+		}
 	});
 	
 	$('#executionStatusOptions, #urgencyStatusOptions').change(function(){
 		if( $(this).find(":selected").text() == 'Incorrect' ||
-			$(this).find(":selected").text() == 'Unsolvable'){
-			$(".comment-button").click();
-			$(".newComment1 textarea").prop("required", "true");
+			$(this).find(":selected").text() == 'Unsolvable' || 
+			$(this).attr('id') == "urgencyStatusOptions"){
+				$(".comment-button").click();
+				$(".newComment1 textarea").prop("required", "true");
 		} else {
 			$(".newComment1 textarea").removeAttr("required");
 		}
@@ -297,6 +311,7 @@ $(document).ready(function(){
 			<c:if test="${isOrderTech}">
 				<tr class="newComment1">
 					<td>${orderAndComment.order.technicianName} ${orderAndComment.order.technicianSurname}</td>
+					<form:hidden path="comment.authorId" value="${orderAndComment.order.technicianId}"/>
 					<td rowspan="2"><form:textarea path="comment.comment" placeholder="Your new comment"/></td>
 				</tr>
 				<tr class="newComment2"><td></td></tr>
@@ -304,9 +319,10 @@ $(document).ready(function(){
 				<form:hidden id="comment-creation-date" path="comment.creationDate"/>
 			</c:if>
 			<c:if test="${comments.size() != 0}">
+			
 				<c:forEach var="comment" items="${comments}">
 					<tr>
-						<td>${orderAndComment.order.technicianName} ${orderAndComment.order.technicianSurname}</td>
+						<td>${comment.authorFullName}</td>
 						<td rowspan="2">${comment.comment}</td>
 					</tr>
 					<tr>

@@ -1,8 +1,3 @@
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <%@include file="header.jsp"%>
 
 <script>
@@ -20,7 +15,8 @@
 			<h3 class="panel-title">Edit profile: #${playerForm.playerId}</h3>
 		</div>
 		<c:if test="${playerForm.getRoleId()==2}">
-			<c:url var="saveUrl" value="/technicians/edit/id/${playerForm.playerId}" />
+			<c:url var="saveUrl"
+				value="/technicians/edit/id/${playerForm.playerId}" />
 		</c:if>
 		<c:if test="${playerForm.getRoleId()==3}">
 			<c:url var="saveUrl" value="/users/edit/id/${playerForm.playerId}" />
@@ -34,8 +30,10 @@
 							<label class="col-sm-2 control-label">Name:</label>
 							<div class="col-sm-10">
 								<form:input path="firstName" type="text" class="form-control"
-									id="firstName" placeholder="Name" maxlength="32" />
+									id="firstName" placeholder="Name" required="true"
+									maxlength="32" />
 								<form:errors path="firstName" class="control-label" />
+								<br>
 							</div>
 						</div>
 					</spring:bind>
@@ -46,8 +44,10 @@
 							<label class="col-sm-2 control-label">Surname:</label>
 							<div class="col-sm-10">
 								<form:input path="lastName" type="text" class="form-control"
-									id="lastName" placeholder="Surname" maxlength="32" />
+									id="lastName" placeholder="Surname" required="true"
+									maxlength="32" />
 								<form:errors path="lastName" class="control-label" />
+								<br>
 							</div>
 						</div>
 					</spring:bind>
@@ -58,8 +58,10 @@
 							<label class="col-sm-2 control-label">Email:</label>
 							<div class="col-sm-10">
 								<form:input path="playerEmail" type="email" class="form-control"
-									id="playerEmail" placeholder="Email" maxlength="64" />
+									id="playerEmail" placeholder="Email" required="true"
+									maxlength="64" />
 								<form:errors path="playerEmail" class="control-label" />
+								<br>
 							</div>
 						</div>
 					</spring:bind>
@@ -69,9 +71,22 @@
 						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label class="col-sm-2 control-label">New password:</label>
 							<div class="col-sm-10">
-								<form:input path="newPassword" type="text" class="form-control"
+								<form:password path="newPassword" class="form-control"
 									id="newPassword" placeholder="New password" maxlength="64" />
 								<form:errors path="newPassword" class="control-label" />
+							</div>
+						</div>
+					</spring:bind>
+				</tr>
+				<tr>
+					<spring:bind path="confirmPassword">
+						<div class="form-group ${status.error ? 'has-error' : ''}">
+							<label class="col-sm-2 control-label">Confirm password:</label>
+							<div class="col-sm-10">
+								<form:password path="confirmPassword" class="form-control"
+									id="confirmPassword" placeholder="Confirm password"
+									maxlength="64" />
+								<form:errors path="confirmPassword" class="control-label" />
 							</div>
 						</div>
 					</spring:bind>
@@ -83,7 +98,7 @@
 							<div class="col-sm-10">
 								<form:input path="phoneNumber" type="number"
 									class="form-control" id="phoneNumber"
-									placeholder="Phone Number" maxlength="15" />
+									placeholder="Phone Number" required="true" maxlength="15" />
 								<form:errors path="phoneNumber" class="control-label" />
 							</div>
 						</div>

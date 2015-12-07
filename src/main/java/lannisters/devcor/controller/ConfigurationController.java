@@ -5,6 +5,9 @@ import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,9 @@ import lannisters.devcor.service.DevicesService;
 import lannisters.devcor.service.OrdersService;
 import lannisters.devcor.service.ProblemTypesService;
 import lannisters.devcor.service.UrgencyStatusesService;
+import lannisters.devcor.validator.DeviceTypeFormValidator;
+import lannisters.devcor.validator.ProblemTypeFormValidator;
+import lannisters.devcor.validator.UrgencyStatusFormValidator;
 
 @Controller
 public class ConfigurationController {
@@ -38,8 +44,32 @@ public class ConfigurationController {
 	@Autowired
 	private UrgencyStatusesService urgencyStatusesService;
 
+	@Autowired
+	private DeviceTypeFormValidator deviceTypeFormValidator;
+
+	@Autowired
+	private ProblemTypeFormValidator problemTypeFormValidator;
+
+	@Autowired
+	private UrgencyStatusFormValidator urgencyStatusFormValidator;
+
+	@InitBinder("deviceType")
+	protected void deviceTypeInitBinder(WebDataBinder binder) {
+		binder.setValidator(deviceTypeFormValidator);
+	}
+
+	@InitBinder("problem")
+	protected void problemTypeInitBinder(WebDataBinder binder) {
+		binder.setValidator(problemTypeFormValidator);
+	}
+
+	@InitBinder("urgStatus")
+	protected void urgencyStatusInitBinder(WebDataBinder binder) {
+		binder.setValidator(urgencyStatusFormValidator);
+	}
+
 	@RequestMapping(value = "/configuration", method = RequestMethod.GET)
-	public String extra(Model model) {
+	public String configurationPanel(Model model) {
 		model.addAttribute("problemType", problemTypesService.getAllProblemTypes());
 		model.addAttribute("deviceType", deviceTypesService.getAllDeviceTypes());
 		model.addAttribute("urgStatus", urgencyStatusesService.getAllUrgencyStatuses());
@@ -54,8 +84,8 @@ public class ConfigurationController {
 	}
 
 	@RequestMapping(value = "/configuration/problemType/edit/id/{id}", method = RequestMethod.POST)
-	public String saveEditedProblemType(@ModelAttribute("problem") ProblemType problemType, @PathVariable("id") int id,
-			RedirectAttributes redirectAttributes) throws SQLException {
+	public String saveEditedProblemType(@ModelAttribute("problem") @Validated ProblemType problemType,
+			@PathVariable("id") int id, RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (problemTypesService.checkProblemTypeExistence(problemType)
 				&& problemTypesService.getProblemTypeByTitle(problemType.getProblemType())
@@ -78,7 +108,7 @@ public class ConfigurationController {
 	}
 
 	@RequestMapping(value = "/configuration/problemType/add", method = RequestMethod.POST)
-	public String saveProblemType(@ModelAttribute("problem") ProblemType problemType,
+	public String saveProblemType(@ModelAttribute("problem") @Validated ProblemType problemType,
 			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (problemTypesService.checkProblemTypeExistence(problemType)) {
@@ -112,8 +142,8 @@ public class ConfigurationController {
 	}
 
 	@RequestMapping(value = "/configuration/deviceType/edit/id/{id}", method = RequestMethod.POST)
-	public String saveEditedDeviceType(@ModelAttribute("deviceType") DeviceType deviceType, @PathVariable("id") int id,
-			RedirectAttributes redirectAttributes) throws SQLException {
+	public String saveEditedDeviceType(@ModelAttribute("deviceType") @Validated DeviceType deviceType,
+			@PathVariable("id") int id, RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (deviceTypesService.checkDeviceTypeExistence(deviceType) && deviceTypesService
 				.getDeviceTypeByTitle(deviceType.getDeviceType()).getDeviceTypeId() != deviceType.getDeviceTypeId()) {
@@ -135,7 +165,7 @@ public class ConfigurationController {
 	}
 
 	@RequestMapping(value = "/configuration/deviceType/add", method = RequestMethod.POST)
-	public String saveDeviceType(@ModelAttribute("deviceType") DeviceType deviceType,
+	public String saveDeviceType(@ModelAttribute("deviceType") @Validated DeviceType deviceType,
 			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (deviceTypesService.checkDeviceTypeExistence(deviceType)) {
@@ -169,7 +199,7 @@ public class ConfigurationController {
 	}
 
 	@RequestMapping(value = "/configuration/urgStatus/edit/id/{id}", method = RequestMethod.POST)
-	public String saveEditedUrgStatus(@ModelAttribute("urgStatus") UrgencyStatus urgencyStatus,
+	public String saveEditedUrgStatus(@ModelAttribute("urgStatus") @Validated UrgencyStatus urgencyStatus,
 			@PathVariable("id") int id, RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (urgencyStatusesService.checkUrgencyStatusExistence(urgencyStatus)
@@ -193,7 +223,7 @@ public class ConfigurationController {
 	}
 
 	@RequestMapping(value = "/configuration/urgStatus/add", method = RequestMethod.POST)
-	public String saveUrgStatus(@ModelAttribute("urgStatus") UrgencyStatus urgencyStatus,
+	public String saveUrgStatus(@ModelAttribute("urgStatus") @Validated UrgencyStatus urgencyStatus,
 			RedirectAttributes redirectAttributes) throws SQLException {
 		String page = null;
 		if (urgencyStatusesService.checkUrgencyStatusExistence(urgencyStatus)) {

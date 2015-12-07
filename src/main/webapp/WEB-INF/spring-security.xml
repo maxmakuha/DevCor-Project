@@ -9,15 +9,22 @@
 	<http use-expressions="true">
 		<intercept-url pattern="/login" access="isAnonymous()" />
 		<intercept-url pattern="/profile" access="isAuthenticated()" />
-		<intercept-url pattern="/dashboard" access="isAuthenticated()" />
+		<intercept-url pattern="/dashboard/order/create" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/dashboard/**" access="isAuthenticated()" />
 		<intercept-url pattern="/technicians/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/rooms/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/devices/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/reports/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/configuration/**" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/createOrder" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/calendar/**" access="hasRole('ROLE_TECHNICIAN')" />
+		<intercept-url pattern="/calendar2/**" access="hasRole('ROLE_TECHNICIAN')" />
+		<intercept-url pattern="/calendar3/**" access="hasRole('ROLE_TECHNICIAN')" />
+		<intercept-url pattern="/simple" access="hasRole('ROLE_TECHNICIAN')" />
 		<intercept-url pattern="/getRoomDevices" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/getDuplicateOrdersRoom" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/getDuplicateOrdersDevice" access="hasRole('ROLE_USER')" />
+		
 
 		<access-denied-handler error-page="/403" />
 

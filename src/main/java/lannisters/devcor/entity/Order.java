@@ -22,8 +22,6 @@ public class Order {
 		room = new Room();
 		device = new Device();
 		urgencyStatus = new UrgencyStatus();
-		author = new Player();
-		technician = new Player();
 	}
 
 	public Order(int orderId, ProblemType problemType, String description,
@@ -248,7 +246,7 @@ public class Order {
 		return this.technician;
 	}
 	
-	public int getTechnicianId() {
+	public int getTechnicianId() {	
 		return technician.getPlayerId();
 	}
 

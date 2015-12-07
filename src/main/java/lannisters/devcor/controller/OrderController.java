@@ -60,11 +60,11 @@ public class OrderController {
 	private CommentsService commentsService;
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public String showDashboard(Model model, Principal principal) throws SQLException {
+	public String showDashboard(Model model, Principal principal){
 		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()
 				.getAuthority()) {
 		case "ROLE_USER":
-			model.addAttribute("orders", ordersService.getALlOrdersOfUser(principal.getName()));
+			model.addAttribute("orders", ordersService.getAllOrdersOfUser(principal.getName()));
 			break;
 		case "ROLE_TECHNICIAN":
 			model.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
@@ -79,9 +79,8 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/dashboard/order/create", method = RequestMethod.GET)
-	public String showOrderAddingForm(Model m) {
-		Order order = new Order();
-		m.addAttribute("order", order);
+	public String showOrderAddingPage(Model m) {
+		m.addAttribute("order", new Order());
 		m.addAttribute("problemTypes", problemTypesService.getAllProblemTypes());
 		m.addAttribute("rooms", roomsService.getAllRooms());
 		m.addAttribute("urgencyStatuses", urgencyStatusesService.getAllUrgencyStatuses());
@@ -89,7 +88,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/dashboard/order/create", method = RequestMethod.POST)
-	public String createNewOrder(@ModelAttribute Order order, Model m, Principal principal,
+	public String addNewOrder(@ModelAttribute Order order, Principal principal,
 			RedirectAttributes redirectAttributes) throws SQLException {
 		order.setExecutionStatusId(1);
 		order.setCreationDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
@@ -97,18 +96,31 @@ public class OrderController {
 				+ urgencyStatusesService.getUrgencyStatusMinutes(order.getUrgencyStatusId()) * 60 * 1000));
 		order.setAuthorId(playersService.getPlayerIdByEmail(principal.getName()));
 		order.setTechnicianId(roomsService.getTechnicianIdByRoomId(order.getRoomId()));
-		if (order.getDeviceId() == -1) {
-			order.removeDevice();
-		}
 		ordersService.addOrder(order);
-		redirectAttributes.addFlashAttribute("message", "Order created successfully!");
 		mail.orderCreatEmail(order);
+		redirectAttributes.addFlashAttribute("message", "Order created successfully!");
 		return "redirect:/dashboard";
 	}
 
 	@RequestMapping(value = "dashboard/order/id/{id}", method = RequestMethod.GET)
-	public String viewOrder(@PathVariable("id") int orderId, Model m) throws SQLException {
-		m.addAttribute("orderAndComment", new OrderAndComment(ordersService.getOrderById(orderId), new Comment()));
+	public String viewOrder(@PathVariable("id") int orderId, Model m, Principal principal) {
+		Order order = ordersService.getOrderById(orderId);
+		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()
+				.getAuthority()) {
+		case "ROLE_USER":
+			if(!order.getAuthorEmail().equals(principal.getName())){
+				return "403Page";
+			}
+			break;
+		case "ROLE_TECHNICIAN":
+			if(!order.getTechnicianEmail().equals(principal.getName())){
+				return "403Page";
+			}
+			break;
+		default:
+			break;
+		}
+		m.addAttribute("orderAndComment", new OrderAndComment(order, new Comment()));
 		m.addAttribute("problemTypes", problemTypesService.getAllProblemTypes());
 		m.addAttribute("rooms", roomsService.getAllRooms());
 		m.addAttribute("urgencyStatuses", urgencyStatusesService.getAllUrgencyStatuses());
@@ -118,10 +130,25 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/dashboard/order/id/{id}", method = RequestMethod.POST)
-	public String updateOrder(OrderAndComment orderAndComment, RedirectAttributes redirectAttributes)
+	public String updateOrder(OrderAndComment orderAndComment, RedirectAttributes redirectAttributes, Principal principal)
 			throws SQLException {
 		Order oldOrder = ordersService.getOrderById(orderAndComment.getOrder().getOrderId());
-		int oldStatusId = oldOrder.getExecutionStatusId();
+		
+		switch (SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next()
+				.getAuthority()) {
+		case "ROLE_USER":
+			if(!oldOrder.getAuthorEmail().equals(principal.getName())){
+				return "403Page";
+			}
+			break;
+		case "ROLE_TECHNICIAN":
+			if(!oldOrder.getTechnicianEmail().equals(principal.getName())){
+				return "403Page";
+			}
+			break;
+		default:
+			break;
+		}
 
 		if (oldOrder.getRoomId() != orderAndComment.getOrder().getRoomId()) {
 			orderAndComment.getOrder()
@@ -132,15 +159,14 @@ public class OrderController {
 					+ urgencyStatusesService.getUrgencyStatusMinutes(orderAndComment.getOrder().getUrgencyStatusId())
 							* 60 * 1000));
 		}
-
 		ordersService.updateOrder(orderAndComment.getOrder());
 
 		if (orderAndComment.getComment() != null && !orderAndComment.getComment().getComment().isEmpty()) {
 			commentsService.addComment(orderAndComment.getComment());
 			int newStatusId = orderAndComment.getOrder().getExecutionStatusId();
 
-			if (newStatusId > 3 && oldStatusId != newStatusId) {
-				mail.statusEmail(ordersService.getOrderById(orderAndComment.getOrder().getOrderId()));
+			if (newStatusId > 3 && oldOrder.getExecutionStatusId() != newStatusId) {
+				mail.statusEmail(orderAndComment.getOrder());
 			}
 			mail.commentEmail(orderAndComment);
 		}
@@ -149,7 +175,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/dashboard/order/delete/id/{id}", method = RequestMethod.GET)
-	public String deleteOrder(@PathVariable("id") int orderId, RedirectAttributes redirectAttributes)
+	public String cancellOrder(@PathVariable("id") int orderId, RedirectAttributes redirectAttributes)
 			throws SQLException {
 		ordersService.deleteOrder(orderId);
 		redirectAttributes.addFlashAttribute("message", "Order deleted successfully!");
@@ -157,20 +183,20 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/getRoomDevices", method = RequestMethod.GET)
-	public String getRoomDevices(@RequestParam("roomId") int roomId, Model m) throws SQLException {
+	public String getRoomDevices(@RequestParam("roomId") int roomId, Model m) {
 		m.addAttribute("devices", devicesService.getAllDevicesOfRoom(roomId));
 		return "getRoomDevices";
 	}
 
 	@RequestMapping(value = "/getDuplicateOrdersRoom", method = RequestMethod.GET)
-	public String getDuplicateOrders(@RequestParam("roomId") int roomId, Model m) throws SQLException {
+	public String getDuplicateOrders(@RequestParam("roomId") int roomId, Model m){
 		m.addAttribute("orders", ordersService.getAllOrdersOfRoomNoDevice((roomId)));
 		return "getDuplicateOrdersRoom";
 	}
 
 	@RequestMapping(value = "/getDuplicateOrdersDevice", method = RequestMethod.GET)
 	public String getDuplicateOrdersDevice(@RequestParam("roomId") int roomId, @RequestParam("deviceId") int deviceId,
-			Model m) throws SQLException {
+			Model m) {
 
 		if (deviceId == -1) {
 			m.addAttribute("orders", ordersService.getAllOrdersOfRoomNoDevice((roomId)));
@@ -189,13 +215,13 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/calendar2", method = RequestMethod.GET)
-	public String calendar2(Model m, Principal principal) throws SQLException {
+	public String calendar2(Model m, Principal principal){
 		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
 		return "calendar2";
 	}
 
 	@RequestMapping(value = "/calendar3", method = RequestMethod.GET)
-	public String calendar3(Model m, Principal principal) throws SQLException {
+	public String calendar3(Model m, Principal principal){
 		m.addAttribute("orders", ordersService.getAllOrdersOfTechnician(principal.getName()));
 		return "calendar3";
 	}
@@ -203,7 +229,7 @@ public class OrderController {
 
 	@SuppressWarnings("deprecation")
 	@RequestMapping("/simple")
-	public @ResponseBody List<SimpleOrder> getDay(Principal principal) throws SQLException {
+	public @ResponseBody List<SimpleOrder> getDay(Principal principal){
 		List<SimpleOrder> orders = new ArrayList<SimpleOrder>();
 		for (Order order : ordersService.getAllOrdersOfTechnician(principal.getName())) {
 			if (order.getExecutionStatusId() < 3) {

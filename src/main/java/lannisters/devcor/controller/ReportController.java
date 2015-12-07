@@ -29,41 +29,37 @@ public class ReportController {
 	private ReportService reportService;
 
 	@RequestMapping(value = "/reports", method = RequestMethod.GET)
-	public String reportsPage(Model model, Principal principal, HttpServletRequest request) {
+	public String reportsPage(Model model, HttpServletRequest request) {
 		dateFromForReport = request.getParameter("date1");
 		dateToForReport = request.getParameter("date2");
-		String reportNum = request.getParameter("reportNum");
-		if (reportNum != null) {
-			if (reportNum.equals("OrdersReport"))
+		String report = request.getParameter("reportNum");
+		if (report != null) {
+			if (report.equals("OrdersReport"))
 				model.addAttribute("OrdersReport", reportService.getOrdersReport(dateFromForReport, dateToForReport));
-			if (reportNum.equals("TechniciansReport"))
+			if (report.equals("TechniciansReport"))
 				model.addAttribute("TechniciansReport", reportService.getTechniciansReport(dateFromForReport, dateToForReport));
-			if (reportNum.equals("DevicesReport"))
+			if (report.equals("DevicesReport"))
 				model.addAttribute("DevicesReport", reportService.getDevicesReport(dateFromForReport, dateToForReport));
 		}
 		return "reports";
 	}
+	
 	@RequestMapping(value = { "/reports/diagrams/{id}"}, method = RequestMethod.GET)
-	public String showDiagram(@PathVariable("id") int id, Model model, HttpServletRequest request) {
-		
-		
+	public String showDiagram(@PathVariable("id") int id, Model model) {
 		model.addAttribute("report", reportService.getTechniciansReportById(dateFromForReport, dateToForReport,id));
 		return "diagrams";
 	}
 
 	@RequestMapping(value = "/DevCorReport", method = RequestMethod.GET)
-	public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-
-		String output = ServletRequestUtils.getStringParameter(request, "exel");
-		System.out.println(output);
-		if ("OrdersReport".equals(output)) {
+	public ModelAndView handleRequestInternal(HttpServletRequest request)throws Exception {
+		String output = request.getParameter("exel");
+		if (output.equals("OrdersReport")) {
 			return new ModelAndView(new OrdersReport(), "reportData",
 					reportService.getOrdersReport(dateFromForReport, dateToForReport));
-		} else if ("TechniciansReport".equals(output)) {
+		} else if (output.equals("TechniciansReport")) {
 			return new ModelAndView(new TechniciansReport(), "reportData",
 					reportService.getTechniciansReport(dateFromForReport, dateToForReport));
-		} else if ("DevicesReport".equals(output)) {
+		} else if (output.equals("DevicesReport")) {
 			return new ModelAndView(new DevicesReport(), "reportData",
 					reportService.getDevicesReport(dateFromForReport, dateToForReport));
 		} else {
